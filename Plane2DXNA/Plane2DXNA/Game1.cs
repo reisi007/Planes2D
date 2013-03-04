@@ -37,6 +37,7 @@ namespace Plane2DXNA
         /// related content.  Calling base.Initialize will enumerate through any components
         /// and initialize them as well.
         /// </summary>
+        int NextSpawn;
         protected override void Initialize()
         {
             cloud = Content.Load<Texture2D>("cloud");
@@ -47,6 +48,7 @@ namespace Plane2DXNA
             plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"planes/blue");
             Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
             Userplanecolor = rand.Next(0, 2);
+            NextSpawn = 1000;
             base.Initialize();
         }
 
@@ -79,12 +81,23 @@ namespace Plane2DXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         float p_grass = 0;
         float Speed = 1;
+        int ElapsedMS;
+        List<EnemyPlane> Enemies = new List<EnemyPlane>();
         List<Cloud> Clouds = new List<Cloud>();
+        int index;
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
+            // Spawn enemies every x ms
+            ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
+            if(ElapsedMS > NextSpawn)
+            {
+                ElapsedMS -= NextSpawn;
+                index = (int)(3*rand.NextDouble()-0.001f);
+                Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 2f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
+            }
             //Update Clouds
             foreach (Cloud c in Clouds)
                 c.Update();
@@ -92,6 +105,15 @@ namespace Plane2DXNA
             p_grass -= Speed;
             if (p_grass <= -grass.Width)
                 p_grass += grass.Width;
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].Update();
+                if (Enemies[i].DELETIONREQUEST)
+                {
+                    Enemies.RemoveAt(i);
+                    i--;
+                }
+            }
             Player.Update();
             base.Update(gameTime);
         }
@@ -109,6 +131,9 @@ namespace Plane2DXNA
                 spriteBatch.Draw(grass, new Rectangle(i, Window.ClientBounds.Height - grass.Height, grass.Width, grass.Height), new Rectangle(0, 0, grass.Width, grass.Height), Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
             foreach (Cloud c in Clouds)
                 c.Draw();
+            //Draw enemies
+            foreach (EnemyPlane e in Enemies)
+                e.Draw();
             Player.Draw();
             spriteBatch.End();
             base.Draw(gameTime);

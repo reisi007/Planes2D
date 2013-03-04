@@ -68,10 +68,19 @@ namespace Plane2DXNA
      }
      class EnemyPlane : BasicPlanes
      {
-         public EnemyPlane(Texture2D texture, double rand_y, SpriteBatch sb, Rectangle clientbounds, float size)
+         protected float Speed;
+         public bool DELETIONREQUEST;
+         public EnemyPlane(Texture2D texture, double rand_y, SpriteBatch sb, Rectangle clientbounds, float size, float speed)
              : base(texture, new Vector2(clientbounds.Width, (float)(rand_y * clientbounds.Height)), sb, clientbounds, size)
          {
-             // TODO
+             Speed = speed;
          }
+         public override void Update()
+         {
+             Position.X -= Speed;
+             if (Position.X < -Texture.Width)
+                 DELETIONREQUEST = true;
+             base.Update();
+         }
      }
 }
