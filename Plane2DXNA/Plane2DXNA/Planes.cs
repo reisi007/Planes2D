@@ -22,7 +22,10 @@ namespace Plane2DXNA
          public Rectangle Collision;
          protected float Size;
          protected int PlaneMid;
-         public bool Shooting = false;
+         public bool Shooting = false, KillBill = false;
+         protected bool Automatic;
+         protected enum PlaneType { User, Enemy}
+         protected PlaneType Type;
          protected  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size)
        {
           Texture = texture;
@@ -31,8 +34,9 @@ namespace Plane2DXNA
           ClientBounds = clientbounds;
           Size = size;
        }
-         private int NextShoot = 900, LastShoot;
-         private bool shoot_okay = false;
+         protected int NextShoot = 900, LastShoot;
+         protected bool shoot_okay = false;
+
          public virtual void Update(GameTime time)
       {
           // Top Bottom Collision detection
@@ -49,7 +53,7 @@ namespace Plane2DXNA
               shoot_okay = true;
               LastShoot -= NextShoot;
           }
-          if (shoot_okay && Mouse.GetState().LeftButton == ButtonState.Pressed)
+          if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed)))
           {
               Shooting = true;
               shoot_okay = false;
@@ -66,6 +70,8 @@ namespace Plane2DXNA
              : base(texture, position, sb, clientbounds,1)
          {
              plane_effect = SpriteEffects.FlipHorizontally;
+             Type = PlaneType.User;
+             Automatic = false;
          }
          int ydiff;
          public override void Update(GameTime time)
@@ -81,18 +87,23 @@ namespace Plane2DXNA
      }
      class EnemyPlane : BasicPlanes
      {
-         protected float Speed;
+         public float Speed;
          public bool DELETIONREQUEST;
+         
          public EnemyPlane(Texture2D texture, double rand_y, SpriteBatch sb, Rectangle clientbounds, float size, float speed)
              : base(texture, new Vector2(clientbounds.Width, (float)(rand_y * clientbounds.Height)), sb, clientbounds, size)
          {
              Speed = speed;
+             Type = PlaneType.Enemy;
+             Automatic = true;
          }
          public override void Update(GameTime time)
          {
              Position.X -= Speed;
+             
              if (Position.X < -Texture.Width)
                  DELETIONREQUEST = true;
+            
              base.Update(time);
          }
 

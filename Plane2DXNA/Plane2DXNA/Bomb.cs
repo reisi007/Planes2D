@@ -31,26 +31,27 @@ namespace Plane2DXNA
         public virtual void Update()
         {
             Position += Direction;
+            Collision_detection = new Rectangle((int)(Position.X - (Size * Texture.Width) / 2), (int)(Position.Y - (Size * Texture.Height) / 2), (int)(Texture.Width * Size), (int)(Texture.Height * Size));
         }
         public virtual void Draw()
         {
-            sb.Draw(Texture, new Rectangle((int)(Position.X - (Size * Texture.Width) / 2), (int)(Position.Y - (Size * Texture.Height) / 2), (int)(Texture.Width * Size), (int)(Texture.Height * Size)), new Rectangle(0, 0, (int)(Texture.Width * Size), (int)(Texture.Height * Size)), Color.White, 0, new Vector2((int)(Texture.Width * Size), (int)(Texture.Height * Size)), s_effect, 0);
+            sb.Draw(Texture,Collision_detection, new Rectangle(0, 0, (int)(Texture.Width), (int)(Texture.Height)), Color.White, 0, new Vector2((int)(Texture.Width * Size), (int)(Texture.Height * Size)), s_effect, 0);
         }
     }
     class EnemyBomb : BasicBomb
     {
-        public EnemyBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float random_size, float speed)
-            : base(texture, position, new Vector2(-speed, 0), draw, random_size)
+        public EnemyBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float planespeed, Rectangle planetex)
+            : base(texture, new Vector2(position.X  + texture.Width * 0.3f, position.Y + planetex.Height / 2), new Vector2(-planespeed, 0), draw, 0.3f)
         {
             s_effect = SpriteEffects.None;
         }
     }
     class UserBomb : BasicBomb
     {
-        public UserBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float random_size, float speed)
-            : base(texture, position, new Vector2(speed, 0), draw, random_size)
+        public UserBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float speed, Rectangle planetex)
+            : base(texture, new Vector2(position.X + planetex.Width - texture.Width * 0.3f, position.Y + planetex.Height /2), new Vector2(speed, 0), draw, 0.3f)
         {
-            s_effect = SpriteEffects.FlipVertically;
+            s_effect = SpriteEffects.FlipHorizontally;
         }
     }
 }

@@ -50,6 +50,11 @@ namespace Plane2DXNA
             Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
             Userplanecolor = rand.Next(0, 2);
             NextSpawn = 1000;
+#if DEBUG
+            // Debug screen resolution
+#else
+            // Release screen resolution
+#endif
             base.Initialize();
         }
 
@@ -85,7 +90,8 @@ namespace Plane2DXNA
         int ElapsedMS;
         List<EnemyPlane> Enemies = new List<EnemyPlane>();
         List<Cloud> Clouds = new List<Cloud>();
-        List<BasicBomb> Bombs = new List<BasicBomb>();
+        List<UserBomb> UBombs = new List<UserBomb>();
+        List<EnemyBomb> EBomb = new List<EnemyBomb>();
         int index;
         protected override void Update(GameTime gameTime)
         {
@@ -110,6 +116,12 @@ namespace Plane2DXNA
             for (int i = 0; i < Enemies.Count; i++)
             {
                 Enemies[i].Update(gameTime);
+                if (Enemies[i].Shooting)
+                {
+                    EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed +1, Enemies[i].Collision));
+                    Enemies[i].Shooting = false;
+                }
+
                 if (Enemies[i].DELETIONREQUEST)
                 {
                     Enemies.RemoveAt(i);
@@ -120,11 +132,12 @@ namespace Plane2DXNA
             if (Player.Shooting)
             {
                 Player.Shooting = false;
-                Bombs.Add(new UserBomb(bomb, new Vector2((int)(Player.Position.X + bomb.Width), (int)Player.Position.Y), spriteBatch, 0.3f, 1));
+                UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, 1,Player.Collision));
             }
-            foreach (BasicBomb b in Bombs)
+            foreach (UserBomb b in UBombs)
                 b.Update();
-
+            foreach (EnemyBomb b in EBomb)
+                b.Update();
             base.Update(gameTime);
         }
 
@@ -144,7 +157,9 @@ namespace Plane2DXNA
             //Draw enemies
             foreach (EnemyPlane e in Enemies)
                 e.Draw();
-            foreach (BasicBomb b in Bombs)
+            foreach (UserBomb b in UBombs)
+                b.Draw();
+            foreach (EnemyBomb b in EBomb)
                 b.Draw();
             Player.Draw();
             spriteBatch.End();
