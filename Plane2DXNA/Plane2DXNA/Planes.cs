@@ -15,13 +15,14 @@ namespace Plane2DXNA
      class BasicPlanes
     {
          protected Texture2D Texture;
-         protected Vector2 Position;
+         public Vector2 Position;
          protected SpriteBatch spritebatch;
          protected SpriteEffects plane_effect = SpriteEffects.None;
          private Rectangle ClientBounds;
          public Rectangle Collision;
          protected float Size;
          protected int PlaneMid;
+         public bool Shooting = false;
          protected  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size)
        {
           Texture = texture;
@@ -30,8 +31,9 @@ namespace Plane2DXNA
           ClientBounds = clientbounds;
           Size = size;
        }
-         
-         public virtual void Update()
+         private int NextShoot = 900, LastShoot;
+         private bool shoot_okay = false;
+         public virtual void Update(GameTime time)
       {
           // Top Bottom Collision detection
           if (Position.Y < 0)
@@ -41,6 +43,17 @@ namespace Plane2DXNA
           // Collision Rectangle update
           Collision = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size), (int)(Texture.Height * Size));
           PlaneMid = (int)(Position.Y + Texture.Height / 2);
+          LastShoot += time.ElapsedGameTime.Milliseconds;
+          if (LastShoot > NextShoot)
+          {
+              shoot_okay = true;
+              LastShoot -= NextShoot;
+          }
+          if (shoot_okay && Mouse.GetState().LeftButton == ButtonState.Pressed)
+          {
+              Shooting = true;
+              shoot_okay = false;
+          }
       }
       public virtual void  Draw()
       {
@@ -55,7 +68,7 @@ namespace Plane2DXNA
              plane_effect = SpriteEffects.FlipHorizontally;
          }
          int ydiff;
-         public override void Update()
+         public override void Update(GameTime time)
          {
              ydiff = Mouse.GetState().Y - PlaneMid;
              if (ydiff > 5)
@@ -63,7 +76,7 @@ namespace Plane2DXNA
              if (ydiff < -6)
                  ydiff = -6;
              Position.Y += ydiff;
-             base.Update();
+             base.Update(time);
          }
      }
      class EnemyPlane : BasicPlanes
@@ -75,12 +88,13 @@ namespace Plane2DXNA
          {
              Speed = speed;
          }
-         public override void Update()
+         public override void Update(GameTime time)
          {
              Position.X -= Speed;
              if (Position.X < -Texture.Width)
                  DELETIONREQUEST = true;
-             base.Update();
-         }
+             base.Update(time);
+         }
+
      }
 }

@@ -18,7 +18,7 @@ namespace Plane2DXNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D  grass, cloud;
+        Texture2D grass, cloud, bomb;
         Texture2D[] plane;
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
         Random rand;
@@ -42,6 +42,7 @@ namespace Plane2DXNA
         {
             cloud = Content.Load<Texture2D>("cloud");
             grass = Content.Load<Texture2D>("grass");
+            bomb = Content.Load<Texture2D>("bullet");
             plane = new Texture2D[3];
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
             plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
@@ -84,6 +85,7 @@ namespace Plane2DXNA
         int ElapsedMS;
         List<EnemyPlane> Enemies = new List<EnemyPlane>();
         List<Cloud> Clouds = new List<Cloud>();
+        List<BasicBomb> Bombs = new List<BasicBomb>();
         int index;
         protected override void Update(GameTime gameTime)
         {
@@ -107,14 +109,22 @@ namespace Plane2DXNA
                 p_grass += grass.Width;
             for (int i = 0; i < Enemies.Count; i++)
             {
-                Enemies[i].Update();
+                Enemies[i].Update(gameTime);
                 if (Enemies[i].DELETIONREQUEST)
                 {
                     Enemies.RemoveAt(i);
                     i--;
                 }
             }
-            Player.Update();
+            Player.Update(gameTime);
+            if (Player.Shooting)
+            {
+                Player.Shooting = false;
+                Bombs.Add(new UserBomb(bomb, new Vector2((int)(Player.Position.X + bomb.Width), (int)Player.Position.Y), spriteBatch, 0.3f, 1));
+            }
+            foreach (BasicBomb b in Bombs)
+                b.Update();
+
             base.Update(gameTime);
         }
 
@@ -134,6 +144,8 @@ namespace Plane2DXNA
             //Draw enemies
             foreach (EnemyPlane e in Enemies)
                 e.Draw();
+            foreach (BasicBomb b in Bombs)
+                b.Draw();
             Player.Draw();
             spriteBatch.End();
             base.Draw(gameTime);
