@@ -16,7 +16,8 @@ namespace Plane2DXNA
     {
         protected SpriteBatch sb;
         protected Texture2D Texture;
-        protected Vector2 Position, Direction;
+        protected Vector2  Direction;
+        public Vector2 Position;
         protected float Size;
         protected SpriteEffects s_effect;
         public Rectangle Collision_detection;

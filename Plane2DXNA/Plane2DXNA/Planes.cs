@@ -53,7 +53,7 @@ namespace Plane2DXNA
               shoot_okay = true;
               LastShoot -= NextShoot;
           }
-          if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed)))
+          if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space))))
           {
               Shooting = true;
               shoot_okay = false;

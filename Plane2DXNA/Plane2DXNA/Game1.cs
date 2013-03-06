@@ -17,6 +17,7 @@ namespace Plane2DXNA
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        int Player_Bomb_Intersects, Enemies_Destroyed;
         SpriteBatch spriteBatch;
         Texture2D grass, cloud, bomb;
         Texture2D[] plane;
@@ -49,12 +50,15 @@ namespace Plane2DXNA
             plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"planes/blue");
             Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
             Userplanecolor = rand.Next(0, 2);
-            NextSpawn = 1000;
+            NextSpawn = 2000;
+            // Min = 1000;
 #if DEBUG
             // Debug screen resolution
 #else
             // Release screen resolution
+            graphics.IsFullScreen = true;
 #endif
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -67,8 +71,8 @@ namespace Plane2DXNA
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch,Window.ClientBounds);
-            for (int i = 0; i < 3; i ++)
-                Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (int)((rand.NextDouble() * 3)+1), (float)(0.5 + rand.NextDouble() / 2), cloud, Window.ClientBounds.Width, spriteBatch));
+            for (int i = 0; i < 6; i ++)
+                Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3)+1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
         }
 
         /// <summary>
@@ -95,50 +99,100 @@ namespace Plane2DXNA
         int index;
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
-            // Spawn enemies every x ms
-            ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
-            if(ElapsedMS > NextSpawn)
+            if (this.IsActive)
             {
-                ElapsedMS -= NextSpawn;
-                index = (int)(3*rand.NextDouble()-0.001f);
-                Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 2f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
-            }
-            //Update Clouds
-            foreach (Cloud c in Clouds)
-                c.Update();
-            // First grass position
-            p_grass -= Speed;
-            if (p_grass <= -grass.Width)
-                p_grass += grass.Width;
-            for (int i = 0; i < Enemies.Count; i++)
-            {
-                Enemies[i].Update(gameTime);
-                if (Enemies[i].Shooting)
+                // Allows the game to exit
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    this.Exit();
+                foreach (UserBomb b in UBombs)
+                    b.Update();
+                foreach (EnemyBomb b in EBomb)
+                    b.Update();
+                // Spawn enemies every x ms
+                ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
+                if (ElapsedMS > NextSpawn)
                 {
-                    EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed +1, Enemies[i].Collision));
-                    Enemies[i].Shooting = false;
+                    ElapsedMS -= NextSpawn;
+                    index = (int)(3 * rand.NextDouble() - 0.001f);
+                    Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
+                }
+                //Update Clouds
+                foreach (Cloud c in Clouds)
+                    c.Update();
+                // First grass position
+                p_grass -= Speed;
+                if (p_grass <= -grass.Width)
+                    p_grass += grass.Width;
+                for (int i = 0; i < Enemies.Count; i++)
+                {
+                    Enemies[i].Update(gameTime);
+                    if (Enemies[i].Shooting)
+                    {
+                        EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed + 1, Enemies[i].Collision));
+                        Enemies[i].Shooting = false;
+                    }
+
+                    if (Enemies[i].DELETIONREQUEST)
+                    {
+                        Enemies.RemoveAt(i);
+                        Player_Bomb_Intersects += 40;
+                        i--;
+                    }
+                }
+                for (int i = 0; i < EBomb.Count; i++)
+                {
+                    if (Player.Collision.Intersects(EBomb[i].Collision_detection))
+                    {
+                        Player_Bomb_Intersects += 10;
+                        EBomb.RemoveAt(i);
+                        i--;
+                    }
+                    if (i >= 0)
+                    {
+                        if (EBomb[i].Position.X < -EBomb[i].Collision_detection.Width)
+                        {
+                            EBomb.RemoveAt(i);
+                            i--;
+                        }
+                    }
                 }
 
-                if (Enemies[i].DELETIONREQUEST)
+
+                for (int i = 0; i < UBombs.Count; i++)
                 {
-                    Enemies.RemoveAt(i);
-                    i--;
+
+                    for (int y = 0; y < Enemies.Count; y++)
+                    {
+                        if (UBombs.Count <= 0 || Enemies.Count <= 0)
+                            break;
+                        if (y <= 0)
+                            y = 0;
+                        if (i <= 0)
+                            i = 0;
+                        if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
+                        {
+                            Enemies.RemoveAt(y);
+                            UBombs.RemoveAt(i);
+                            i--;
+                            y--;
+                            Enemies_Destroyed++;
+                        }
+                    }
                 }
+
+                Player.Update(gameTime);
+                if (Player.Shooting)
+                {
+                    Player.Shooting = false;
+                    UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, 1, Player.Collision));
+                }
+                foreach (EnemyPlane e in Enemies)
+                {
+                    if (e.Collision.Intersects(Player.Collision))
+                        Player_Bomb_Intersects += 2;
+                }
+                base.Update(gameTime);
             }
-            Player.Update(gameTime);
-            if (Player.Shooting)
-            {
-                Player.Shooting = false;
-                UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, 1,Player.Collision));
-            }
-            foreach (UserBomb b in UBombs)
-                b.Update();
-            foreach (EnemyBomb b in EBomb)
-                b.Update();
-            base.Update(gameTime);
         }
 
         /// <summary>
