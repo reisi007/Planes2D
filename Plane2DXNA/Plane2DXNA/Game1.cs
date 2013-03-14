@@ -17,14 +17,18 @@ namespace Plane2DXNA
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        int Player_Bomb_Intersects, Enemies_Destroyed;
         SpriteBatch spriteBatch;
-        Texture2D grass, cloud, bomb;
+        Texture2D grass, cloud, bomb, explosion;
         Texture2D[] plane;
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
+        enum GameStates { Start, Game, Over };
+        GameStates Current_GameState;
+        SpriteFont Font;
         Random rand;
         UserPlane Player;
         int Userplanecolor;
+        int Lives = 3;
+        float Score = 0;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,12 +48,15 @@ namespace Plane2DXNA
             cloud = Content.Load<Texture2D>("cloud");
             grass = Content.Load<Texture2D>("grass");
             bomb = Content.Load<Texture2D>("bullet");
+            explosion = Content.Load<Texture2D>("explosion");
+            Font = Content.Load<SpriteFont>("Font");
             plane = new Texture2D[3];
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
             plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
             plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"planes/blue");
             Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
             Userplanecolor = rand.Next(0, 2);
+            Current_GameState = GameStates.Start;
             NextSpawn = 2000;
             // Min = 1000;
 #if DEBUG
@@ -96,14 +103,27 @@ namespace Plane2DXNA
         List<Cloud> Clouds = new List<Cloud>();
         List<UserBomb> UBombs = new List<UserBomb>();
         List<EnemyBomb> EBomb = new List<EnemyBomb>();
+        List<Explosion> Explosions = new List<Explosion>();
         int index;
         protected override void Update(GameTime gameTime)
         {
-            if (this.IsActive)
+            // Allows the game to exit
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                this.Exit();
+            switch(Current_GameState)
             {
-                // Allows the game to exit
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    this.Exit();
+                case GameStates.Start:
+                    #region Start
+                    if (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                        Current_GameState = GameStates.Game;
+                    base.Update(gameTime);
+                    break;
+                    #endregion
+                case GameStates.Game:
+                    #region Gameplay
+                    if (this.IsActive)
+            {
+                Score += gameTime.ElapsedGameTime.Milliseconds / 750f;
                 foreach (UserBomb b in UBombs)
                     b.Update();
                 foreach (EnemyBomb b in EBomb)
@@ -131,21 +151,15 @@ namespace Plane2DXNA
                         EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed + 1, Enemies[i].Collision));
                         Enemies[i].Shooting = false;
                     }
-
-                    if (Enemies[i].DELETIONREQUEST)
-                    {
-                        Enemies.RemoveAt(i);
-                        Player_Bomb_Intersects += 40;
-                        i--;
-                    }
                 }
                 for (int i = 0; i < EBomb.Count; i++)
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
                     {
-                        Player_Bomb_Intersects += 10;
+                        Score -= 40;
                         EBomb.RemoveAt(i);
                         i--;
+                        Lives--;
                     }
                     if (i >= 0)
                     {
@@ -171,11 +185,13 @@ namespace Plane2DXNA
                             i = 0;
                         if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
                         {
+                            Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch));
+                            Score += 2 * Enemies[y].Speed;
                             Enemies.RemoveAt(y);
                             UBombs.RemoveAt(i);
                             i--;
                             y--;
-                            Enemies_Destroyed++;
+                            
                         }
                     }
                 }
@@ -186,24 +202,64 @@ namespace Plane2DXNA
                     Player.Shooting = false;
                     UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, 1, Player.Collision));
                 }
-                foreach (EnemyPlane e in Enemies)
+                for( int y = 0; y < Enemies.Count;y++)
                 {
-                    if (e.Collision.Intersects(Player.Collision))
-                        Player_Bomb_Intersects += 2;
+                    if (Enemies[y].Collision.Intersects(Player.Collision) && y >= 0)
+                    {
+                        Enemies.RemoveAt(y);
+                        y--;
+                        Lives = 0;
+                    }
                 }
+                for (int i = 0; i < Explosions.Count; i++)
+                {
+                    if (i >= 0)
+                    {
+                        Explosions[i].Update(gameTime);
+                        if (Explosions[i].Delete)
+                        {
+                            Explosions.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                }
+                if (Lives == 0)
+                    Current_GameState = GameStates.Over;
+            }
+                    
                 base.Update(gameTime);
+                break;
+                    #endregion
+                case GameStates.Over:
+                #region GameOver
+                base.Update(gameTime);
+                break;
+                #endregion
             }
         }
-
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        string textl1 = "Welcome to Planes 2D.";
+        string textl2 = "Press any button or click with the Mouse to start.";
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-            // Draw grass
+            switch(Current_GameState)
+            {
+                case GameStates.Start:
+                #region Start
+                    spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
+                    spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
+                    break;
+                #endregion
+                case GameStates.Game:
+                    #region Gameplay
+                    spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
+                    // Draw grass
             for (int i = (int)p_grass; i <= Window.ClientBounds.Width; i += grass.Width)
                 spriteBatch.Draw(grass, new Rectangle(i, Window.ClientBounds.Height - grass.Height, grass.Width, grass.Height), new Rectangle(0, 0, grass.Width, grass.Height), Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
             foreach (Cloud c in Clouds)
@@ -216,6 +272,15 @@ namespace Plane2DXNA
             foreach (EnemyBomb b in EBomb)
                 b.Draw();
             Player.Draw();
+            foreach (Explosion e in Explosions)
+                e.Draw();
+            break; 
+                    #endregion
+                case GameStates.Over:
+                #region GameOver
+            break;
+                #endregion
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -26,16 +26,18 @@ namespace Plane2DXNA
          protected bool Automatic;
          protected enum PlaneType { User, Enemy}
          protected PlaneType Type;
-         protected  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size)
+         protected int NextShoot, LastShoot;
+         protected bool shoot_okay = false;
+         protected  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot)
        {
           Texture = texture;
           Position = position;
           spritebatch = sb;
           ClientBounds = clientbounds;
           Size = size;
+          NextShoot = next_shot;
        }
-         protected int NextShoot = 900, LastShoot;
-         protected bool shoot_okay = false;
+         
 
          public virtual void Update(GameTime time)
       {
@@ -67,7 +69,7 @@ namespace Plane2DXNA
      class UserPlane : BasicPlanes
      {
          public UserPlane(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds)
-             : base(texture, position, sb, clientbounds,1)
+             : base(texture, position, sb, clientbounds,1,800)
          {
              plane_effect = SpriteEffects.FlipHorizontally;
              Type = PlaneType.User;
@@ -91,7 +93,7 @@ namespace Plane2DXNA
          public bool DELETIONREQUEST;
          
          public EnemyPlane(Texture2D texture, double rand_y, SpriteBatch sb, Rectangle clientbounds, float size, float speed)
-             : base(texture, new Vector2(clientbounds.Width, (float)(rand_y * clientbounds.Height)), sb, clientbounds, size)
+             : base(texture, new Vector2(clientbounds.Width, (float)(rand_y * clientbounds.Height)), sb, clientbounds, size,1000)
          {
              Speed = speed;
              Type = PlaneType.Enemy;
