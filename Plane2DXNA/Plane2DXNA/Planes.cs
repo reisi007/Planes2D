@@ -28,7 +28,7 @@ namespace Plane2DXNA
          protected PlaneType Type;
          protected int NextShoot, LastShoot;
          protected bool shoot_okay = false;
-         protected  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot)
+         public  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot)
        {
           Texture = texture;
           Position = position;
@@ -63,7 +63,7 @@ namespace Plane2DXNA
       }
       public virtual void  Draw()
       {
-          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, Texture.Width, Texture.Height), new Rectangle(0, 0, Texture.Width, Texture.Height), Color.White, 0, Vector2.Zero, plane_effect, 0);
+          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size), (int)(Texture.Height * Size)), new Rectangle(0, 0, Texture.Width, Texture.Height), Color.White, 0, Vector2.Zero, plane_effect, 0);
       }
     }
      class UserPlane : BasicPlanes

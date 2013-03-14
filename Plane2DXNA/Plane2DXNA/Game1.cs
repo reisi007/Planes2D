@@ -23,12 +23,14 @@ namespace Plane2DXNA
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
         enum GameStates { Start, Game, Over };
         GameStates Current_GameState;
-        SpriteFont Font;
+        SpriteFont Font, Big;
         Random rand;
         UserPlane Player;
+        BasicPlanes[] Life;
         int Userplanecolor;
         int Lives = 3;
         float Score = 0;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -50,6 +52,7 @@ namespace Plane2DXNA
             bomb = Content.Load<Texture2D>("bullet");
             explosion = Content.Load<Texture2D>("explosion");
             Font = Content.Load<SpriteFont>("Font");
+            Big = Content.Load<SpriteFont>("Font_Big");
             plane = new Texture2D[3];
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
             plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
@@ -68,7 +71,7 @@ namespace Plane2DXNA
             graphics.ApplyChanges();
             base.Initialize();
         }
-
+        float plane_resize_life = 0.3f;
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.
@@ -80,6 +83,11 @@ namespace Plane2DXNA
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch,Window.ClientBounds);
             for (int i = 0; i < 6; i ++)
                 Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3)+1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
+            Life = new BasicPlanes[3];
+            for (int i = 0; i < 3; i++)
+            {
+                Life[i] = new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue);
+            }
         }
 
         /// <summary>
@@ -114,6 +122,7 @@ namespace Plane2DXNA
             {
                 case GameStates.Start:
                     #region Start
+                    //Draw lives
                     if (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed)
                         Current_GameState = GameStates.Game;
                     base.Update(gameTime);
@@ -156,7 +165,7 @@ namespace Plane2DXNA
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
                     {
-                        Score -= 40;
+                        Score -= 15;
                         EBomb.RemoveAt(i);
                         i--;
                         Lives--;
@@ -223,15 +232,18 @@ namespace Plane2DXNA
                         }
                     }
                 }
-                if (Lives == 0)
+                if (Lives <= 0)
+                {
                     Current_GameState = GameStates.Over;
+                    score = Convert.ToString(Math.Round(Score, 0));
+                }
             }
                     
                 base.Update(gameTime);
                 break;
                     #endregion
                 case GameStates.Over:
-                #region GameOver
+                    #region GameOver
                 base.Update(gameTime);
                 break;
                 #endregion
@@ -244,6 +256,9 @@ namespace Plane2DXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         string textl1 = "Welcome to Planes 2D.";
         string textl2 = "Press any button or click with the Mouse to start.";
+        string msg_over = "Game over! Your Score:";
+        string score;
+        Vector2 text_over;
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -251,14 +266,13 @@ namespace Plane2DXNA
             switch(Current_GameState)
             {
                 case GameStates.Start:
-                #region Start
+                    #region Start
                     spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
                     spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
                     break;
                 #endregion
                 case GameStates.Game:
                     #region Gameplay
-                    spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
                     // Draw grass
             for (int i = (int)p_grass; i <= Window.ClientBounds.Width; i += grass.Width)
                 spriteBatch.Draw(grass, new Rectangle(i, Window.ClientBounds.Height - grass.Height, grass.Width, grass.Height), new Rectangle(0, 0, grass.Width, grass.Height), Color.White, 0, Vector2.Zero, SpriteEffects.None, 0);
@@ -274,10 +288,19 @@ namespace Plane2DXNA
             Player.Draw();
             foreach (Explosion e in Explosions)
                 e.Draw();
+            spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
+            for (int i = 0; i < Lives; i++)
+            {
+                Life[i].Draw();
+            }
             break; 
                     #endregion
                 case GameStates.Over:
-                #region GameOver
+                    #region GameOver
+                    text_over = new Vector2(Window.ClientBounds.Width /2 - Font.MeasureString(msg_over).X /2, Window.ClientBounds.Height /10);
+                    spriteBatch.DrawString(Font,msg_over,text_over,Color.White);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Big.MeasureString(score).X / 2, Window.ClientBounds.Height /2 - Big.MeasureString(score).Y/2);
+                    spriteBatch.DrawString(Big, score, text_over, Color.Red);
             break;
                 #endregion
             }
