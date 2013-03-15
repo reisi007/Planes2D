@@ -113,6 +113,8 @@ namespace Plane2DXNA
         List<EnemyBomb> EBomb = new List<EnemyBomb>();
         List<Explosion> Explosions = new List<Explosion>();
         int index;
+        int current_spawn_time;
+        int correct_time = 0;
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -123,7 +125,7 @@ namespace Plane2DXNA
                 case GameStates.Start:
                     #region Start
                     //Draw lives
-                    if (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed)
+                    if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
                         Current_GameState = GameStates.Game;
                     base.Update(gameTime);
                     break;
@@ -132,6 +134,7 @@ namespace Plane2DXNA
                     #region Gameplay
                     if (this.IsActive)
             {
+                current_spawn_time = NextSpawn - (gameTime.TotalGameTime.Seconds - correct_time) * 10;
                 Score += gameTime.ElapsedGameTime.Milliseconds / 750f;
                 foreach (UserBomb b in UBombs)
                     b.Update();
@@ -139,9 +142,9 @@ namespace Plane2DXNA
                     b.Update();
                 // Spawn enemies every x ms
                 ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
-                if (ElapsedMS > NextSpawn)
+                if (ElapsedMS > current_spawn_time)
                 {
-                    ElapsedMS -= NextSpawn;
+                    ElapsedMS -= current_spawn_time;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
                     Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
                 }
@@ -159,6 +162,12 @@ namespace Plane2DXNA
                     {
                         EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed + 1, Enemies[i].Collision));
                         Enemies[i].Shooting = false;
+                    }
+                    if (Enemies[i].DELETIONREQUEST)
+                    {
+                        Enemies.RemoveAt(i);
+                        Score -= 5;
+                        i--;
                     }
                 }
                 for (int i = 0; i < EBomb.Count; i++)
@@ -209,7 +218,7 @@ namespace Plane2DXNA
                 if (Player.Shooting)
                 {
                     Player.Shooting = false;
-                    UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, 1, Player.Collision));
+                    UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, rand.Next(2,6)/2f, Player.Collision));
                 }
                 for( int y = 0; y < Enemies.Count;y++)
                 {
@@ -244,6 +253,16 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
+                if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                {
+                    correct_time = gameTime.TotalGameTime.Seconds;
+                    Lives = 3;
+                    Score = 0;
+                    Current_GameState = GameStates.Game;
+                    UBombs.Clear();
+                    EBomb.Clear();
+                    Enemies.Clear();
+                }
                 base.Update(gameTime);
                 break;
                 #endregion
@@ -257,6 +276,8 @@ namespace Plane2DXNA
         string textl1 = "Welcome to Planes 2D.";
         string textl2 = "Press any button or click with the Mouse to start.";
         string msg_over = "Game over! Your Score:";
+        string msg_continue1 = "Press Escape to quit, click with the mouse";
+        string msg_continue2 = "or with any other button to restart the game!";
         string score;
         Vector2 text_over;
         protected override void Draw(GameTime gameTime)
@@ -301,6 +322,10 @@ namespace Plane2DXNA
                     spriteBatch.DrawString(Font,msg_over,text_over,Color.White);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Big.MeasureString(score).X / 2, Window.ClientBounds.Height /2 - Big.MeasureString(score).Y/2);
                     spriteBatch.DrawString(Big, score, text_over, Color.Red);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue2).X / 2, Window.ClientBounds.Height - 10 - Font.MeasureString(msg_continue2).Y);
+                    spriteBatch.DrawString(Font, msg_continue2, text_over, Color.White);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue1).X / 2, text_over.Y - 10 - Font.MeasureString(msg_continue1).Y);
+                    spriteBatch.DrawString(Font, msg_continue1, text_over, Color.White);
             break;
                 #endregion
             }
