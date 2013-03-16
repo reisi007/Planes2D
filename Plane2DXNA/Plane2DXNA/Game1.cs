@@ -26,7 +26,7 @@ namespace Plane2DXNA
         SpriteFont Font, Big;
         Random rand;
         UserPlane Player;
-        BasicPlanes[] Life;
+        List<BasicPlanes> Life;
         int Userplanecolor;
         int Lives = 3;
         float Score = 0;
@@ -61,14 +61,6 @@ namespace Plane2DXNA
             Userplanecolor = rand.Next(0, 2);
             Current_GameState = GameStates.Start;
             NextSpawn = 2000;
-            // Min = 1000;
-#if DEBUG
-            // Debug screen resolution
-#else
-            // Release screen resolution
-            graphics.IsFullScreen = true;
-#endif
-            graphics.ApplyChanges();
             base.Initialize();
         }
         float plane_resize_life = 0.3f;
@@ -83,10 +75,10 @@ namespace Plane2DXNA
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch,Window.ClientBounds);
             for (int i = 0; i < 6; i ++)
                 Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3)+1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
-            Life = new BasicPlanes[3];
+            Life = new List<BasicPlanes>();
             for (int i = 0; i < 3; i++)
             {
-                Life[i] = new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue);
+                Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
             }
         }
 
@@ -113,8 +105,12 @@ namespace Plane2DXNA
         List<EnemyBomb> EBomb = new List<EnemyBomb>();
         List<Explosion> Explosions = new List<Explosion>();
         int index;
+        int Enemies_Passed;
+        int nextlive = 15000;
+        int current_4_nextlive = 0;
         int current_spawn_time;
         int correct_time = 0;
+        int negative_bonus;
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -134,17 +130,30 @@ namespace Plane2DXNA
                     #region Gameplay
                     if (this.IsActive)
             {
-                current_spawn_time = NextSpawn - (gameTime.TotalGameTime.Seconds - correct_time) * 10;
-                Score += gameTime.ElapsedGameTime.Milliseconds / 750f;
+                if (Score < -100)
+                {
+                    Lives--;
+                    Score += 101;
+                }
+                current_4_nextlive += gameTime.ElapsedGameTime.Milliseconds;
+                if (current_4_nextlive > nextlive)
+                {
+                    current_4_nextlive -= nextlive;
+                    nextlive += 600;
+                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                    Lives++;
+                }
+                current_spawn_time = (int)(NextSpawn - (gameTime.TotalGameTime.Seconds - correct_time - negative_bonus) * 20 );
+                Score += gameTime.ElapsedGameTime.Milliseconds / 700f * Lives;
                 foreach (UserBomb b in UBombs)
                     b.Update();
                 foreach (EnemyBomb b in EBomb)
                     b.Update();
                 // Spawn enemies every x ms
                 ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
-                if (ElapsedMS > current_spawn_time)
+                if (ElapsedMS >= current_spawn_time)
                 {
-                    ElapsedMS -= current_spawn_time;
+                    ElapsedMS -=  current_spawn_time;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
                     Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
                 }
@@ -166,7 +175,9 @@ namespace Plane2DXNA
                     if (Enemies[i].DELETIONREQUEST)
                     {
                         Enemies.RemoveAt(i);
-                        Score -= 5;
+                        Enemies_Passed++;
+                        Score -= 10*Enemies_Passed;
+                        negative_bonus += 50 * Enemies_Passed;
                         i--;
                     }
                 }
@@ -174,10 +185,11 @@ namespace Plane2DXNA
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
                     {
-                        Score -= 15;
+                        Score -= 30 * Lives;
                         EBomb.RemoveAt(i);
                         i--;
                         Lives--;
+                        Life.RemoveAt(Life.Count - 1);
                     }
                     if (i >= 0)
                     {
@@ -204,7 +216,7 @@ namespace Plane2DXNA
                         if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
                         {
                             Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch));
-                            Score += 2 * Enemies[y].Speed;
+                            Score += 5 * Enemies[y].Speed;
                             Enemies.RemoveAt(y);
                             UBombs.RemoveAt(i);
                             i--;
@@ -226,7 +238,17 @@ namespace Plane2DXNA
                     {
                         Enemies.RemoveAt(y);
                         y--;
-                        Lives = 0;
+                        Lives -= 3;
+                        try
+                        {
+                            for (int i = 0; i < 3; i++)
+                                Life.RemoveAt(Life.Count - 1);
+                        }
+                        catch (Exception)
+                        {
+                            Current_GameState = GameStates.Over;
+                            reset(gameTime);
+                        }
                     }
                 }
                 for (int i = 0; i < Explosions.Count; i++)
@@ -243,8 +265,8 @@ namespace Plane2DXNA
                 }
                 if (Lives <= 0)
                 {
-                    Current_GameState = GameStates.Over;
-                    score = Convert.ToString(Math.Round(Score, 0));
+                    reset(gameTime);
+
                 }
             }
                     
@@ -253,7 +275,7 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
-                if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds >= correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
                 {
                     correct_time = gameTime.TotalGameTime.Seconds;
                     Lives = 3;
@@ -262,12 +284,27 @@ namespace Plane2DXNA
                     UBombs.Clear();
                     EBomb.Clear();
                     Enemies.Clear();
+                    Life.Clear();
+                    Explosions.Clear();
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                    }
                 }
                 base.Update(gameTime);
                 break;
                 #endregion
             }
+                        
         }
+            private void reset(GameTime gameTime)
+            {
+                    Current_GameState = GameStates.Over;
+                    score = Convert.ToString(Math.Round(Score, 0));
+                    correct_time = gameTime.TotalGameTime.Seconds + 2;
+                    Score += 50;
+                    current_4_nextlive = 0;
+            }
         
         /// <summary>
         /// This is called when the game should draw itself.
@@ -310,10 +347,8 @@ namespace Plane2DXNA
             foreach (Explosion e in Explosions)
                 e.Draw();
             spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
-            for (int i = 0; i < Lives; i++)
-            {
-                Life[i].Draw();
-            }
+            foreach (BasicPlanes b in Life)
+                b.Draw();
             break; 
                     #endregion
                 case GameStates.Over:
@@ -321,7 +356,7 @@ namespace Plane2DXNA
                     text_over = new Vector2(Window.ClientBounds.Width /2 - Font.MeasureString(msg_over).X /2, Window.ClientBounds.Height /10);
                     spriteBatch.DrawString(Font,msg_over,text_over,Color.White);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Big.MeasureString(score).X / 2, Window.ClientBounds.Height /2 - Big.MeasureString(score).Y/2);
-                    spriteBatch.DrawString(Big, score, text_over, Color.Red);
+                    spriteBatch.DrawString(Big, score, text_over, Color.DarkGreen);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue2).X / 2, Window.ClientBounds.Height - 10 - Font.MeasureString(msg_continue2).Y);
                     spriteBatch.DrawString(Font, msg_continue2, text_over, Color.White);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue1).X / 2, text_over.Y - 10 - Font.MeasureString(msg_continue1).Y);

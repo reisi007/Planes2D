@@ -79,9 +79,9 @@ namespace Plane2DXNA
          public override void Update(GameTime time)
          {
              ydiff = Mouse.GetState().Y - PlaneMid;
-             if (ydiff > 5)
+             if (ydiff > 5 || Keyboard.GetState().IsKeyDown(Keys.Down))
                  ydiff = 5;
-             if (ydiff < -6)
+             if (ydiff < -6 || Keyboard.GetState().IsKeyDown(Keys.Up))
                  ydiff = -6;
              Position.Y += ydiff;
              base.Update(time);
