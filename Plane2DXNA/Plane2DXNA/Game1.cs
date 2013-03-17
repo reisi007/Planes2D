@@ -73,9 +73,8 @@ namespace Plane2DXNA
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch,Window.ClientBounds);
-            for (int i = 0; i < 6; i ++)
-                Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3)+1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
             Life = new List<BasicPlanes>();
+            reset_clouds();
             for (int i = 0; i < 3; i++)
             {
                 Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
@@ -98,7 +97,7 @@ namespace Plane2DXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         float p_grass = 0;
         float Speed = 1;
-        int ElapsedMS;
+        float ElapsedMS;
         List<EnemyPlane> Enemies = new List<EnemyPlane>();
         List<Cloud> Clouds = new List<Cloud>();
         List<UserBomb> UBombs = new List<UserBomb>();
@@ -108,9 +107,9 @@ namespace Plane2DXNA
         int Enemies_Passed;
         int nextlive = 15000;
         int current_4_nextlive = 0;
-        int current_spawn_time;
-        int correct_time = 0;
-        int negative_bonus;
+        float current_spawn_time;
+        float correct_time;
+        float negative_bonus;
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
@@ -139,12 +138,13 @@ namespace Plane2DXNA
                 if (current_4_nextlive > nextlive)
                 {
                     current_4_nextlive -= nextlive;
-                    nextlive += 600;
+                    nextlive += 1500;
                     Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
                     Lives++;
                 }
-                current_spawn_time = (int)(NextSpawn - (gameTime.TotalGameTime.Seconds - correct_time - negative_bonus) * 20 );
-                Score += gameTime.ElapsedGameTime.Milliseconds / 700f * Lives;
+                current_spawn_time = (float)(NextSpawn - ((gameTime.TotalGameTime.TotalSeconds - correct_time) * 20 - negative_bonus));
+
+                Score += (float)(Math.Sqrt(gameTime.TotalGameTime.TotalSeconds)/70);
                 foreach (UserBomb b in UBombs)
                     b.Update();
                 foreach (EnemyBomb b in EBomb)
@@ -176,8 +176,8 @@ namespace Plane2DXNA
                     {
                         Enemies.RemoveAt(i);
                         Enemies_Passed++;
-                        Score -= 10*Enemies_Passed;
-                        negative_bonus += 50 * Enemies_Passed;
+                        Score *= 0.9f;
+                        negative_bonus += (float)(5f * Math.Pow(Enemies_Passed, 0.55f));
                         i--;
                     }
                 }
@@ -185,7 +185,7 @@ namespace Plane2DXNA
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
                     {
-                        Score -= 30 * Lives;
+                        Score *= 0.65f;
                         EBomb.RemoveAt(i);
                         i--;
                         Lives--;
@@ -216,7 +216,7 @@ namespace Plane2DXNA
                         if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
                         {
                             Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch));
-                            Score += 5 * Enemies[y].Speed;
+                            Score *= 1.2f;
                             Enemies.RemoveAt(y);
                             UBombs.RemoveAt(i);
                             i--;
@@ -239,6 +239,7 @@ namespace Plane2DXNA
                         Enemies.RemoveAt(y);
                         y--;
                         Lives -= 3;
+                        Score /= 2;
                         try
                         {
                             for (int i = 0; i < 3; i++)
@@ -275,7 +276,7 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
-                if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds >= correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds > correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
                 {
                     correct_time = gameTime.TotalGameTime.Seconds;
                     Lives = 3;
@@ -301,9 +302,18 @@ namespace Plane2DXNA
             {
                     Current_GameState = GameStates.Over;
                     score = Convert.ToString(Math.Round(Score, 0));
-                    correct_time = gameTime.TotalGameTime.Seconds + 2;
+                    correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
                     Score += 50;
                     current_4_nextlive = 0;
+                    reset_clouds();
+            }
+            int number_of_clouds;
+            private void reset_clouds()
+            {
+                number_of_clouds = rand.Next(5, 7);
+                Clouds.Clear();
+                for (int i = 0; i < 6; i++)
+                    Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3) + 1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
             }
         
         /// <summary>
