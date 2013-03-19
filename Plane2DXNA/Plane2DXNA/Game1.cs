@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+
 namespace Plane2DXNA
 {
     /// <summary>
@@ -23,13 +24,17 @@ namespace Plane2DXNA
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
         enum GameStates { Start, Game, Over };
         GameStates Current_GameState;
-        SpriteFont Font, Big;
+        SpriteFont Font, Big, Small;
         Random rand;
         UserPlane Player;
         List<BasicPlanes> Life;
         int Userplanecolor;
         int Lives = 3;
         float Score = 0;
+        AudioEngine ae;
+        SoundBank sb;
+        WaveBank wb;
+        Cue bg_music;
 
         public Game1()
         {
@@ -53,6 +58,7 @@ namespace Plane2DXNA
             explosion = Content.Load<Texture2D>("explosion");
             Font = Content.Load<SpriteFont>("Font");
             Big = Content.Load<SpriteFont>("Font_Big");
+            Small = Content.Load<SpriteFont>("Small");
             plane = new Texture2D[3];
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
             plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
@@ -61,6 +67,12 @@ namespace Plane2DXNA
             Userplanecolor = rand.Next(0, 2);
             Current_GameState = GameStates.Start;
             NextSpawn = 2000;
+            // Init music
+            ae = new AudioEngine(@"Content\Music.xgs");
+            wb = new WaveBank(ae, @"Content\wMusic.xwb");
+            sb = new SoundBank(ae, @"Content\sMusic.xsb");
+            bg_music = sb.GetCue("bg");
+
             base.Initialize();
         }
         float plane_resize_life = 0.3f;
@@ -110,10 +122,11 @@ namespace Plane2DXNA
         float current_spawn_time;
         float correct_time;
         float negative_bonus;
+        bool exit = false;
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+           exit = (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape));
+            if (exit)
                 this.Exit();
             switch(Current_GameState)
             {
@@ -121,13 +134,17 @@ namespace Plane2DXNA
                     #region Start
                     //Draw lives
                     if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                    {
                         Current_GameState = GameStates.Game;
+                            bg_music.Play();
+                    }
                     base.Update(gameTime);
                     break;
                     #endregion
                 case GameStates.Game:
                     #region Gameplay
                     if (this.IsActive)
+                     
             {
                 if (Score < -100)
                 {
@@ -291,6 +308,8 @@ namespace Plane2DXNA
                     {
                         Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
                     }
+                    bg_music.Play();
+
                 }
                 base.Update(gameTime);
                 break;
@@ -306,11 +325,14 @@ namespace Plane2DXNA
                     Score += 50;
                     current_4_nextlive = 0;
                     reset_clouds();
+                    bg_music.Stop(AudioStopOptions.Immediate);
+                    bg_music.Dispose();
+                    bg_music = sb.GetCue("bg");
+                       
             }
-            int number_of_clouds;
+            
             private void reset_clouds()
             {
-                number_of_clouds = rand.Next(5, 7);
                 Clouds.Clear();
                 for (int i = 0; i < 6; i++)
                     Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3) + 1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
@@ -321,10 +343,12 @@ namespace Plane2DXNA
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         string textl1 = "Welcome to Planes 2D.";
-        string textl2 = "Press any button or click with the Mouse to start.";
+        string textl2 = "Press any key or click with the mouse to start.";
         string msg_over = "Game over! Your Score:";
         string msg_continue1 = "Press Escape to quit, click with the mouse";
-        string msg_continue2 = "or with any other button to restart the game!";
+        string msg_continue2 = "or with any other button to restart the game.";
+        string msg_music_by = "Music:\n- WrathGames Studio [http://wrathgames.com/blog] | Licence: CC-BY 3.0\n" +
+            "Images:\n- All images are licenced under CC-0";
         string score;
         Vector2 text_over;
         protected override void Draw(GameTime gameTime)
@@ -337,6 +361,7 @@ namespace Plane2DXNA
                     #region Start
                     spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
                     spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
+                    spriteBatch.DrawString(Small, msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Small.MeasureString(msg_music_by).Y), Color.White);
                     break;
                 #endregion
                 case GameStates.Game:
