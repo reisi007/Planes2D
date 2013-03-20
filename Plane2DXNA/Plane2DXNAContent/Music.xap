@@ -16,8 +16,8 @@ Global Settings
     Header File = D:\Plane2DMono\Plane2DXNA\Plane2DXNAContent\Music.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 1258879143;
-    Last Modified High = 30287031;
+    Last Modified Low = 30287031;
+    Last Modified High = 1258879143;
 
     Category
     {
@@ -49,7 +49,7 @@ Global Settings
         Name = Default;
         Public = 1;
         Background Music = 0;
-        Volume = 0;
+        Volume = 310;
 
         Category Entry
         {
@@ -75,7 +75,7 @@ Global Settings
         Name = Music;
         Public = 1;
         Background Music = 1;
-        Volume = 0;
+        Volume = 380;
 
         Category Entry
         {
@@ -192,7 +192,7 @@ Global Settings
         Reserved = 1;
         Read Only = 1;
         Time = 0;
-        Value = 0.000000;
+        Value = 1.000000;
         Initial Value = 0.000000;
         Min = 0.000000;
         Max = 1024.000000;
@@ -225,33 +225,29 @@ Wave Bank
     Windows Bank Path Edited = 0;
     Seek Tables = 1;
     Compression Preset Name = <none>;
-    Xbox Bank Last Modified Low = 0;
-    Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 1258899144;
-    PC Bank Last Modified High = 30287031;
-    Bank Last Revised Low = 3904942127;
-    Bank Last Revised High = 30287030;
+    Bank Last Revised Low = 3704197280;
+    Bank Last Revised High = 30287225;
 
     Wave
     {
         Name = years_320_0;
-        File = C:\Users\Florian Reisinger\Desktop\years_320_0.wav;
-        Build Settings Last Modified Low = 420049354;
-        Build Settings Last Modified High = 30287026;
+        File = bg music.wav;
+        Build Settings Last Modified Low = 3704197280;
+        Build Settings Last Modified High = 30287225;
 
         Cache
         {
             Format Tag = 0;
             Channels = 2;
-            Sampling Rate = 44100;
+            Sampling Rate = 11025;
             Bits Per Sample = 1;
             Play Region Offset = 46;
-            Play Region Length = 14524416;
+            Play Region Length = 3631104;
             Loop Region Offset = 0;
             Loop Region Length = 0;
             File Type = 1;
-            Last Modified Low = 376236848;
-            Last Modified High = 30287026;
+            Last Modified Low = 3305664485;
+            Last Modified High = 30287225;
         }
     }
 }
@@ -263,15 +259,13 @@ Sound Bank
     Windows File = Win\sMusic.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
-    Bank Last Modified Low = 1259029151;
-    Bank Last Modified High = 30287031;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
     Sound
     {
         Name = bg;
-        Volume = -850;
+        Volume = -420;
         Pitch = 0;
         Priority = 0;
 
@@ -287,7 +281,6 @@ Sound Bank
 
             Play Wave Event
             {
-                Loop Count = 255;
                 Break Loop = 1;
                 Use Speaker Position = 0;
                 Use Center Speaker = 1;

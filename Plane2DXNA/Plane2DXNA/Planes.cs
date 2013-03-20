@@ -33,7 +33,7 @@ namespace Plane2DXNA
           Texture = texture;
           Position = position;
           spritebatch = sb;
-          ClientBounds = clientbounds;
+          ClientBounds = new Rectangle(clientbounds.X, (int)(clientbounds.Y + 0.05f * clientbounds.Height), clientbounds.Width, (int)(clientbounds.Height * 0.9f));
           Size = size;
           NextShoot = next_shot;
        }
@@ -76,14 +76,31 @@ namespace Plane2DXNA
              Automatic = false;
          }
          int ydiff;
+         bool space_pressed;
+         int maxydiff = 6, minydiff = -8;
          public override void Update(GameTime time)
          {
-             ydiff = Mouse.GetState().Y - PlaneMid;
-             if (ydiff > 5 || Keyboard.GetState().IsKeyDown(Keys.Down))
-                 ydiff = 5;
-             if (ydiff < -6 || Keyboard.GetState().IsKeyDown(Keys.Up))
-                 ydiff = -6;
+             if (!space_pressed)
+             {
+                 space_pressed = Keyboard.GetState().GetPressedKeys().Length > 0;
+                 ydiff = Mouse.GetState().Y - PlaneMid;
+                 if (ydiff > maxydiff)
+                     ydiff = maxydiff;
+                 else if(ydiff < minydiff)
+                     ydiff = minydiff;
+             }
+             else
+             {
+                 if(Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+                     ydiff = maxydiff;
+                 else if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+                     ydiff = minydiff;
+                 if (Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed)
+                     space_pressed = false;
+             }
              Position.Y += ydiff;
+             if (space_pressed)
+                 ydiff = 0;
              base.Update(time);
          }
      }

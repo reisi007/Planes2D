@@ -159,7 +159,10 @@ namespace Plane2DXNA
                     Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
                     Lives++;
                 }
-                current_spawn_time = (float)(NextSpawn - ((gameTime.TotalGameTime.TotalSeconds - correct_time) * 20 - negative_bonus));
+                if ((gameTime.TotalGameTime.TotalSeconds - correct_time) < 78)
+                    current_spawn_time = (float)(NextSpawn - ((gameTime.TotalGameTime.TotalSeconds - correct_time) * 20 - negative_bonus));
+                else
+                    current_spawn_time = 16;
 
                 Score += (float)(Math.Sqrt(gameTime.TotalGameTime.TotalSeconds)/70);
                 foreach (UserBomb b in UBombs)
