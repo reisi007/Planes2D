@@ -74,15 +74,22 @@ namespace Plane2DXNA
              plane_effect = SpriteEffects.FlipHorizontally;
              Type = PlaneType.User;
              Automatic = false;
+             prevMS = Mouse.GetState();
          }
+         public int Bonus = 0;
          int ydiff;
-         bool space_pressed;
-         int maxydiff = 6, minydiff = -8;
+         bool moving_mouse;
+         MouseState prevMS;
+         int maxydiff { get { return 6 + Bonus / 4; } }
+         int minydiff { get { return -8 - Bonus / 4; } }
          public override void Update(GameTime time)
          {
-             if (!space_pressed)
+             if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
+                 moving_mouse = true;
+             if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
+                 moving_mouse = false;
+             if (moving_mouse)
              {
-                 space_pressed = Keyboard.GetState().GetPressedKeys().Length > 0;
                  ydiff = Mouse.GetState().Y - PlaneMid;
                  if (ydiff > maxydiff)
                      ydiff = maxydiff;
@@ -95,12 +102,14 @@ namespace Plane2DXNA
                      ydiff = maxydiff;
                  else if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
                      ydiff = minydiff;
-                 if (Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed)
-                     space_pressed = false;
+                
              }
+             /*if(Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().RightButton == ButtonState.Pressed|| Mouse.GetState().MiddleButton == ButtonState.Pressed|| Mouse.GetState().RightButton == ButtonState.Pressed)
+                 Shooting */
              Position.Y += ydiff;
-             if (space_pressed)
+             if (!moving_mouse)
                  ydiff = 0;
+             prevMS = Mouse.GetState();
              base.Update(time);
          }
      }

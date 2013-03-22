@@ -36,6 +36,7 @@ namespace Plane2DXNA
         WaveBank wb;
         Cue bg_music;
         Bonus BonusTracker;
+        SpriteFont[] Score_fonts;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -72,6 +73,17 @@ namespace Plane2DXNA
             ae = new AudioEngine(@"Content\Music.xgs");
             wb = new WaveBank(ae, @"Content\wMusic.xwb");
             sb = new SoundBank(ae, @"Content\sMusic.xsb");
+            number_of_fonts = 9;
+            Score_fonts = new SpriteFont[number_of_fonts];
+            Score_fonts[0] = Content.Load<SpriteFont>(@"scorefonts\30");
+            Score_fonts[1] = Content.Load<SpriteFont>(@"scorefonts\35");
+            Score_fonts[2] = Content.Load<SpriteFont>(@"scorefonts\40");
+            Score_fonts[3] = Content.Load<SpriteFont>(@"scorefonts\45");
+            Score_fonts[4] = Content.Load<SpriteFont>(@"scorefonts\50");
+            Score_fonts[5] = Content.Load<SpriteFont>(@"scorefonts\55");
+            Score_fonts[6] = Content.Load<SpriteFont>(@"scorefonts\60");
+            Score_fonts[7] = Content.Load<SpriteFont>(@"scorefonts\80");
+            Score_fonts[8] = Content.Load<SpriteFont>(@"scorefonts\110");
             bg_music = sb.GetCue("bg");
             base.Initialize();
         }
@@ -123,6 +135,7 @@ namespace Plane2DXNA
         float current_spawn_time;
         float correct_time;
         float negative_bonus;
+        int number_of_fonts;
         bool exit = false;
         protected override void Update(GameTime gameTime)
         {
@@ -185,6 +198,7 @@ namespace Plane2DXNA
                 p_grass -= Speed;
                 if (p_grass <= -grass.Width)
                     p_grass += grass.Width;
+                Player.Bonus = BonusTracker.Bonus_0;
                 for (int i = 0; i < Enemies.Count; i++)
                 {
                     Enemies[i].Update(gameTime);
@@ -211,7 +225,14 @@ namespace Plane2DXNA
                         EBomb.RemoveAt(i);
                         i--;
                         Lives--;
-                        Life.RemoveAt(Life.Count - 1);
+                        try
+                        {
+                            Life.RemoveAt(Life.Count - 1);
+                        }
+                        catch (Exception)
+                        {
+                            reset(gameTime);
+                        }
                         BonusTracker.Clear();
                     }
                     if (i >= 0)
@@ -317,6 +338,7 @@ namespace Plane2DXNA
                         Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
                     }
                     bg_music.Play();
+                    Fin_Scorefont = null;
 
                 }
                 base.Update(gameTime);
@@ -327,7 +349,9 @@ namespace Plane2DXNA
         }
         int number_of_dots_needed;
         string tmp_score;
+        SpriteFont Fin_Scorefont;
         int tmp;
+        int font;
             private void reset(GameTime gameTime)
             {
                     Current_GameState = GameStates.Over;
@@ -352,15 +376,31 @@ namespace Plane2DXNA
                         }
                         
                     }
+                    font = 0;
                     score = tmp_score;
-                    correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
-                    Score += 50;
-                    current_4_nextlive = 0;
-                    reset_clouds();
-                    bg_music.Stop(AudioStopOptions.Immediate);
-                    bg_music.Dispose();
-                    bg_music = sb.GetCue("bg");
-                    BonusTracker.Clear();
+                    tmp = Window.ClientBounds.Width - 50;
+                    foreach (SpriteFont f in Score_fonts)
+                    {
+                        font = (int)f.MeasureString(score).X;
+                        if (font < tmp)
+                            Fin_Scorefont = f;
+                    }
+                    //while (tmp < (Window.ClientBounds.Width - 40))
+                    //{
+                    //    tmp = (int)Score_fonts[font].MeasureString(tmp_score).X;
+                    //    font++;
+                    //    if (font == number_of_fonts)
+                    //        break;
+                    //}
+                //Fin_Scorefont = Score_fonts[font - 1];
+                
+                correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
+                current_4_nextlive = 0;
+                reset_clouds();
+                bg_music.Stop(AudioStopOptions.Immediate);
+                bg_music.Dispose();
+                bg_music = sb.GetCue("bg");
+                BonusTracker.Clear();
                        
             }
             
@@ -424,8 +464,8 @@ namespace Plane2DXNA
                     #region GameOver
                     text_over = new Vector2(Window.ClientBounds.Width /2 - Font.MeasureString(msg_over).X /2, Window.ClientBounds.Height /10);
                     spriteBatch.DrawString(Font,msg_over,text_over,Color.White);
-                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Big.MeasureString(score).X / 2, Window.ClientBounds.Height /2 - Big.MeasureString(score).Y/2);
-                    spriteBatch.DrawString(Big, score, text_over, Color.DarkGreen);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Fin_Scorefont.MeasureString(score).X / 2, Window.ClientBounds.Height / 2 - Fin_Scorefont.MeasureString(score).Y / 2);
+                    spriteBatch.DrawString(Fin_Scorefont, score, text_over, Color.DarkGreen);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue2).X / 2, Window.ClientBounds.Height - 10 - Font.MeasureString(msg_continue2).Y);
                     spriteBatch.DrawString(Font, msg_continue2, text_over, Color.White);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue1).X / 2, text_over.Y - 10 - Font.MeasureString(msg_continue1).Y);
