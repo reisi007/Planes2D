@@ -104,8 +104,6 @@ namespace Plane2DXNA
                      ydiff = minydiff;
                 
              }
-             /*if(Keyboard.GetState().IsKeyDown(Keys.Space) || Mouse.GetState().RightButton == ButtonState.Pressed|| Mouse.GetState().MiddleButton == ButtonState.Pressed|| Mouse.GetState().RightButton == ButtonState.Pressed)
-                 Shooting */
              Position.Y += ydiff;
              if (!moving_mouse)
                  ydiff = 0;
@@ -119,7 +117,7 @@ namespace Plane2DXNA
          public bool DELETIONREQUEST;
          
          public EnemyPlane(Texture2D texture, double rand_y, SpriteBatch sb, Rectangle clientbounds, float size, float speed)
-             : base(texture, new Vector2(clientbounds.Width, (float)(rand_y * clientbounds.Height)), sb, clientbounds, size,1000)
+             : base(texture, new Vector2(clientbounds.Width, (float)(clientbounds.Height/20 + 0.9f * rand_y * clientbounds.Height)), sb, clientbounds, size,1000)
          {
              Speed = speed;
              Type = PlaneType.Enemy;

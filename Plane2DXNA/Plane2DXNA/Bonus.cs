@@ -20,7 +20,8 @@ namespace Plane2DXNA
         int x_star { get { return (Star.Width + space_between_stars) * (BonusList.Count - rows * stars_per_row) + space_between_stars; } }
         int y_Stars;
         int rows = 0;
-        const int stars_per_row = 2;
+        const int stars_per_row = 1;
+        const int max_stars = 12 * stars_per_row;
         SpriteBatch Spriteb;
        public Bonus(SpriteBatch sb, Texture2D star, int yStart)
         {
@@ -36,14 +37,17 @@ namespace Plane2DXNA
                Spriteb.Draw(Star, r, Color.White);
            }
        }
-       public void Add()
+       public void Add(ref bool addlive)
        {
-           if (BonusList.Count <= 10 * stars_per_row)
+           if (BonusList.Count <= max_stars)
            {
                BonusList.Add(new Rectangle(x_star, y_Stars + rows * (Star.Height + 5), Star.Width, Star.Height));
                if (BonusList.Count % stars_per_row == 0)
                    rows++;
+               addlive = false;
            }
+           else
+               addlive = true;
        }
        public void Clear()
        {

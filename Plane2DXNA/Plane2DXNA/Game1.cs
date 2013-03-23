@@ -30,7 +30,7 @@ namespace Plane2DXNA
         List<BasicPlanes> Life;
         int Userplanecolor;
         int Lives = 3;
-        float Score = 0;
+        double Score;
         AudioEngine ae;
         SoundBank sb;
         WaveBank wb;
@@ -137,6 +137,10 @@ namespace Plane2DXNA
         float negative_bonus;
         int number_of_fonts;
         bool exit = false;
+        bool addlife;
+        bool cut_down_spawntime = false;
+        float spawn_time_multip = 1;
+        float next_cut = 1.5f;
         protected override void Update(GameTime gameTime)
         {
            exit = (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape));
@@ -160,25 +164,31 @@ namespace Plane2DXNA
                     if (this.IsActive)
                      
             {
-                if (Score < -100)
-                {
-                    Lives--;
-                    Score += 101 * BonusTracker.Bonus_1;
-                }
+                
                 current_4_nextlive += gameTime.ElapsedGameTime.Milliseconds;
                 if (current_4_nextlive > nextlive)
                 {
                     current_4_nextlive -= nextlive;
                     nextlive += 1500;
-                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
-                    Lives++;
+                    addlive();
                 }
-                if ((gameTime.TotalGameTime.TotalSeconds - correct_time) < 78)
-                    current_spawn_time = (float)(NextSpawn - ((gameTime.TotalGameTime.TotalSeconds - correct_time) * 20 - negative_bonus));
+                if ((gameTime.TotalGameTime.Seconds - correct_time) > next_cut)
+                {
+                    if (!cut_down_spawntime)
+                    {
+                        spawn_time_multip *= 1.5f;
+                        cut_down_spawntime = true;
+                        next_cut *= 2.5f;
+                    }
+                }
                 else
-                    current_spawn_time = 16;
+                    cut_down_spawntime = false;
 
-                Score += (float)(Math.Sqrt(gameTime.TotalGameTime.TotalSeconds + 40 * BonusTracker.Bonus_0)/70);
+                current_spawn_time = (float)((NextSpawn - negative_bonus) / Math.Sqrt(spawn_time_multip));
+                if (current_spawn_time < 450)
+                    current_spawn_time = 450;
+                Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip + 20 * BonusTracker.Bonus_0)/70);
+                Score += Lives / 60;
                 foreach (UserBomb b in UBombs)
                     b.Update();
                 foreach (EnemyBomb b in EBomb)
@@ -187,7 +197,7 @@ namespace Plane2DXNA
                 ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
                 if (ElapsedMS >= current_spawn_time)
                 {
-                    ElapsedMS -=  current_spawn_time;
+                    ElapsedMS -=  current_spawn_time + 60 * BonusTracker.Bonus_0;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
                     Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
                 }
@@ -211,17 +221,18 @@ namespace Plane2DXNA
                     {
                         Enemies.RemoveAt(i);
                         Enemies_Passed++;
-                        Score *= (0.9f + BonusTracker.Bonus_0 * 0.2f);
-                        negative_bonus += (float)(5f * Math.Pow(Enemies_Passed, 0.55f));
+                        Score *= (0.9f + BonusTracker.Bonus_0 * 0.03f);
+                        negative_bonus += (float)( Math.Pow(3.5,1/BonusTracker.Bonus_1) * Math.Pow(Enemies_Passed, 0.55f));
                         i--;
                         BonusTracker.Clear();
                     }
                 }
+                if (Enemies_Passed > 50)
+                    reset(gameTime);
                 for (int i = 0; i < EBomb.Count; i++)
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
                     {
-                        Score *= (0.65f + BonusTracker.Bonus_0 * 0.15f);
                         EBomb.RemoveAt(i);
                         i--;
                         Lives--;
@@ -260,12 +271,18 @@ namespace Plane2DXNA
                         if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
                         {
                             Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch));
-                            Score *= (1.2f + BonusTracker.Bonus_0 * 0.05f);
+                            Score *= (1.2f + BonusTracker.Bonus_0 * 0.02f);
                             Enemies.RemoveAt(y);
                             UBombs.RemoveAt(i);
                             i--;
                             y--;
-                            BonusTracker.Add();
+                            BonusTracker.Add(ref addlife);
+                            if(addlife)
+                            {
+                                addlife =false;
+                                addlive();
+                                spawn_time_multip *= 1.1f;
+                            }
                             
                         }
                     }
@@ -284,7 +301,7 @@ namespace Plane2DXNA
                         Enemies.RemoveAt(y);
                         y--;
                         Lives -= 3;
-                        Score /= 2 - (BonusTracker.Bonus_0 / 17f);
+                        Score /= 2 - (BonusTracker.Bonus_0 / 24f);
                         BonusTracker.Clear();
                         try
                         {
@@ -316,7 +333,7 @@ namespace Plane2DXNA
 
                 }
             }
-                    
+                    missed = "Missed planes left: " + (50 - Enemies_Passed);
                 base.Update(gameTime);
                 break;
                     #endregion
@@ -355,6 +372,7 @@ namespace Plane2DXNA
             private void reset(GameTime gameTime)
             {
                     Current_GameState = GameStates.Over;
+                    Enemies_Passed = 0;
                     score = Convert.ToString(Math.Round(Score, 0));
                     number_of_dots_needed = (int)(score.Length / 3);
                     tmp_score = "";
@@ -385,15 +403,6 @@ namespace Plane2DXNA
                         if (font < tmp)
                             Fin_Scorefont = f;
                     }
-                    //while (tmp < (Window.ClientBounds.Width - 40))
-                    //{
-                    //    tmp = (int)Score_fonts[font].MeasureString(tmp_score).X;
-                    //    font++;
-                    //    if (font == number_of_fonts)
-                    //        break;
-                    //}
-                //Fin_Scorefont = Score_fonts[font - 1];
-                
                 correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
                 current_4_nextlive = 0;
                 reset_clouds();
@@ -401,9 +410,20 @@ namespace Plane2DXNA
                 bg_music.Dispose();
                 bg_music = sb.GetCue("bg");
                 BonusTracker.Clear();
+                spawn_time_multip = 1;
                        
             }
-            
+            private void addlive()
+            {
+                if (Lives <= 16)
+                {
+                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                    Lives++;
+                }
+                else
+                    Score *= 0.9898d;
+                spawn_time_multip *= 1.5f;
+            }
             private void reset_clouds()
             {
                 Clouds.Clear();
@@ -422,7 +442,7 @@ namespace Plane2DXNA
         string msg_continue2 = "or with any other button to restart the game.";
         string msg_music_by = "Music:\n- WrathGames Studio [http://wrathgames.com/blog] | Licence: CC-BY 3.0\n" +
             "Images:\n- All images are licenced under CC-0";
-        string score;
+        string score, missed = "";
         Vector2 text_over;
         protected override void Draw(GameTime gameTime)
         {
@@ -455,6 +475,7 @@ namespace Plane2DXNA
             foreach (Explosion e in Explosions)
                 e.Draw();
             spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
+            spriteBatch.DrawString(Small, missed, new Vector2(Window.ClientBounds.Width - Small.MeasureString(missed).X - 3, 3), Color.Red);
             foreach (BasicPlanes b in Life)
                 b.Draw();
             BonusTracker.Draw();
