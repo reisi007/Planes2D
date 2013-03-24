@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Nuclex.Input;
+using Nuclex.Input.Devices;
 
 namespace Plane2DXNA
 {
@@ -28,6 +30,8 @@ namespace Plane2DXNA
          protected PlaneType Type;
          protected int NextShoot, LastShoot;
          protected bool shoot_okay = false;
+         public ExtendedGamePadState GP_state;
+         protected ExtendedGamePadState GP_standard = new ExtendedGamePadState();
          public  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot)
        {
           Texture = texture;
@@ -55,7 +59,7 @@ namespace Plane2DXNA
                   shoot_okay = true;
                   LastShoot -= NextShoot;
               }
-              if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.LeftShoulder) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightShoulder)))
+              if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) /*|| GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.LeftShoulder) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightShoulder)*/))
               {
                   Shooting = true;
                   shoot_okay = false;
@@ -77,7 +81,8 @@ namespace Plane2DXNA
              prevMS = Mouse.GetState();
          }
          public int Bonus = 0;
-         int ydiff;
+         float ydiff;
+         public bool GP = false;
          bool moving_mouse;
          MouseState prevMS;
          int maxydiff { get { return 6 + Bonus / 4; } }
@@ -85,31 +90,46 @@ namespace Plane2DXNA
          float gpy;
          public override void Update(GameTime time)
          {
-            
-             if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
-                 moving_mouse = true;
-             if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
-                 moving_mouse = false;
-             if (moving_mouse)
+             if(!GP)
              {
-                 ydiff = Mouse.GetState().Y - PlaneMid;
-                 if (ydiff > maxydiff)
-                     ydiff = maxydiff;
-                 else if(ydiff < minydiff)
-                     ydiff = minydiff;
-             }
+                 if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
+                     moving_mouse = true;
+                 if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
+                     moving_mouse = false;
+                 if (moving_mouse)
+                 {
+                     ydiff = Mouse.GetState().Y - PlaneMid;
+                     if (ydiff > maxydiff)
+                         ydiff = maxydiff;
+                     else if (ydiff < minydiff)
+                         ydiff = minydiff;
+                 }
+                 else
+                 {
+                     if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+                         ydiff = maxydiff;
+                     else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+                         ydiff = minydiff;
+
+                 }
+                 prevMS = Mouse.GetState();
+         }
+                 
              else
-             {
-                 if(Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
-                     ydiff = maxydiff;
-                 else if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
-                     ydiff = minydiff;
-                
-             }
+
+                 {
+                     gpy = -GP_state.Z ;
+                     if (gpy > -0.37f && gpy < 0.37f)
+                         gpy = 0;
+                     if (gpy < 0)
+                         ydiff = maxydiff * gpy;
+                     else
+                         ydiff = minydiff * -gpy;
+                 }
+            
              Position.Y += ydiff;
-             if (!moving_mouse)
+             if (!moving_mouse && !GP)
                  ydiff = 0;
-             prevMS = Mouse.GetState();
              base.Update(time);
          }
      }

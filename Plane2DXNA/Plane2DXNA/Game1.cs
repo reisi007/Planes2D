@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Nuclex.Input;
+using Nuclex.Input.Devices;
 
 
 namespace Plane2DXNA
@@ -37,11 +39,13 @@ namespace Plane2DXNA
         Cue bg_music;
         Bonus BonusTracker;
         SpriteFont[] Score_fonts;
+        InputManager ManageI;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             rand = new Random();
+            ManageI = new InputManager();
         }
 
         /// <summary>
@@ -96,7 +100,7 @@ namespace Plane2DXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch,Window.ClientBounds);
+            Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds);
             Life = new List<BasicPlanes>();
             reset_clouds();
             for (int i = 0; i < 3; i++)
@@ -113,6 +117,7 @@ namespace Plane2DXNA
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            ManageI.Dispose();
         }
 
         /// <summary>
@@ -142,20 +147,29 @@ namespace Plane2DXNA
         float spawn_time_multip = 1;
         float next_cut = 1.5f;
         const int max_plane_missed = 30;
+        ExtendedGamePadState GP_state;
+        bool use_GP;
+        MouseState prvmouse;
         protected override void Update(GameTime gameTime)
         {
-           exit = (Keyboard.GetState().IsKeyDown(Keys.Escape));
+            ManageI.Update();
+            GP_state = ManageI.GetGamePad(ExtendedPlayerIndex.Five).GetExtendedState();
+            Player.GP_state = GP_state;
+           exit = (Keyboard.GetState().IsKeyDown(Keys.Escape) || GP_state.GetButton(8) == ButtonState.Pressed);
             if (exit)
                 this.Exit();
+            Player.GP = use_GP;
             switch(Current_GameState)
             {
                 case GameStates.Start:
                     #region Start
                     //Draw lives
-                    if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed) )
+                    if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed) || GP_state.GetButton(9) == ButtonState.Pressed)
                     {
                         Current_GameState = GameStates.Game;
                             bg_music.Play();
+                            if (GP_state.GetButton(9) == ButtonState.Pressed)
+                                use_GP = true;
                     }
                     base.Update(gameTime);
                     break;
@@ -372,9 +386,10 @@ namespace Plane2DXNA
                 }
                 base.Update(gameTime);
                 break;
+                   
                 #endregion
             }
-                        
+                prvmouse = Mouse.GetState();        
         }
         int number_of_dots_needed;
         string tmp_score;
@@ -449,6 +464,7 @@ namespace Plane2DXNA
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         string textl1 = "Welcome to Planes 2D.";
         string textl2 = "Press any key or click with the mouse to start.";
+        string textl3 = "If you want to use a GamePad, press Start on the Gamepad!";
         string msg_over = "Game over! Your Score:";
         string msg_continue1 = "Press Escape to quit, click with the mouse";
         string msg_continue2 = "or with any other button to restart the game.";
@@ -466,6 +482,8 @@ namespace Plane2DXNA
                     #region Start
                     spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
                     spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
+                   // spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
+                    spriteBatch.DrawString(Small, textl3, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + 3 * Font.MeasureString(textl3).Y / 2), Color.White);
                     spriteBatch.DrawString(Small, msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Small.MeasureString(msg_music_by).Y), Color.White);
                     break;
                 #endregion
@@ -488,6 +506,7 @@ namespace Plane2DXNA
                 e.Draw();
             spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
             spriteBatch.DrawString(Small, missed, new Vector2(Window.ClientBounds.Width - Small.MeasureString(missed).X - 3, 3), Color.Red);
+            spriteBatch.DrawString(Big, Convert.ToString(-GP_state.Z), new Vector2(50, 50), Color.Black);
             foreach (BasicPlanes b in Life)
                 b.Draw();
             BonusTracker.Draw();

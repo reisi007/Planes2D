@@ -74,10 +74,6 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Microsoft.DirectX.DirectInput.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
       <Private>False</Private>
     </Reference>
@@ -107,6 +103,9 @@
     </Reference>
     <Reference Include="mscorlib">
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Nuclex.Input">
+      <HintPath>..\..\xna-4.0-x86\Nuclex.Input.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
