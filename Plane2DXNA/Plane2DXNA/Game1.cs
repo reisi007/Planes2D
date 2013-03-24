@@ -141,9 +141,10 @@ namespace Plane2DXNA
         bool cut_down_spawntime = false;
         float spawn_time_multip = 1;
         float next_cut = 1.5f;
+        const int max_plane_missed = 30;
         protected override void Update(GameTime gameTime)
         {
-           exit = (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape));
+           exit = (Keyboard.GetState().IsKeyDown(Keys.Escape));
             if (exit)
                 this.Exit();
             switch(Current_GameState)
@@ -151,7 +152,7 @@ namespace Plane2DXNA
                 case GameStates.Start:
                     #region Start
                     //Draw lives
-                    if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                    if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed) )
                     {
                         Current_GameState = GameStates.Game;
                             bg_music.Play();
@@ -227,8 +228,20 @@ namespace Plane2DXNA
                         BonusTracker.Clear();
                     }
                 }
-                if (Enemies_Passed > 50)
-                    reset(gameTime);
+                if (Enemies_Passed > max_plane_missed)
+                {
+                    try
+                    {
+                        Lives--;
+                        Life.RemoveAt(Life.Count - 1);
+                        Enemies_Passed -= (int)(max_plane_missed / 3);
+                    }
+                    catch (Exception)
+                    {
+                        reset(gameTime);
+                    }
+                    
+                }
                 for (int i = 0; i < EBomb.Count; i++)
                 {
                     if (Player.Collision.Intersects(EBomb[i].Collision_detection))
@@ -310,7 +323,6 @@ namespace Plane2DXNA
                         }
                         catch (Exception)
                         {
-                            Current_GameState = GameStates.Over;
                             reset(gameTime);
                         }
                     }
@@ -333,7 +345,7 @@ namespace Plane2DXNA
 
                 }
             }
-                    missed = "Missed planes left: " + (50 - Enemies_Passed);
+                    missed = "Missed planes left: " + (max_plane_missed - Enemies_Passed);
                 base.Update(gameTime);
                 break;
                     #endregion

@@ -42,24 +42,24 @@ namespace Plane2DXNA
          public virtual void Update(GameTime time)
       {
           // Top Bottom Collision detection
-          if (Position.Y < 0)
-              Position.Y = 0;
-          if (Position.Y + Texture.Height > ClientBounds.Height)
-              Position.Y = ClientBounds.Height - Texture.Height;
-          // Collision Rectangle update
-          Collision = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size), (int)(Texture.Height * Size));
-          PlaneMid = (int)(Position.Y + Texture.Height / 2);
-          LastShoot += time.ElapsedGameTime.Milliseconds;
-          if (LastShoot > NextShoot)
-          {
-              shoot_okay = true;
-              LastShoot -= NextShoot;
-          }
-          if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space))))
-          {
-              Shooting = true;
-              shoot_okay = false;
-          }
+              if (Position.Y < 0)
+                  Position.Y = 0;
+              if (Position.Y + Texture.Height > ClientBounds.Height)
+                  Position.Y = ClientBounds.Height - Texture.Height;
+              // Collision Rectangle update
+              Collision = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size), (int)(Texture.Height * Size));
+              PlaneMid = (int)(Position.Y + Texture.Height / 2);
+              LastShoot += time.ElapsedGameTime.Milliseconds;
+              if (LastShoot > NextShoot)
+              {
+                  shoot_okay = true;
+                  LastShoot -= NextShoot;
+              }
+              if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.LeftShoulder) || GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.RightShoulder)))
+              {
+                  Shooting = true;
+                  shoot_okay = false;
+              }
       }
       public virtual void  Draw()
       {
@@ -82,8 +82,10 @@ namespace Plane2DXNA
          MouseState prevMS;
          int maxydiff { get { return 6 + Bonus / 4; } }
          int minydiff { get { return -8 - Bonus / 4; } }
+         float gpy;
          public override void Update(GameTime time)
          {
+            
              if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
                  moving_mouse = true;
              if(Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
