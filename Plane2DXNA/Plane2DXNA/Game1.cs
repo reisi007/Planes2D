@@ -40,6 +40,7 @@ namespace Plane2DXNA
         Bonus BonusTracker;
         SpriteFont[] Score_fonts;
         InputManager ManageI;
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -103,10 +104,6 @@ namespace Plane2DXNA
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds);
             Life = new List<BasicPlanes>();
             reset_clouds();
-            for (int i = 0; i < 3; i++)
-            {
-                Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
-            }
             BonusTracker = new Bonus(spriteBatch, star, (int)(2f * (Font.MeasureString("|").Y)));
         }
 
@@ -148,17 +145,21 @@ namespace Plane2DXNA
         float next_cut = 1.5f;
         const int max_plane_missed = 30;
         ExtendedGamePadState GP_state;
-        bool use_GP;
         MouseState prvmouse;
+        bool GP_isConnected;
         protected override void Update(GameTime gameTime)
         {
+            if (Mouse.GetState().Y > Window.ClientBounds.Height)
+                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), Window.ClientBounds.Height);
+            if(Mouse.GetState().Y < 0)
+                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), 0);
             ManageI.Update();
             GP_state = ManageI.GetGamePad(ExtendedPlayerIndex.Five).GetExtendedState();
             Player.GP_state = GP_state;
            exit = (Keyboard.GetState().IsKeyDown(Keys.Escape) || GP_state.GetButton(8) == ButtonState.Pressed);
             if (exit)
                 this.Exit();
-            Player.GP = use_GP;
+           
             switch(Current_GameState)
             {
                 case GameStates.Start:
@@ -166,10 +167,7 @@ namespace Plane2DXNA
                     //Draw lives
                     if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed) || GP_state.GetButton(9) == ButtonState.Pressed)
                     {
-                        Current_GameState = GameStates.Game;
-                            bg_music.Play();
-                            if (GP_state.GetButton(9) == ButtonState.Pressed)
-                                use_GP = true;
+                        start_game(gameTime);
                     }
                     base.Update(gameTime);
                     break;
@@ -202,6 +200,8 @@ namespace Plane2DXNA
                 current_spawn_time = (float)((NextSpawn - negative_bonus) / Math.Sqrt(spawn_time_multip));
                 if (current_spawn_time < 450)
                     current_spawn_time = 450;
+                if (GP_isConnected)
+                    current_spawn_time *= 2;
                 Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip + 20 * BonusTracker.Bonus_0)/70);
                 Score += Lives / 60;
                 foreach (UserBomb b in UBombs)
@@ -365,23 +365,9 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
-                if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds > correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed))
+                if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds > correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || GP_state.IsButtonDown(9)))
                 {
-                    correct_time = gameTime.TotalGameTime.Seconds;
-                    Lives = 3;
-                    Score = 0;
-                    Current_GameState = GameStates.Game;
-                    UBombs.Clear();
-                    EBomb.Clear();
-                    Enemies.Clear();
-                    Life.Clear();
-                    Explosions.Clear();
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
-                    }
-                    bg_music.Play();
-                    Fin_Scorefont = null;
+                    start_game(gameTime);
 
                 }
                 base.Update(gameTime);
@@ -457,6 +443,25 @@ namespace Plane2DXNA
                 for (int i = 0; i < 6; i++)
                     Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3) + 1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
             }
+            private void start_game(GameTime gameTime)
+            {
+                UBombs.Clear();
+                EBomb.Clear();
+                Enemies.Clear();
+                Life.Clear();
+                Explosions.Clear();
+                Score = 0;
+                Current_GameState = GameStates.Game;
+                GP_isConnected = GP_state.IsButtonDown(9);
+                Lives = 3;
+                for (int i = 0; i < Lives; i++)
+                {
+                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                }
+                correct_time = gameTime.TotalGameTime.Seconds;
+                bg_music.Play();
+                Fin_Scorefont = null;
+            }
         
         /// <summary>
         /// This is called when the game should draw itself.
@@ -482,7 +487,6 @@ namespace Plane2DXNA
                     #region Start
                     spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
                     spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
-                   // spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
                     spriteBatch.DrawString(Small, textl3, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + 3 * Font.MeasureString(textl3).Y / 2), Color.White);
                     spriteBatch.DrawString(Small, msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Small.MeasureString(msg_music_by).Y), Color.White);
                     break;
@@ -506,7 +510,8 @@ namespace Plane2DXNA
                 e.Draw();
             spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
             spriteBatch.DrawString(Small, missed, new Vector2(Window.ClientBounds.Width - Small.MeasureString(missed).X - 3, 3), Color.Red);
-            spriteBatch.DrawString(Big, Convert.ToString(-GP_state.Z), new Vector2(50, 50), Color.Black);
+                    if(Player.gpy != 0)
+                        spriteBatch.DrawString(Big, Convert.ToString(Player.gpy), new Vector2(Window.ClientBounds.Width - Big.MeasureString(Convert.ToString(Player.gpy)).X, Window.ClientBounds.Height - Big.MeasureString(Convert.ToString(Player.gpy)).Y + 25), Color.Black);
             foreach (BasicPlanes b in Life)
                 b.Draw();
             BonusTracker.Draw();
