@@ -90,7 +90,7 @@ namespace Plane2DXNA
          public override void Update(GameTime time)
          {
              
-                 gpy = -GP_state.Z;
+                 gpy = GP_state.Z;
                  if (gpy > -0.37f && gpy < 0.37f)
                      gpy = 0;
                  gpy *= 8;

@@ -143,7 +143,7 @@ namespace Plane2DXNA
         bool cut_down_spawntime = false;
         float spawn_time_multip = 1;
         float next_cut = 1.5f;
-        const int max_plane_missed = 30;
+        const int max_plane_missed = 15;
         ExtendedGamePadState GP_state;
         MouseState prvmouse;
         bool GP_isConnected;
