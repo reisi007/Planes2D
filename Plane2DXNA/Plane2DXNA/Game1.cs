@@ -31,7 +31,7 @@ namespace Plane2DXNA
         UserPlane Player;
         List<BasicPlanes> Life;
         int Userplanecolor;
-        int Lives = 3;
+        int Lives = 0;
         double Score;
         AudioEngine ae;
         SoundBank sb;
@@ -40,10 +40,21 @@ namespace Plane2DXNA
         Bonus BonusTracker;
         SpriteFont[] Score_fonts;
         InputManager ManageI;
-        
+        Vector2 ResizeFactor;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
+#if !DEBUG
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 800;
+
+#else
+            graphics.PreferredBackBufferHeight = 960;
+            graphics.PreferredBackBufferWidth = 1600;
+#endif
+            ResizeFactor = new Vector2(graphics.PreferredBackBufferWidth / 800, graphics.PreferredBackBufferHeight / 480);
+            graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             rand = new Random();
             ManageI = new InputManager();
@@ -58,6 +69,7 @@ namespace Plane2DXNA
         int NextSpawn;
         protected override void Initialize()
         {
+            //Loading Images and fonts
             cloud = Content.Load<Texture2D>("cloud");
             grass = Content.Load<Texture2D>("grass");
             bomb = Content.Load<Texture2D>("bullet");
@@ -70,11 +82,6 @@ namespace Plane2DXNA
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
             plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
             plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"planes/blue");
-            Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
-            Userplanecolor = rand.Next(0, 2);
-            Current_GameState = GameStates.Start;
-            NextSpawn = 2000;
-            // Init music
             ae = new AudioEngine(@"Content\Music.xgs");
             wb = new WaveBank(ae, @"Content\wMusic.xwb");
             sb = new SoundBank(ae, @"Content\sMusic.xsb");
@@ -90,6 +97,11 @@ namespace Plane2DXNA
             Score_fonts[7] = Content.Load<SpriteFont>(@"scorefonts\80");
             Score_fonts[8] = Content.Load<SpriteFont>(@"scorefonts\110");
             bg_music = sb.GetCue("bg");
+            // Center Mouse position
+            Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
+            // Color of the user plane + Initial game state + Beginning spawn time
+            Userplanecolor = rand.Next(0, 2);
+            Current_GameState = GameStates.Start;
             base.Initialize();
         }
         float plane_resize_life = 0.3f;
@@ -101,10 +113,9 @@ namespace Plane2DXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds);
+            Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds,ResizeFactor);
             Life = new List<BasicPlanes>();
-            reset_clouds();
-            BonusTracker = new Bonus(spriteBatch, star, (int)(2f * (Font.MeasureString("|").Y)));
+            BonusTracker = new Bonus(spriteBatch, star, (int)((Font.MeasureString("|").Y) + star.Height * ResizeFactor.Y));
         }
 
         /// <summary>
@@ -113,8 +124,6 @@ namespace Plane2DXNA
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
-            ManageI.Dispose();
         }
 
         /// <summary>
@@ -122,6 +131,7 @@ namespace Plane2DXNA
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        // Initialize variables
         float p_grass = 0;
         float Speed = 1;
         float ElapsedMS;
@@ -142,11 +152,12 @@ namespace Plane2DXNA
         bool addlife;
         bool cut_down_spawntime = false;
         float spawn_time_multip = 1;
-        float next_cut = 1.5f;
-        const int max_plane_missed = 15;
+        float next_cut = 15f;
+        const int max_plane_missed = 5;
         ExtendedGamePadState GP_state;
         MouseState prvmouse;
         bool GP_isConnected;
+
         protected override void Update(GameTime gameTime)
         {
             if (Mouse.GetState().Y > Window.ClientBounds.Height)
@@ -189,9 +200,9 @@ namespace Plane2DXNA
                 {
                     if (!cut_down_spawntime)
                     {
-                        spawn_time_multip *= 1.5f;
+                        spawn_time_multip *= 1.25f;
                         cut_down_spawntime = true;
-                        next_cut *= 2.5f;
+                        next_cut *= 1.33f;
                     }
                 }
                 else
@@ -202,7 +213,7 @@ namespace Plane2DXNA
                     current_spawn_time = 450;
                 if (GP_isConnected)
                     current_spawn_time *= 2;
-                Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip + 20 * BonusTracker.Bonus_0)/70);
+                Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip + 8 * BonusTracker.Bonus_0)/70);
                 Score += Lives / 60;
                 foreach (UserBomb b in UBombs)
                     b.Update();
@@ -214,7 +225,7 @@ namespace Plane2DXNA
                 {
                     ElapsedMS -=  current_spawn_time + 60 * BonusTracker.Bonus_0;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
-                    Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble()))));
+                    Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble())),ResizeFactor));
                 }
                 //Update Clouds
                 foreach (Cloud c in Clouds)
@@ -248,7 +259,7 @@ namespace Plane2DXNA
                     {
                         Lives--;
                         Life.RemoveAt(Life.Count - 1);
-                        Enemies_Passed -= (int)(max_plane_missed / 3);
+                        Enemies_Passed -= max_plane_missed;
                     }
                     catch (Exception)
                     {
@@ -377,11 +388,14 @@ namespace Plane2DXNA
             }
                 prvmouse = Mouse.GetState();        
         }
+
+        // Variables needed for reset()
         int number_of_dots_needed;
         string tmp_score;
         SpriteFont Fin_Scorefont;
         int tmp;
         int font;
+        // Helper for resetting the game
             private void reset(GameTime gameTime)
             {
                     Current_GameState = GameStates.Over;
@@ -418,7 +432,6 @@ namespace Plane2DXNA
                     }
                 correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
                 current_4_nextlive = 0;
-                reset_clouds();
                 bg_music.Stop(AudioStopOptions.Immediate);
                 bg_music.Dispose();
                 bg_music = sb.GetCue("bg");
@@ -426,23 +439,26 @@ namespace Plane2DXNA
                 spawn_time_multip = 1;
                        
             }
+        // Helper for adding one life
             private void addlive()
             {
                 if (Lives <= 16)
                 {
-                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * Lives + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                    Life.Add(new BasicPlanes(plane[Userplanecolor],new Vector2((plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5 ,Font.MeasureString("|").Y + 10),spriteBatch,new Rectangle(), plane_resize_life,int.MaxValue,ResizeFactor));
                     Lives++;
                 }
                 else
                     Score *= 0.9898d;
                 spawn_time_multip *= 1.5f;
             }
+        // Helper for resetting clouds
             private void reset_clouds()
             {
                 Clouds.Clear();
                 for (int i = 0; i < 6; i++)
                     Clouds.Add(new Cloud(new Vector2(rand.Next(0, Window.ClientBounds.Width), rand.Next(10, 60)), (float)((rand.NextDouble() * 3) + 1), (float)(0.3 + rand.NextDouble() / 3), cloud, Window.ClientBounds.Width, spriteBatch));
             }
+        // Helper for starting the game
             private void start_game(GameTime gameTime)
             {
                 UBombs.Clear();
@@ -453,20 +469,22 @@ namespace Plane2DXNA
                 Score = 0;
                 Current_GameState = GameStates.Game;
                 GP_isConnected = GP_state.IsButtonDown(9);
-                Lives = 3;
-                for (int i = 0; i < Lives; i++)
+                for (int i = 0; i < 3; i++)
                 {
-                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life + 10) * i + 5, Font.MeasureString("|").Y + 5), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue));
+                    addlive();
                 }
                 correct_time = gameTime.TotalGameTime.Seconds;
+                reset_clouds();
                 bg_music.Play();
                 Fin_Scorefont = null;
+                NextSpawn = 2000;
             }
         
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        // Text, which will be drawn sometimes
         string textl1 = "Welcome to Planes 2D.";
         string textl2 = "Press any key or click with the mouse to start.";
         string textl3 = "If you want to use a GamePad, press Start on the Gamepad!";
@@ -476,7 +494,9 @@ namespace Plane2DXNA
         string msg_music_by = "Music:\n- WrathGames Studio [http://wrathgames.com/blog] | Licence: CC-BY 3.0\n" +
             "Images:\n- All images are licenced under CC-0";
         string score, missed = "";
+        // Vector representing the upper left corner of the text / images
         Vector2 text_over;
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
