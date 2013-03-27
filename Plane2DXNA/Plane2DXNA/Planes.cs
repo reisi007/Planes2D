@@ -90,7 +90,7 @@ namespace Plane2DXNA
          {
              
                  gpy = GP_state.Z;
-                 if (gpy > -0.2f && gpy < 0.2f)
+                 if (gpy > -0.3f && gpy < 0.3f)
                      gpy = 0;
                  gpy *= (8 * Size);
                  if (GP_state.IsButtonDown(4) || GP_state.IsButtonDown(5) || GP_state.IsButtonDown(6) ||GP_state.IsButtonDown(7))

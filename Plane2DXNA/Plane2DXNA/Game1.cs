@@ -152,7 +152,7 @@ namespace Plane2DXNA
         bool addlife;
         bool cut_down_spawntime = false;
         float spawn_time_multip = 1;
-        float next_cut = 15f;
+        float next_cut = 7.5f;
         const int max_plane_missed = 5;
         ExtendedGamePadState GP_state;
         MouseState prvmouse;
@@ -200,9 +200,9 @@ namespace Plane2DXNA
                 {
                     if (!cut_down_spawntime)
                     {
-                        spawn_time_multip *= 1.25f;
+                        spawn_time_multip *= 1.02f;
                         cut_down_spawntime = true;
-                        next_cut *= 1.33f;
+                        next_cut *= 1.25f;
                     }
                 }
                 else
@@ -213,8 +213,8 @@ namespace Plane2DXNA
                     current_spawn_time = 450;
                 if (GP_isConnected)
                     current_spawn_time *= 2;
-                Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip + 8 * BonusTracker.Bonus_0)/70);
-                Score += Lives / 60;
+                Score += (Math.Sqrt(gameTime.TotalGameTime.TotalSeconds * spawn_time_multip * 3)/80);
+                Score += Lives * 4 + BonusTracker.Bonus_0 / 25;
                 foreach (UserBomb b in UBombs)
                     b.Update();
                 foreach (EnemyBomb b in EBomb)
@@ -223,7 +223,7 @@ namespace Plane2DXNA
                 ElapsedMS += gameTime.ElapsedGameTime.Milliseconds;
                 if (ElapsedMS >= current_spawn_time)
                 {
-                    ElapsedMS -=  current_spawn_time + 60 * BonusTracker.Bonus_0;
+                    ElapsedMS -=  current_spawn_time + 6 * BonusTracker.Bonus_0;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
                     Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble())),ResizeFactor));
                 }
@@ -257,8 +257,20 @@ namespace Plane2DXNA
                 {
                     try
                     {
-                        Lives--;
-                        Life.RemoveAt(Life.Count - 1);
+                        Lives /= 2;
+                        while (Lives < Life.Count)
+                        {
+                            try
+                            {
+                                Life.RemoveAt(Life.Count - 1);
+                            }
+                            catch(Exception)
+                            {
+                                reset(gameTime);
+                            }
+
+                        }
+                        
                         Enemies_Passed -= max_plane_missed;
                     }
                     catch (Exception)
@@ -315,12 +327,15 @@ namespace Plane2DXNA
                             i--;
                             y--;
                             BonusTracker.Add(ref addlife);
-                            if(addlife)
+                            if (addlife)
                             {
-                                addlife =false;
+                                addlife = false;
                                 addlive();
-                                spawn_time_multip *= 1.1f;
+                                spawn_time_multip *= 1.03f;
+                                negative_bonus *= 0.9f;
                             }
+                            else
+                                negative_bonus *= 0.97f;
                             
                         }
                     }
@@ -371,6 +386,7 @@ namespace Plane2DXNA
                 }
             }
                     missed = "Missed planes left: " + (max_plane_missed - Enemies_Passed);
+                    get_commas4score();
                 base.Update(gameTime);
                 break;
                     #endregion
@@ -400,29 +416,8 @@ namespace Plane2DXNA
             {
                     Current_GameState = GameStates.Over;
                     Enemies_Passed = 0;
-                    score = Convert.ToString(Math.Round(Score, 0));
-                    number_of_dots_needed = (int)(score.Length / 3);
-                    tmp_score = "";
-                    for (int i = 0; i <= number_of_dots_needed; i++)
-                    {
-                        if (i == 0)
-                        {
-                            tmp = score.Length % 3;
-                            tmp_score = score.Substring(0, tmp);
-                            
-                        }
-                        else
-                        {
-                            if (tmp_score != "")
-                                tmp_score += ",";
-                            tmp_score += score.Substring(tmp, 3);
-                            tmp += 3;
-                            
-                        }
-                        
-                    }
+                    get_commas4score();
                     font = 0;
-                    score = tmp_score;
                     tmp = Window.ClientBounds.Width - 50;
                     foreach (SpriteFont f in Score_fonts)
                     {
@@ -444,12 +439,15 @@ namespace Plane2DXNA
             {
                 if (Lives <= 16)
                 {
-                    Life.Add(new BasicPlanes(plane[Userplanecolor],new Vector2((plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5 ,Font.MeasureString("|").Y + 10),spriteBatch,new Rectangle(), plane_resize_life,int.MaxValue,ResizeFactor));
+                    Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5, Font.MeasureString("|").Y + 10), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue, ResizeFactor));
                     Lives++;
+                    spawn_time_multip *= 1.25f;
                 }
                 else
-                    Score *= 0.9898d;
-                spawn_time_multip *= 1.5f;
+                {
+                    Score *= 1.0898d;
+                    spawn_time_multip *= 1.7f;
+                }
             }
         // Helper for resetting clouds
             private void reset_clouds()
@@ -468,6 +466,7 @@ namespace Plane2DXNA
                 Explosions.Clear();
                 Score = 0;
                 Current_GameState = GameStates.Game;
+                Lives = 0;
                 GP_isConnected = GP_state.IsButtonDown(9);
                 for (int i = 0; i < 3; i++)
                 {
@@ -479,7 +478,31 @@ namespace Plane2DXNA
                 Fin_Scorefont = null;
                 NextSpawn = 2000;
             }
-        
+            private void get_commas4score()
+            {
+                score = Convert.ToString(Math.Round(Math.Pow(Score, 0.4f), 0));
+                number_of_dots_needed = (int)(score.Length / 3);
+                tmp_score = "";
+                for (int i = 0; i <= number_of_dots_needed; i++)
+                {
+                    if (i == 0)
+                    {
+                        tmp = score.Length % 3;
+                        tmp_score = score.Substring(0, tmp);
+
+                    }
+                    else
+                    {
+                        if (tmp_score != "")
+                            tmp_score += ".";
+                        tmp_score += score.Substring(tmp, 3);
+                        tmp += 3;
+
+                    }
+
+                }
+                score = tmp_score;
+            }
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -493,7 +516,7 @@ namespace Plane2DXNA
         string msg_continue2 = "or with any other button to restart the game.";
         string msg_music_by = "Music:\n- WrathGames Studio [http://wrathgames.com/blog] | Licence: CC-BY 3.0\n" +
             "Images:\n- All images are licenced under CC-0";
-        string score, missed = "";
+        string score = "", missed = "";
         // Vector representing the upper left corner of the text / images
         Vector2 text_over;
 
@@ -528,7 +551,7 @@ namespace Plane2DXNA
             Player.Draw();
             foreach (Explosion e in Explosions)
                 e.Draw();
-            spriteBatch.DrawString(Font, Convert.ToString((int)Score), new Vector2(0), Color.Black);
+            spriteBatch.DrawString(Font,score, new Vector2(0), Color.Black);
             spriteBatch.DrawString(Small, missed, new Vector2(Window.ClientBounds.Width - Small.MeasureString(missed).X - 3, 3), Color.Red);
                     if(Player.gpy != 0)
                         spriteBatch.DrawString(Big, Convert.ToString(Player.gpy), new Vector2(Window.ClientBounds.Width - Big.MeasureString(Convert.ToString(Player.gpy)).X, Window.ClientBounds.Height - Big.MeasureString(Convert.ToString(Player.gpy)).Y + 25), Color.Black);

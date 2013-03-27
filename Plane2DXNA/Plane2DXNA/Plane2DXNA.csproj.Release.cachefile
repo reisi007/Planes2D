@@ -5,9 +5,9 @@ Content\planes\green.xnb
 Content\planes\red.xnb
 Content\bullet.xnb
 Content\explosion.xnb
+Content\star.xnb
 Content\Font.xnb
 Content\Font_Big.xnb
-Content\star.xnb
 Content\Small.xnb
 Content\scorefonts\30.xnb
 Content\scorefonts\35.xnb
@@ -21,4 +21,3 @@ Content\scorefonts\110.xnb
 Content\Music.xgs
 Content\wMusic.xwb
 Content\sMusic.xsb
-Nuclex.Input.dll
