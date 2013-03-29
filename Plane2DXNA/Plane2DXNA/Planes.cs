@@ -31,14 +31,16 @@ namespace Plane2DXNA
          protected int NextShoot, LastShoot;
          protected bool shoot_okay = false;
          public ExtendedGamePadState GP_state;
+         protected Vector2 Resize;
          public  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot, Vector2 resize_factor)
        {
           Texture = texture;
           Position = position;
           spritebatch = sb;
-          ClientBounds = new Rectangle(clientbounds.X, (int)(clientbounds.Y + 0.05f * clientbounds.Height* size), (int)(clientbounds.Width * size), (int)(clientbounds.Height * 0.9f));
-          Size = size * resize_factor.Y;
+          ClientBounds = new Rectangle(clientbounds.X, (int)(clientbounds.Y + 0.05f * clientbounds.Height), (int)(clientbounds.Width), (int)(clientbounds.Height * 0.9f));
+          Size = size;
           NextShoot = next_shot;
+          Resize = resize_factor;
        }
          
 
@@ -47,11 +49,11 @@ namespace Plane2DXNA
           // Top Bottom Collision detection
               if (Position.Y < 0)
                   Position.Y = 0;
-              if (Position.Y + Texture.Height * Size > ClientBounds.Height)
-                  Position.Y = ClientBounds.Height - Texture.Height * Size;
+              if (Position.Y + (Texture.Height * Size * Resize.Y) > ClientBounds.Height)
+                  Position.Y = ClientBounds.Height - (Texture.Height * Size * Resize.Y);
               // Collision Rectangle update
-              Collision = new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size), (int)(Texture.Height * Size));
-              PlaneMid = (int)(Position.Y + (Texture.Height * Size) / 2);
+              Collision = new Rectangle((int)(Position.X + 0.1f *(Texture.Width * Size * Resize.X)), (int)(Position.Y + Texture.Height * Size * Resize.Y *0.05f ), (int)(Texture.Width * Size * Resize.X *0.85f), (int)(Texture.Height * Size * Resize.Y *0.9f));
+              PlaneMid = (int)(Position.Y + (Texture.Height * Size * Resize.Y) / 2);
               LastShoot += time.ElapsedGameTime.Milliseconds;
               if (LastShoot > NextShoot)
               {
@@ -66,13 +68,13 @@ namespace Plane2DXNA
       }
       public virtual void  Draw()
       {
-          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size ), (int)(Texture.Height * Size)), null, Color.White, 0, Vector2.Zero, plane_effect, 0);
+          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size * Resize.X), (int)(Texture.Height * Size * Resize.Y)), null, Color.White, 0, Vector2.Zero, plane_effect, 0);
       }
     }
      class UserPlane : BasicPlanes
      {
          public UserPlane(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, Vector2 resizef)
-             : base(texture, position, sb, clientbounds,1,800,resizef)
+             : base(texture, position, sb, clientbounds,1,(int)(800 * resizef.X),resizef)
          {
              plane_effect = SpriteEffects.FlipHorizontally;
              Type = PlaneType.User;
@@ -83,8 +85,8 @@ namespace Plane2DXNA
          float ydiff;
          bool moving_mouse;
          MouseState prevMS;
-         float maxydiff { get { return ((6 + Bonus / 4) * Size); } }
-         float minydiff { get { return ((-8 - Bonus / 4) * Size); } }
+         float maxydiff { get { return ((6 * Resize.X+ Bonus / 4) * Size); } }
+         float minydiff { get { return ((-8 * Resize.X - Bonus / 4) * Size); } }
          public float gpy;
          public override void Update(GameTime time)
          {

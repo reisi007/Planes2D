@@ -20,13 +20,15 @@ namespace Plane2DXNA
         Vector2 pic_r_c = new Vector2(4, 7);
         Rectangle source_rectangle, target_rectangle;
         SpriteBatch Sb;
-       public Explosion(Vector2 pos, Texture2D sprite,SpriteBatch sb)
+        Vector2 Resize;
+       public Explosion(Vector2 pos, Texture2D sprite,SpriteBatch sb, Vector2 resize)
         {
             spritesheet = sprite;
             source_rectangle = new Rectangle(0, 0, pic_w, pic_w);
             currentsprite = new int[2];
             Sb = sb;
-            target_rectangle = new Rectangle((int)(pos.X - pic_w), (int)(pos.Y - pic_w / 2), pic_w, pic_w);
+            Resize = resize;
+            target_rectangle = new Rectangle((int)(pos.X - pic_w * Resize.X), (int)(pos.Y - (pic_w * Resize.X) / 2), (int)(pic_w * Resize.X), (int)(pic_w * Resize.Y));
         }
        int ms;
        int next = 16*3;
@@ -49,7 +51,7 @@ namespace Plane2DXNA
                    Delete = true;
                }
                source_rectangle = new Rectangle(currentsprite[0] * pic_w, currentsprite[1] * pic_w, pic_w, pic_w);
-               target_rectangle = new Rectangle(target_rectangle.X - 5, target_rectangle.Y, pic_w, pic_w);
+               target_rectangle = new Rectangle((int)(target_rectangle.X - 5 * Resize.X), target_rectangle.Y, (int)(pic_w * Resize.X), (int)(pic_w * Resize.Y));
            }
        }
        public void Draw()

@@ -41,16 +41,16 @@ namespace Plane2DXNA
     }
     class EnemyBomb : BasicBomb
     {
-        public EnemyBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float planespeed, Rectangle planetex)
-            : base(texture, new Vector2(position.X  + texture.Width * 0.3f, position.Y + planetex.Height / 2), new Vector2(-planespeed, 0), draw, 0.3f)
+        public EnemyBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float planespeed, Rectangle planetex, Vector2 Resize)
+            : base(texture, new Vector2(position.X  + texture.Width * 0.3f, position.Y + planetex.Height / 2), new Vector2(-planespeed * Resize.X, 0), draw, 0.3f * Resize.Y)
         {
             s_effect = SpriteEffects.None;
         }
     }
     class UserBomb : BasicBomb
     {
-        public UserBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float speed, Rectangle planetex)
-            : base(texture, new Vector2(position.X + planetex.Width - texture.Width * 0.3f, position.Y + planetex.Height /2), new Vector2(speed, 0), draw, 0.3f)
+        public UserBomb(Texture2D texture, Vector2 position, SpriteBatch draw, float speed, Rectangle planetex, Vector2 Resize)
+            : base(texture, new Vector2(position.X + planetex.Width - texture.Width * 0.3f, position.Y + planetex.Height /2), new Vector2(speed * Resize.X, 0), draw, 0.3f * Resize.Y)
         {
             s_effect = SpriteEffects.FlipHorizontally;
         }

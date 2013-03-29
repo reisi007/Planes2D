@@ -240,7 +240,7 @@ namespace Plane2DXNA
                     Enemies[i].Update(gameTime);
                     if (Enemies[i].Shooting)
                     {
-                        EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed + 1, Enemies[i].Collision));
+                        EBomb.Add(new EnemyBomb(bomb, Enemies[i].Position, spriteBatch, Enemies[i].Speed + 1, Enemies[i].Collision,ResizeFactor));
                         Enemies[i].Shooting = false;
                     }
                     if (Enemies[i].DELETIONREQUEST)
@@ -320,7 +320,7 @@ namespace Plane2DXNA
                             i = 0;
                         if (Enemies[y].Collision.Intersects(UBombs[i].Collision_detection))
                         {
-                            Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch));
+                            Explosions.Add(new Explosion(new Vector2(Enemies[y].Position.X + Enemies[y].Collision.Width ,Enemies[y].Position.Y + Enemies[y].Collision.Height/2), explosion, spriteBatch,ResizeFactor));
                             Score *= (1.2f + BonusTracker.Bonus_0 * 0.02f);
                             Enemies.RemoveAt(y);
                             UBombs.RemoveAt(i);
@@ -345,7 +345,7 @@ namespace Plane2DXNA
                 if (Player.Shooting)
                 {
                     Player.Shooting = false;
-                    UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, rand.Next(2,6)/2f, Player.Collision));
+                    UBombs.Add(new UserBomb(bomb, Player.Position, spriteBatch, rand.Next(2,6)/2f * ResizeFactor.X, Player.Collision,ResizeFactor));
                 }
                 for( int y = 0; y < Enemies.Count;y++)
                 {
