@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+#if WINDOWS
 using Nuclex.Input;
 using Nuclex.Input.Devices;
+#endif
 
 
 namespace Plane2DXNA
@@ -38,26 +40,19 @@ namespace Plane2DXNA
         WaveBank wb;
         Cue bg_music;
         Bonus BonusTracker;
-        SpriteFont[] Score_fonts;
+       List<SpriteFont> Score_fonts;
+#if WINDOWS
         InputManager ManageI;
+#endif
         Vector2 ResizeFactor;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
-#if !DEBUG
-            graphics.PreferredBackBufferHeight = 480;
-            graphics.PreferredBackBufferWidth = 800;
-
-#else
-            graphics.PreferredBackBufferHeight = 960;
-            graphics.PreferredBackBufferWidth = 1600;
-#endif
-            ResizeFactor = new Vector2(graphics.PreferredBackBufferWidth / 800, graphics.PreferredBackBufferHeight / 480);
-            graphics.ApplyChanges();
-            Content.RootDirectory = "Content";
             rand = new Random();
+            Content.RootDirectory = "Content";
+#if WINDOWS
             ManageI = new InputManager();
+#endif
         }
 
         /// <summary>
@@ -67,6 +62,7 @@ namespace Plane2DXNA
         /// and initialize them as well.
         /// </summary>
         int NextSpawn;
+        Vector2 TMP_W_H;
         protected override void Initialize()
         {
             //Loading Images and fonts
@@ -85,17 +81,23 @@ namespace Plane2DXNA
             ae = new AudioEngine(@"Content\Music.xgs");
             wb = new WaveBank(ae, @"Content\wMusic.xwb");
             sb = new SoundBank(ae, @"Content\sMusic.xsb");
-            number_of_fonts = 9;
-            Score_fonts = new SpriteFont[number_of_fonts];
-            Score_fonts[0] = Content.Load<SpriteFont>(@"scorefonts\30");
-            Score_fonts[1] = Content.Load<SpriteFont>(@"scorefonts\35");
-            Score_fonts[2] = Content.Load<SpriteFont>(@"scorefonts\40");
-            Score_fonts[3] = Content.Load<SpriteFont>(@"scorefonts\45");
-            Score_fonts[4] = Content.Load<SpriteFont>(@"scorefonts\50");
-            Score_fonts[5] = Content.Load<SpriteFont>(@"scorefonts\55");
-            Score_fonts[6] = Content.Load<SpriteFont>(@"scorefonts\60");
-            Score_fonts[7] = Content.Load<SpriteFont>(@"scorefonts\80");
-            Score_fonts[8] = Content.Load<SpriteFont>(@"scorefonts\110");
+            // Load all fonts
+            Score_fonts = new List<SpriteFont>();
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\10"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\15"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\22"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\30"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\35"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\40"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\45"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\50"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\55"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\60"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\70"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\80"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\110"));
+            Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\140"));
+            number_of_fonts = Score_fonts.Count;
             bg_music = sb.GetCue("bg");
             // Center Mouse position
             Mouse.SetPosition(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2);
@@ -103,6 +105,20 @@ namespace Plane2DXNA
             Userplanecolor = rand.Next(0, 2);
             Current_GameState = GameStates.Start;
             base.Initialize();
+// Set the resolution of the game
+#if !DEBUG
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 800;
+            TMP_W_H = new Vector2(800, 480);
+
+#else
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+            TMP_W_H = new Vector2(graphics.GraphicsDevice.DisplayMode.Width, graphics.GraphicsDevice.DisplayMode.Height);
+            graphics.IsFullScreen = true;
+#endif
+            ResizeFactor = new Vector2(graphics.PreferredBackBufferWidth / 800, graphics.PreferredBackBufferHeight / 480);
+            graphics.ApplyChanges();
         }
         float plane_resize_life = 0.3f;
         /// <summary>
@@ -113,9 +129,7 @@ namespace Plane2DXNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds,ResizeFactor);
             Life = new List<BasicPlanes>();
-            BonusTracker = new Bonus(spriteBatch, star, (int)((Font.MeasureString("|").Y) + star.Height * ResizeFactor.Y));
         }
 
         /// <summary>
@@ -154,21 +168,30 @@ namespace Plane2DXNA
         float spawn_time_multip = 1;
         float next_cut = 7.5f;
         const int max_plane_missed = 5;
+#if WINDOWS
         ExtendedGamePadState GP_state;
+#endif
         MouseState prvmouse;
         bool GP_isConnected;
 
         protected override void Update(GameTime gameTime)
         {
+#if WINDOWS
             if (Mouse.GetState().Y > Window.ClientBounds.Height)
                 Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), Window.ClientBounds.Height);
             if(Mouse.GetState().Y < 0)
                 Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), 0);
-            ManageI.Update();
-            GP_state = ManageI.GetGamePad(ExtendedPlayerIndex.Five).GetExtendedState();
-            Player.GP_state = GP_state;
+            if (Current_GameState == GameStates.Game)
+            {
+                ManageI.Update();
+                GP_state = ManageI.GetGamePad(ExtendedPlayerIndex.Five).GetExtendedState();
+                Player.GP_state = GP_state;
+            }
            exit = (Keyboard.GetState().IsKeyDown(Keys.Escape) || GP_state.GetButton(8) == ButtonState.Pressed);
-            if (exit)
+#else
+            // Put code for other platforms here
+#endif
+           if (exit)
                 this.Exit();
            
             switch(Current_GameState)
@@ -176,7 +199,11 @@ namespace Plane2DXNA
                 case GameStates.Start:
                     #region Start
                     //Draw lives
+#if WINDOWS
                     if (this.IsActive && (Keyboard.GetState().GetPressedKeys().Length > 0 || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed) || GP_state.GetButton(9) == ButtonState.Pressed)
+#else
+                        // Put code for other platforms here
+#endif
                     {
                         start_game(gameTime);
                     }
@@ -392,7 +419,11 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
+#if WINDOWS
                 if (this.IsActive &&  (gameTime.TotalGameTime.TotalSeconds > correct_time) && ( Keyboard.GetState().GetPressedKeys().Length > 0  || Mouse.GetState().LeftButton == ButtonState.Pressed || Mouse.GetState().RightButton == ButtonState.Pressed || Mouse.GetState().MiddleButton == ButtonState.Pressed || GP_state.IsButtonDown(9)))
+#else
+                    // Put code for other platforms here
+#endif
                 {
                     start_game(gameTime);
 
@@ -477,6 +508,10 @@ namespace Plane2DXNA
                 bg_music.Play();
                 Fin_Scorefont = null;
                 NextSpawn = 2000;
+                // Spawn BonusTracker and Player plane
+                Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds, ResizeFactor);
+                BonusTracker = new Bonus(spriteBatch, star, (int)((Font.MeasureString("|").Y) + star.Height * ResizeFactor.Y));
+
             }
             private void get_commas4score()
             {

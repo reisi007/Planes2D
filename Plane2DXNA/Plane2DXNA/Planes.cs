@@ -9,8 +9,12 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+#if WINDOWS
 using Nuclex.Input;
 using Nuclex.Input.Devices;
+#else
+            // Put code for other platforms here
+#endif
 
 namespace Plane2DXNA
 {
@@ -30,8 +34,13 @@ namespace Plane2DXNA
          protected PlaneType Type;
          protected int NextShoot, LastShoot;
          protected bool shoot_okay = false;
+#if WINDOWS
          public ExtendedGamePadState GP_state;
+#else
+            // Put code for other platforms here
+#endif
          protected Vector2 Resize;
+         protected Vector2 Texture_Resize;
          public  BasicPlanes(Texture2D texture, Vector2 position, SpriteBatch sb, Rectangle clientbounds, float size, int next_shot, Vector2 resize_factor)
        {
           Texture = texture;
@@ -41,6 +50,7 @@ namespace Plane2DXNA
           Size = size;
           NextShoot = next_shot;
           Resize = resize_factor;
+          Texture_Resize = new Vector2(texture.Width / 99f, texture.Height / 46f);
        }
          
 
@@ -49,10 +59,10 @@ namespace Plane2DXNA
           // Top Bottom Collision detection
               if (Position.Y < 0)
                   Position.Y = 0;
-              if (Position.Y + (Texture.Height * Size * Resize.Y) > ClientBounds.Height)
+              if (Position.Y + (Texture.Height * Size * Resize.Y * Texture_Resize.Y) > ClientBounds.Height)
                   Position.Y = ClientBounds.Height - (Texture.Height * Size * Resize.Y);
               // Collision Rectangle update
-              Collision = new Rectangle((int)(Position.X + 0.1f *(Texture.Width * Size * Resize.X)), (int)(Position.Y + Texture.Height * Size * Resize.Y *0.05f ), (int)(Texture.Width * Size * Resize.X *0.85f), (int)(Texture.Height * Size * Resize.Y *0.9f));
+              Collision = new Rectangle((int)(Position.X + 0.1f *(Texture.Width * Size * Resize.X * Texture_Resize.X)), (int)(Position.Y + Texture.Height * Size * Resize.Y *0.05f * Texture_Resize.Y), (int)(Texture.Width * Size * Resize.X *0.85f * Texture_Resize.X), (int)(Texture.Height * Size * Resize.Y *0.9f * Texture_Resize.Y));
               PlaneMid = (int)(Position.Y + (Texture.Height * Size * Resize.Y) / 2);
               LastShoot += time.ElapsedGameTime.Milliseconds;
               if (LastShoot > NextShoot)
@@ -60,7 +70,13 @@ namespace Plane2DXNA
                   shoot_okay = true;
                   LastShoot -= NextShoot;
               }
-              if (shoot_okay && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GP_state.IsButtonDown(0) || GP_state.IsButtonDown(1) || GP_state.IsButtonDown(2) ||GP_state.IsButtonDown(3)))
+              if (shoot_okay 
+#if WINDOWS                 
+                  && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GP_state.IsButtonDown(0) || GP_state.IsButtonDown(1) || GP_state.IsButtonDown(2) ||GP_state.IsButtonDown(3))
+#else
+            // Put code for other platforms here
+#endif
+)
               {
                   Shooting = true;
                   shoot_okay = false;
@@ -90,7 +106,8 @@ namespace Plane2DXNA
          public float gpy;
          public override void Update(GameTime time)
          {
-             
+             // Moving on Windows
+#if WINDOWS
                  gpy = GP_state.Z;
                  if (gpy > -0.3f && gpy < 0.3f)
                      gpy = 0;
@@ -128,6 +145,9 @@ namespace Plane2DXNA
              Position.Y += ydiff;
              if (!moving_mouse)
                  ydiff = 0;
+#else
+             // Put code for other platforms here
+#endif
              base.Update(time);
          }
      }

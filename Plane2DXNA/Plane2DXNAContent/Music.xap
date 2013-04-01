@@ -16,8 +16,8 @@ Global Settings
     Header File = D:\Plane2DMono\Plane2DXNA\Plane2DXNAContent\Music.h;
     Exclude Category Names = 0;
     Exclude Variable Names = 0;
-    Last Modified Low = 30287652;
-    Last Modified High = 2816838962;
+    Last Modified Low = 2816838962;
+    Last Modified High = 30287652;
 
     Category
     {
@@ -227,12 +227,10 @@ Wave Bank
     Compression Preset Name = <none>;
     Xbox Bank Last Modified Low = 0;
     Xbox Bank Last Modified High = 0;
-    PC Bank Last Modified Low = 2816858963;
-    PC Bank Last Modified High = 30287652;
-    Header Last Modified Low = 0;
-    Header Last Modified High = 0;
-    Bank Last Revised Low = 2816858963;
-    Bank Last Revised High = 30287652;
+    PC Bank Last Modified Low = 2913011402;
+    PC Bank Last Modified High = 30289585;
+    Bank Last Revised Low = 2913011402;
+    Bank Last Revised High = 30289585;
 
     Wave
     {
@@ -265,13 +263,15 @@ Sound Bank
     Windows File = Win\sMusic.xsb;
     Xbox Bank Path Edited = 0;
     Windows Bank Path Edited = 0;
+    Bank Last Modified Low = 2913051404;
+    Bank Last Modified High = 30289585;
     Header Last Modified High = 0;
     Header Last Modified Low = 0;
 
     Sound
     {
         Name = bg;
-        Volume = -420;
+        Volume = -1140;
         Pitch = 0;
         Priority = 0;
 
