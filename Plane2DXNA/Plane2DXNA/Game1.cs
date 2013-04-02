@@ -174,10 +174,6 @@ namespace Plane2DXNA
         protected override void Update(GameTime gameTime)
         {
 #if WINDOWS
-            if (Mouse.GetState().Y > Window.ClientBounds.Height)
-                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), Window.ClientBounds.Height);
-            if(Mouse.GetState().Y < 0)
-                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), 0);
             if (Current_GameState == GameStates.Game)
             {
                 ManageI.Update();
@@ -210,6 +206,14 @@ namespace Plane2DXNA
                 case GameStates.Game:
                     #region Gameplay
                     if (this.IsActive)
+#if WINDOWS
+                         if (Mouse.GetState().Y > Window.ClientBounds.Height)
+                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), Window.ClientBounds.Height);
+            if(Mouse.GetState().Y < 0)
+                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), 0);
+#else
+                    // Put code for other platforms here
+#endif
                      
             {
                 
@@ -447,7 +451,7 @@ namespace Plane2DXNA
         string msg_continue2 = "or with any other button to restart the game.";
         string msg_music_by = "Music:\n- WrathGames Studio [http://wrathgames.com/blog] | Licence: CC-BY 3.0\n" +
             "Images:\n- All images are licenced under CC-0";
-        string score = "", missed = "";
+        string score = "", missed = "Missed planes left: 20";
         // Vector representing the upper left corner of the text / images
         Vector2 text_over;
 
