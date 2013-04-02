@@ -28,7 +28,6 @@ namespace Plane2DXNA
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
         enum GameStates { Start, Game, Over };
         GameStates Current_GameState;
-        SpriteFont Font, Big, Small;
         Random rand;
         UserPlane Player;
         List<BasicPlanes> Life;
@@ -70,9 +69,6 @@ namespace Plane2DXNA
             grass = Content.Load<Texture2D>("grass");
             bomb = Content.Load<Texture2D>("bullet");
             explosion = Content.Load<Texture2D>("explosion");
-            Font = Content.Load<SpriteFont>("Font");
-            Big = Content.Load<SpriteFont>("Font_Big");
-            Small = Content.Load<SpriteFont>("Small");
             star = Content.Load<Texture2D>("star");
             plane = new Texture2D[3];
             plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
@@ -119,6 +115,7 @@ namespace Plane2DXNA
 #endif
             ResizeFactor = new Vector2(graphics.PreferredBackBufferWidth / 800, graphics.PreferredBackBufferHeight / 480);
             graphics.ApplyChanges();
+            Initialize_Helper();
         }
         float plane_resize_life = 0.3f;
         /// <summary>
@@ -462,10 +459,10 @@ namespace Plane2DXNA
             {
                 case GameStates.Start:
                     #region Start
-                    spriteBatch.DrawString(Font, textl1, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Font.MeasureString(textl1).Y / 2), Color.White);
-                    spriteBatch.DrawString(Font, textl2, new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Font.MeasureString(textl2).Y / 2), Color.White);
-                    spriteBatch.DrawString(Small, textl3, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + 3 * Font.MeasureString(textl3).Y / 2), Color.White);
-                    spriteBatch.DrawString(Small, msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Small.MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Small.MeasureString(msg_music_by).Y), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome1], textl1, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).Y / 2), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome2], textl2, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome2].MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Fonts[(int)Font4Text.Welcome2].MeasureString(textl2).Y / 2), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome3], textl3, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + 3 * Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).Y / 2), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Music_by], msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Music_by].MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Fonts[(int)Font4Text.Music_by].MeasureString(msg_music_by).Y), Color.White);
                     break;
                 #endregion
                 case GameStates.Game:
@@ -485,10 +482,10 @@ namespace Plane2DXNA
             Player.Draw();
             foreach (Explosion e in Explosions)
                 e.Draw();
-            spriteBatch.DrawString(Font,score, new Vector2(0), Color.Black);
-            spriteBatch.DrawString(Small, missed, new Vector2(Window.ClientBounds.Width - Small.MeasureString(missed).X - 3, 3), Color.Red);
+            spriteBatch.DrawString(Fonts[(int)Font4Text.Score],score, new Vector2(0), Color.Black);
+            spriteBatch.DrawString(Fonts[(int)Font4Text.Missed], missed, new Vector2(Window.ClientBounds.Width - Fonts[(int)Font4Text.Missed].MeasureString(missed).X - 3, 3), Color.Red);
                     if(Player.gpy != 0)
-                        spriteBatch.DrawString(Big, Convert.ToString(Player.gpy), new Vector2(Window.ClientBounds.Width - Big.MeasureString(Convert.ToString(Player.gpy)).X, Window.ClientBounds.Height - Big.MeasureString(Convert.ToString(Player.gpy)).Y + 25), Color.Black);
+                        spriteBatch.DrawString(Fonts[(int)Font4Text.GPY], Convert.ToString(Player.gpy), new Vector2(Window.ClientBounds.Width - Fonts[(int)Font4Text.GPY].MeasureString(Convert.ToString(Player.gpy)).X, Window.ClientBounds.Height - Fonts[(int)Font4Text.GPY].MeasureString(Convert.ToString(Player.gpy)).Y + 25), Color.Black);
             foreach (BasicPlanes b in Life)
                 b.Draw();
             BonusTracker.Draw();
@@ -496,14 +493,14 @@ namespace Plane2DXNA
                     #endregion
                 case GameStates.Over:
                     #region GameOver
-                    text_over = new Vector2(Window.ClientBounds.Width /2 - Font.MeasureString(msg_over).X /2, Window.ClientBounds.Height /10);
-                    spriteBatch.DrawString(Font,msg_over,text_over,Color.White);
+                    text_over = new Vector2(Window.ClientBounds.Width /2 - Fonts[(int)Font4Text.Over1].MeasureString(msg_over).X /2, Window.ClientBounds.Height /10);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Over1], msg_over, text_over, Color.White);
                     text_over = new Vector2(Window.ClientBounds.Width / 2 - Fin_Scorefont.MeasureString(score).X / 2, Window.ClientBounds.Height / 2 - Fin_Scorefont.MeasureString(score).Y / 2);
                     spriteBatch.DrawString(Fin_Scorefont, score, text_over, Color.DarkGreen);
-                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue2).X / 2, Window.ClientBounds.Height - 10 - Font.MeasureString(msg_continue2).Y);
-                    spriteBatch.DrawString(Font, msg_continue2, text_over, Color.White);
-                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Font.MeasureString(msg_continue1).X / 2, text_over.Y - 10 - Font.MeasureString(msg_continue1).Y);
-                    spriteBatch.DrawString(Font, msg_continue1, text_over, Color.White);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Continue2].MeasureString(msg_continue2).X / 2, Window.ClientBounds.Height - 10 - Fonts[(int)Font4Text.Continue2].MeasureString(msg_continue2).Y);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Continue2], msg_continue2, text_over, Color.White);
+                    text_over = new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Continue1].MeasureString(msg_continue1).X / 2, text_over.Y - 10 - Fonts[(int)Font4Text.Continue1].MeasureString(msg_continue1).Y);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Continue1], msg_continue1, text_over, Color.White);
             break;
                 #endregion
             }
