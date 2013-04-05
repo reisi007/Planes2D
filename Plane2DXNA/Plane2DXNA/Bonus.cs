@@ -23,12 +23,14 @@ namespace Plane2DXNA
         const int stars_per_row = 1;
         const int max_stars = 12 * stars_per_row;
         SpriteBatch Spriteb;
-       public Bonus(SpriteBatch sb, Texture2D star, int yStart)
+        Vector2 Resize;
+       public Bonus(SpriteBatch sb, Texture2D star, int yStart, Vector2 resize)
         {
             BonusList = new List<Rectangle>();
             Star = star;
             y_Stars = yStart;
             Spriteb = sb;
+            Resize = resize;
         }
        public void Draw()
        {
@@ -41,7 +43,7 @@ namespace Plane2DXNA
        {
            if (BonusList.Count <= max_stars)
            {
-               BonusList.Add(new Rectangle(x_star, y_Stars + rows * (Star.Height + 5), Star.Width, Star.Height));
+               BonusList.Add(new Rectangle((int)(x_star * Resize.X), (int)(y_Stars + rows * (Star.Height * (Resize.X + 0.2f))), (int)(Star.Width * Resize.X), (int)(Star.Height * Resize.X)));
                if (BonusList.Count % stars_per_row == 0)
                    rows++;
                addlive = false;

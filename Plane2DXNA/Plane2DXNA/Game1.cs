@@ -463,9 +463,9 @@ namespace Plane2DXNA
             {
                 case GameStates.Start:
                     #region Start
-                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome1], textl1, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).Y / 2), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome1], textl1, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).X / 2, Window.ClientBounds.Height / 2 - Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).Y), Color.White);
                     spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome2], textl2, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome2].MeasureString(textl2).X / 2, Window.ClientBounds.Height / 2 + Fonts[(int)Font4Text.Welcome2].MeasureString(textl2).Y / 2), Color.White);
-                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome3], textl3, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + 3 * Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).Y / 2), Color.White);
+                    spriteBatch.DrawString(Fonts[(int)Font4Text.Welcome3], textl3, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).X / 2, Window.ClientBounds.Height / 2 + Fonts[(int)Font4Text.Welcome3].MeasureString(textl3).Y / 2 + Fonts[(int)Font4Text.Welcome2].MeasureString(textl2).Y / 2 + Fonts[(int)Font4Text.Welcome1].MeasureString(textl1).Y / 2), Color.White);
                     spriteBatch.DrawString(Fonts[(int)Font4Text.Music_by], msg_music_by, new Vector2(Window.ClientBounds.Width / 2 - Fonts[(int)Font4Text.Music_by].MeasureString(msg_music_by).X / 2, Window.ClientBounds.Height - Fonts[(int)Font4Text.Music_by].MeasureString(msg_music_by).Y), Color.White);
                     break;
                 #endregion

@@ -18,15 +18,18 @@ namespace Plane2DXNA
     public partial class Game1 : Microsoft.Xna.Framework.Game
     {
         SpriteFont[] Fonts;
+        List<Vector2> Font_H_and_W;
         #region Get the right fonts
         private void Initialize_Helper()
         {
-            Fonts = get_recommended_font(new string[] { textl1, textl2, textl3, msg_over, msg_continue1, msg_continue2, msg_music_by, score, missed,  "-18" /*This is GPY*/});
+            Fonts = get_recommended_font(new string[] { textl1, textl2, textl3, msg_over, msg_continue1, msg_continue2, msg_music_by, "20" /* This is score*/, missed,  "-18" /*This is GPY*/}, out Font_H_and_W);
+             int i = 0; // For brakpoint purpose only!!
         }
 
-        private SpriteFont[] get_recommended_font(string[] text)
+        private SpriteFont[] get_recommended_font(string[] text, out List<Vector2> Font_Dimensions)
         {
             Vector2 tmp_l_w = new Vector2(0f);
+            Font_Dimensions = new List<Vector2>();
             List<SpriteFont> Final_fontlist = new List<SpriteFont>();
             for (int i = 0; i < Font4TextLength; i++)
             {
@@ -44,6 +47,9 @@ namespace Plane2DXNA
                     case (int)Font4Text.Score:
                     case (int)Font4Text.Missed:
                     case (int)Font4Text.GPY:*/
+                    case (int)Font4Text.Missed:
+                        tmp_l_w.X = Window.ClientBounds.Width / 3;
+                        break;
                     default:
                         tmp_l_w.X = Window.ClientBounds.Width;
                         break;
@@ -51,24 +57,38 @@ namespace Plane2DXNA
                 // Maximal height
                 switch (i)
                 {
+                    case (int)Font4Text.Score:
+                        tmp_l_w.Y = 0.1f * Window.ClientBounds.Height;
+                        break;
+                    case (int)Font4Text.Missed:
+                        tmp_l_w.Y = 0.8f * Window.ClientBounds.Height;
+                        break;
+                    case (int)Font4Text.GPY:
+                        tmp_l_w.Y = Window.ClientBounds.Height / 3;
+                        break;
                     default:
                         tmp_l_w.Y = Window.ClientBounds.Height;
                         break;
                 }
-                Final_fontlist.Add(get_recommended_font(text[i], tmp_l_w));
+                Final_fontlist.Add(get_recommended_font(text[i], tmp_l_w, out TMP_W_H));
+                Font_Dimensions.Add(TMP_W_H);
             }
             return Final_fontlist.ToArray();
         }
-        private SpriteFont get_recommended_font(string text, Vector2 max_dimension)
+        private SpriteFont get_recommended_font(string text, Vector2 max_dimension, out Vector2 WandH)
         {
             Vector2 tmp_dimension = new Vector2();
             SpriteFont sf = Score_fonts[0];
+            WandH = tmp_dimension;
             foreach (SpriteFont f in Score_fonts)
             {
                 tmp_dimension.X = f.MeasureString(text).X;
                 tmp_dimension.Y = f.MeasureString(text).Y;
-                if ((tmp_dimension.X < max_dimension.X)&& (tmp_dimension.Y < max_dimension.Y))
+                if ((tmp_dimension.X < max_dimension.X) && (tmp_dimension.Y < max_dimension.Y))
+                {
                     sf = f;
+                    WandH = tmp_dimension;
+                }
             }
             
             return sf;
@@ -94,6 +114,7 @@ namespace Plane2DXNA
         int number_of_dots_needed;
         string tmp_score;
         SpriteFont Fin_Scorefont;
+        Vector2 Vtmp;
         // Helper for resetting the game
 
 
@@ -102,7 +123,7 @@ namespace Plane2DXNA
             Current_GameState = GameStates.Over;
             Enemies_Passed = 0;
             get_commas4score();
-            Fin_Scorefont = get_recommended_font(score, new Vector2(Window.ClientBounds.Width - 50, Window.ClientBounds.Height));
+            Fin_Scorefont = get_recommended_font(score, new Vector2(Window.ClientBounds.Width - 50, Window.ClientBounds.Height),out Vtmp);
             correct_time = (float)gameTime.TotalGameTime.TotalSeconds + 1.5f;
             current_4_nextlive = 0;
             bg_music.Stop(AudioStopOptions.Immediate);
@@ -117,7 +138,7 @@ namespace Plane2DXNA
         {
             if (Lives <= 16)
             {
-                Life.Add(new BasicPlanes(plane[Userplanecolor], new Vector2((plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5, 0.1f * Window.ClientBounds.Height), spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue, ResizeFactor));
+                Life.Add(new BasicPlanes(plane[Userplanecolor],/*Position*/ new Vector2(/*X*/(plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5/*X*/,/*Y*/ 0.01f * Window.ClientBounds.Height + Font_H_and_W[(int)Font4Text.Score].Y/*Y*/)/*Position*/, spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue, ResizeFactor));
                 Lives++;
                 spawn_time_multip *= 1.25f;
             }
@@ -157,7 +178,7 @@ namespace Plane2DXNA
             NextSpawn = 2000;
             // Spawn BonusTracker and Player plane
             Player = new UserPlane(plane[Userplanecolor], new Vector2(Window.ClientBounds.Width / 10, Window.ClientBounds.Height / 2), spriteBatch, Window.ClientBounds, ResizeFactor);
-            BonusTracker = new Bonus(spriteBatch, star, (int)(Window.ClientBounds.Height * 0.1f));
+            BonusTracker = new Bonus(spriteBatch, star, (int)(/*Y*/0.05f * Window.ClientBounds.Height + Font_H_and_W[(int)Font4Text.Score].Y + 3 * plane[0].Height * plane_resize_life / 46f/*Y*/),ResizeFactor);
 
         }
         // Temporary value

@@ -70,9 +70,9 @@ namespace Plane2DXNA
                   shoot_okay = true;
                   LastShoot -= NextShoot;
               }
-              if (shoot_okay 
+              if (shoot_okay && (Automatic
 #if WINDOWS                 
-                  && (Automatic || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GP_state.IsButtonDown(0) || GP_state.IsButtonDown(1) || GP_state.IsButtonDown(2) ||GP_state.IsButtonDown(3))
+                   || (Mouse.GetState().LeftButton == ButtonState.Pressed) || (Keyboard.GetState().IsKeyDown(Keys.Space)) || GP_state.IsButtonDown(0) || GP_state.IsButtonDown(1) || GP_state.IsButtonDown(2) ||GP_state.IsButtonDown(3))
 #else
             // Put code for other platforms here
 #endif
