@@ -17,19 +17,21 @@ namespace Plane2DXNA
         List<Rectangle> BonusList;
         Texture2D Star;
         const int space_between_stars = 5;
-        int x_star { get { return (Star.Width + space_between_stars) * (BonusList.Count - rows * stars_per_row) + space_between_stars; } }
+        float x_star { get { return (Star.Width * Rel_Text_Size + space_between_stars) * (BonusList.Count - rows * stars_per_row) + space_between_stars; } }
         int y_Stars;
         int rows = 0;
         const int stars_per_row = 1;
         const int max_stars = 12 * stars_per_row;
         SpriteBatch Spriteb;
         Vector2 Resize;
+        float Rel_Text_Size;
        public Bonus(SpriteBatch sb, Texture2D star, int yStart, Vector2 resize)
         {
             BonusList = new List<Rectangle>();
             Star = star;
             y_Stars = yStart;
             Spriteb = sb;
+            Rel_Text_Size = 25f / star.Width;
             Resize = resize;
         }
        public void Draw()
@@ -43,7 +45,7 @@ namespace Plane2DXNA
        {
            if (BonusList.Count <= max_stars)
            {
-               BonusList.Add(new Rectangle((int)(x_star * Resize.X), (int)(y_Stars + rows * (Star.Height * (Resize.X + 0.2f))), (int)(Star.Width * Resize.X), (int)(Star.Height * Resize.X)));
+               BonusList.Add(new Rectangle((int)(x_star * Resize.X ), (int)(y_Stars + rows * (Star.Height * Rel_Text_Size * (Resize.X + 0.2f))), (int)(Star.Width * Resize.X * Rel_Text_Size), (int)(Star.Height * Resize.X * Rel_Text_Size)));
                if (BonusList.Count % stars_per_row == 0)
                    rows++;
                addlive = false;

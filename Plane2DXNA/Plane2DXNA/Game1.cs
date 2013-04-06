@@ -24,7 +24,7 @@ namespace Plane2DXNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D grass, cloud, bomb, explosion, star;
-        Texture2D[] plane;
+        Texture2D[] plane, plane_life;
         enum PlaneColor {Red = 0, Green = 1, Blue = 2};
         enum GameStates { Start, Game, Over };
         GameStates Current_GameState;
@@ -64,20 +64,55 @@ namespace Plane2DXNA
         Vector2 TMP_W_H;
         protected override void Initialize()
         {
+            // Set the resolution of the game
+#if DEBUG
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
+            TMP_W_H = new Vector2(1600,900);
+
+#else
+            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
+            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
+            TMP_W_H = new Vector2(graphics.GraphicsDevice.DisplayMode.Width, graphics.GraphicsDevice.DisplayMode.Height);
+            graphics.IsFullScreen = true;
+#endif
+            ResizeFactor = new Vector2(TMP_W_H.X / 800f, TMP_W_H.Y / 480f);
+            graphics.ApplyChanges();
             //Loading Images and fonts
-            cloud = Content.Load<Texture2D>("cloud");
-            grass = Content.Load<Texture2D>("grass");
+            // Images for all resolutions
             bomb = Content.Load<Texture2D>("bullet");
             explosion = Content.Load<Texture2D>("explosion");
-            star = Content.Load<Texture2D>("star");
+            // Load small planes -> plane_life
             plane = new Texture2D[3];
-            plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"planes/red");
-            plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"planes/green");
-            plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"planes/blue");
+            plane_life = new Texture2D[3];
+            plane_life[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"x1/planes/red");
+            plane_life[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"x1/planes/green");
+            plane_life[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"x1/planes/blue");
+            if (ResizeFactor.X > 1.2f)
+            {
+                //Load bigger textures
+                plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"x2/planes/red");
+                plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"x2/planes/green");
+                plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"x2/planes/blue");
+                cloud = Content.Load<Texture2D>(@"x2/cloud");
+                grass = Content.Load<Texture2D>(@"x2/grass");
+                star = Content.Load<Texture2D>(@"x2/star");
+            }
+            else
+            {
+                // Stay with the smaller ones
+                plane[(int)PlaneColor.Red] = Content.Load<Texture2D>(@"x1/planes/red");
+                plane[(int)PlaneColor.Green] = Content.Load<Texture2D>(@"x1/planes/green");
+                plane[(int)PlaneColor.Blue] = Content.Load<Texture2D>(@"x1/planes/blue");
+                cloud = Content.Load<Texture2D>(@"x1/cloud");
+                grass = Content.Load<Texture2D>(@"x1/grass");
+                star = Content.Load<Texture2D>(@"x1/star");
+            }
+            // Loading 
             ae = new AudioEngine(@"Content\Music.xgs");
             wb = new WaveBank(ae, @"Content\wMusic.xwb");
             sb = new SoundBank(ae, @"Content\sMusic.xsb");
-            // Load all fonts
+            // Load all fonts from Small -> Big
             Score_fonts = new List<SpriteFont>();
             Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\10"));
             Score_fonts.Add(Content.Load<SpriteFont>(@"scorefonts\15"));
@@ -101,20 +136,7 @@ namespace Plane2DXNA
             Userplanecolor = rand.Next(0, 2);
             Current_GameState = GameStates.Start;
             base.Initialize();
-// Set the resolution of the game
-#if !DEBUG
-            graphics.PreferredBackBufferHeight = 480;
-            graphics.PreferredBackBufferWidth = 800;
-            TMP_W_H = new Vector2(800, 480);
 
-#else
-            graphics.PreferredBackBufferHeight = graphics.GraphicsDevice.DisplayMode.Height;
-            graphics.PreferredBackBufferWidth = graphics.GraphicsDevice.DisplayMode.Width;
-            TMP_W_H = new Vector2(graphics.GraphicsDevice.DisplayMode.Width, graphics.GraphicsDevice.DisplayMode.Height);
-            graphics.IsFullScreen = true;
-#endif
-            ResizeFactor = new Vector2(graphics.PreferredBackBufferWidth / 800, graphics.PreferredBackBufferHeight / 480);
-            graphics.ApplyChanges();
             Initialize_Helper();
         }
         float plane_resize_life = 0.3f;
@@ -208,7 +230,7 @@ namespace Plane2DXNA
                     if (this.IsActive)
 #if WINDOWS
                          if (Mouse.GetState().Y > Window.ClientBounds.Height)
-                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), Window.ClientBounds.Height);
+                                Mouse.SetPosition((int)(Window.ClientBounds.Width / 2f),Window.ClientBounds.Height);
             if(Mouse.GetState().Y < 0)
                 Mouse.SetPosition((int)(Window.ClientBounds.Width / 2), 0);
 #else
@@ -253,7 +275,7 @@ namespace Plane2DXNA
                 {
                     ElapsedMS -=  current_spawn_time + 6 * BonusTracker.Bonus_0;
                     index = (int)(3 * rand.NextDouble() - 0.001f);
-                    Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble(), spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(3f + 5 * (-1 / 3 * rand.NextDouble())),ResizeFactor));
+                    Enemies.Add(new EnemyPlane(plane[index], rand.NextDouble() * 0.8d, spriteBatch, Window.ClientBounds, (float)(0.75f + rand.NextDouble() / 4f), (float)(2.5f + 5 * (-1 / 3 * rand.NextDouble())),ResizeFactor));
                 }
                 //Update Clouds
                 foreach (Cloud c in Clouds)

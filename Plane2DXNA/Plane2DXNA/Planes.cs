@@ -24,7 +24,7 @@ namespace Plane2DXNA
          public Vector2 Position;
          protected SpriteBatch spritebatch;
          protected SpriteEffects plane_effect = SpriteEffects.None;
-         private Rectangle ClientBounds;
+         protected Rectangle ClientBounds;
          public Rectangle Collision;
          protected float Size;
          protected int PlaneMid;
@@ -32,8 +32,9 @@ namespace Plane2DXNA
          protected bool Automatic;
          protected enum PlaneType { User, Enemy}
          protected PlaneType Type;
-         protected int NextShoot, LastShoot;
+         protected int Shoot_Interval, LastShoot;
          protected bool shoot_okay = false;
+         protected Random rand;
 #if WINDOWS
          public ExtendedGamePadState GP_state;
 #else
@@ -48,27 +49,42 @@ namespace Plane2DXNA
           spritebatch = sb;
           ClientBounds = new Rectangle(clientbounds.X, (int)(clientbounds.Y + 0.05f * clientbounds.Height), (int)(clientbounds.Width), (int)(clientbounds.Height * 0.9f));
           Size = size;
-          NextShoot = next_shot;
+          Shoot_Interval = next_shot;
           Resize = resize_factor;
           Texture_Resize = new Vector2(texture.Width / 99f, texture.Height / 46f);
+          Next_Shot = Shoot_Interval;
+          rand = new Random();
        }
-         
-
+        /* public float Real_W // Currently no need
+         {
+             get
+             {
+                 return Texture_Resize.X * Texture.Width;
+             }
+         }
+         public float Real_H
+         {
+             get
+             {
+                 return Texture_Resize.Y * Texture.Height;
+             }
+         }*/
+        protected int Next_Shot;
          public virtual void Update(GameTime time)
       {
           // Top Bottom Collision detection
               if (Position.Y < 0)
                   Position.Y = 0;
-              if (Position.Y + (Texture.Height * Size * Resize.Y * Texture_Resize.Y) > ClientBounds.Height)
-                  Position.Y = ClientBounds.Height - (Texture.Height * Size * Resize.Y);
+              if (Position.Y + (Texture.Height * Size * Resize.Y / Texture_Resize.Y) > ClientBounds.Height)
+                  Position.Y = ClientBounds.Height - (Texture.Height * Size * Resize.Y / Texture_Resize.Y);
               // Collision Rectangle update
-              Collision = new Rectangle((int)(Position.X + 0.1f *(Texture.Width * Size * Resize.X * Texture_Resize.X)), (int)(Position.Y + Texture.Height * Size * Resize.Y *0.05f * Texture_Resize.Y), (int)(Texture.Width * Size * Resize.X *0.85f * Texture_Resize.X), (int)(Texture.Height * Size * Resize.Y *0.9f * Texture_Resize.Y));
-              PlaneMid = (int)(Position.Y + (Texture.Height * Size * Resize.Y) / 2);
+              Collision = new Rectangle((int)(Position.X + 0.1f *(Texture.Width * Size * Resize.X / Texture_Resize.X)), (int)(Position.Y + Texture.Height * Size * Resize.Y *0.15f / Texture_Resize.Y), (int)(Texture.Width * Size * Resize.X *0.85f / Texture_Resize.X), (int)(Texture.Height * Size * Resize.Y *0.7f / Texture_Resize.Y));
+              PlaneMid = (int)(Position.Y + (Texture.Height * Size * Resize.Y / Texture_Resize.Y) / 2);
               LastShoot += time.ElapsedGameTime.Milliseconds;
-              if (LastShoot > NextShoot)
+              if (LastShoot > Next_Shot)
               {
                   shoot_okay = true;
-                  LastShoot -= NextShoot;
+                  LastShoot -= Next_Shot;
               }
               if (shoot_okay && (Automatic
 #if WINDOWS                 
@@ -84,7 +100,7 @@ namespace Plane2DXNA
       }
       public virtual void  Draw()
       {
-          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size * Resize.X), (int)(Texture.Height * Size * Resize.Y)), null, Color.White, 0, Vector2.Zero, plane_effect, 0);
+          spritebatch.Draw(Texture, new Rectangle((int)Position.X, (int)Position.Y, (int)(Texture.Width * Size * Resize.X / Texture_Resize.X), (int)(Texture.Height * Size * Resize.Y / Texture_Resize.Y)), null, Color.White, 0, Vector2.Zero, plane_effect, 0);
       }
     }
      class UserPlane : BasicPlanes
@@ -99,10 +115,10 @@ namespace Plane2DXNA
          }
          public int Bonus = 0;
          float ydiff;
-         bool moving_mouse;
+         bool moving_mouse, keyboard;
          MouseState prevMS;
-         float maxydiff { get { return ((6 * Resize.X+ Bonus / 4) * Size); } }
-         float minydiff { get { return ((-8 * Resize.X - Bonus / 4) * Size); } }
+         float maxydiff { get { return ((6 * Resize.Y+ Bonus / 4) * Size); } }
+         float minydiff { get { return ((-8 * Resize.Y - Bonus / 4) * Size); } }
          public float gpy;
          public override void Update(GameTime time)
          {
@@ -117,36 +133,46 @@ namespace Plane2DXNA
                  moving_mouse = true;
                  Mouse.SetPosition(50, (int)(Mouse.GetState().Y + gpy));
             
-             if(!moving_mouse)    
-                if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
+             if(!moving_mouse)
+                 if (Mouse.GetState().X != prevMS.X && Mouse.GetState().Y != prevMS.Y)
+                 {
                      moving_mouse = true;
-             else
-                if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
-                     moving_mouse = false;
+                     keyboard = false;
+                 }
+
+             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.Down))
+             {
+                 moving_mouse = false;
+                 keyboard = true;
+             }
              
                  if (moving_mouse)
                  {
-                     ydiff = Mouse.GetState().Y - PlaneMid;
+                     ydiff = (Mouse.GetState().Y - PlaneMid);
                      if (ydiff > maxydiff)
                          ydiff = maxydiff;
                      else if (ydiff < minydiff)
                          ydiff = minydiff;
+
+                     prevMS = Mouse.GetState();
                  }
-                 else
+                 if (keyboard)
                  {
                      if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
                          ydiff = maxydiff;
                      else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
                          ydiff = minydiff;
-
                  }
-                 prevMS = Mouse.GetState();
+                 // Display gpy with only 2 decimals
                  gpy = (float)Math.Round(gpy, 2);
-             Position.Y += ydiff;
-             if (!moving_mouse)
-                 ydiff = 0;
 #else
              // Put code for other platforms here
+#endif
+                 Position.Y += ydiff;
+#if WINDOWS
+                 if (!moving_mouse)
+                     ydiff = 0;
+
 #endif
              base.Update(time);
          }
@@ -171,6 +197,11 @@ namespace Plane2DXNA
                  DELETIONREQUEST = true;
             
              base.Update(time);
+             if (Shooting)
+             {
+                 // Change time for next shot
+                 Next_Shot = (int)(Shoot_Interval * (1d + rand.NextDouble()));
+             }
          }
 
      }

@@ -23,7 +23,7 @@ namespace Plane2DXNA
         private void Initialize_Helper()
         {
             Fonts = get_recommended_font(new string[] { textl1, textl2, textl3, msg_over, msg_continue1, msg_continue2, msg_music_by, "20" /* This is score*/, missed,  "-18" /*This is GPY*/}, out Font_H_and_W);
-             int i = 0; // For brakpoint purpose only!!
+             //int i = 0; // For brakpoint purpose only!!
         }
 
         private SpriteFont[] get_recommended_font(string[] text, out List<Vector2> Font_Dimensions)
@@ -138,7 +138,7 @@ namespace Plane2DXNA
         {
             if (Lives <= 16)
             {
-                Life.Add(new BasicPlanes(plane[Userplanecolor],/*Position*/ new Vector2(/*X*/(plane[0].Width * plane_resize_life * ResizeFactor.X + 5 * ResizeFactor.X) * Lives + 5/*X*/,/*Y*/ 0.01f * Window.ClientBounds.Height + Font_H_and_W[(int)Font4Text.Score].Y/*Y*/)/*Position*/, spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue, ResizeFactor));
+                Life.Add(new BasicPlanes(plane_life[Userplanecolor],/*Position*/ new Vector2(/*X*/(plane_life[0].Width * plane_resize_life * ResizeFactor.X) * Lives + 5 * ResizeFactor.X/*X*/,/*Y*/ 0.01f * Window.ClientBounds.Height + Font_H_and_W[(int)Font4Text.Score].Y/*Y*/)/*Position*/, spriteBatch, new Rectangle(), plane_resize_life, int.MaxValue, ResizeFactor));
                 Lives++;
                 spawn_time_multip *= 1.25f;
             }
