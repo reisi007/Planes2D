@@ -9,10 +9,12 @@ import  com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 public class DesktopStarter {
     public static void main(String[] args) {
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Title";
+        cfg.title = "Plane 2D";
         cfg.useGL20 = true;
-        cfg.width = 800;
-        cfg.height = 480;
+        cfg.width = 1280;
+        cfg.height = 720;
+        cfg.resizable = false;
+        cfg.initialBackgroundColor = Helper.CornFlowerBlue;
         new  LwjglApplication(new Planes2D(),cfg);
     }
 }
