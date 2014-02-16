@@ -13,6 +13,14 @@ public class IDrawable {
     protected Sprite sprite;
 
     public IDrawable(Sprite sprite, Vector2 position, Anchor anchor, float setWidth) {
+        this(sprite, position, anchor, setWidth, true, false, false);
+    }
+
+    public IDrawable(Sprite sprite, Vector2 position, Anchor anchor, float setWidth, boolean flipV) {
+        this(sprite, position, anchor, setWidth, true, false, flipV);
+    }
+
+    public IDrawable(Sprite sprite, Vector2 position, Anchor anchor, float setSide, boolean setWidth, boolean flipH, boolean flipV) {
         // Adapt x coordinate
         switch (anchor) {
             case TopMiddle:
@@ -45,7 +53,8 @@ public class IDrawable {
         }
         sprite.setOrigin(0, 0);
         sprite.setPosition(position.x, position.y);
-        sprite.scale(setWidth / sprite.getWidth());
+        sprite.scale(setSide / (setWidth ? sprite.getWidth() : sprite.getHeight()));
+        sprite.flip(flipV, flipH);
         this.sprite = sprite;
     }
 

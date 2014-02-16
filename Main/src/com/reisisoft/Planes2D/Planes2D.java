@@ -22,6 +22,7 @@ public class Planes2D extends Game {
     private Resolutions currentResolution;
     private GameState GSlast, GScurrent = GameState.Start;
     private IDrawable test;
+    private GameTime Time;
 
     public enum GameState {Start, Paused, Resume, InGame, GameOver}
 
@@ -92,11 +93,15 @@ public class Planes2D extends Game {
         putTextures(Resolutions.HiRes);
         // Set resolution according to H/W
         setCurrentResolutions(Resolutions.HiRes);
-        test = new IDrawable(requestSprite(GObjects.Grass), new Vector2(10, 10), IDrawable.Anchor.LowLeft, requestSprite(GObjects.Grass).getWidth() / 2);
+        //Set up time
+        Time = new GameTime();
+        Time.Start();
+        test = new IDrawable(requestSprite(GObjects.Grass), new Vector2(10, 10), IDrawable.Anchor.LowLeft, requestSprite(GObjects.Grass).getWidth() / 2, true);
     }
 
     // On pause
     public void pause() {
+        Time.Pause();
         GSlast = GScurrent;
         GScurrent = GameState.Paused;
     }
@@ -105,10 +110,11 @@ public class Planes2D extends Game {
     public void resume() {
         GScurrent = GSlast;
         GSlast = GameState.Paused;
+        Time.Resume();
     }
 
     // Update all the game objects
-    public void Update() {
+    public void Update(GameTime.GameTimeArgs GameTime) {
 
     }
 
@@ -119,7 +125,8 @@ public class Planes2D extends Game {
 
 
     public void render() {
-        Update();
+        Time.Update();
+        Update(Time.Time);
         Helper.ClearColor(Helper.CornFlowerBlue);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         spriteBatch.setProjectionMatrix(camera.combined);
