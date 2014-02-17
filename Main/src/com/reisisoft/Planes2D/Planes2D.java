@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -18,10 +17,10 @@ public class Planes2D extends Game {
     private float curH, curW;
     private Texture txtHiRes, txtLowRes;
     private Map<Resolutions, Map<GObjects, Sprite>> all = new EnumMap<Resolutions, Map<GObjects, Sprite>>(Resolutions.class);
+    private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, Sprite> currentResolutionSprites;
     private Resolutions currentResolution;
     private GameState GSlast, GScurrent = GameState.Start;
-    private IDrawable test;
     private GameTime Time;
 
     public enum GameState {Start, Paused, Resume, InGame, GameOver}
@@ -86,6 +85,8 @@ public class Planes2D extends Game {
         // Load texture
         txtHiRes = new Texture(Gdx.files.internal("spritesheets/x2.png"));
         txtLowRes = new Texture(Gdx.files.internal("spritesheets/x1.png"));
+        explosions.put(Resolutions.LowRes, new Texture(Gdx.files.internal("spritesheets/explosion_x1.png")));
+        explosions.put(Resolutions.HiRes, new Texture(Gdx.files.internal("spritesheets/explosion_x2.png")));
         txtLowRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         txtHiRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         // Create Sprites for EVERY supported resolution
@@ -95,9 +96,12 @@ public class Planes2D extends Game {
         setCurrentResolutions(Resolutions.HiRes);
         //Set up time
         Time = new GameTime();
+        animation = new SingleAnimation(explosions.get(Resolutions.HiRes), new Coordinates(), new Coordinates(1, 0), 222, new Coordinates(4, 6), 3);
+        //Last thing to do!! Start the time
         Time.Start();
-        test = new IDrawable(requestSprite(GObjects.Grass), new Vector2(10, 10), IDrawable.Anchor.LowLeft, requestSprite(GObjects.Grass).getWidth() / 2, true);
     }
+
+    private SingleAnimation animation;
 
     // On pause
     public void pause() {
@@ -115,12 +119,12 @@ public class Planes2D extends Game {
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs GameTime) {
-
+        animation.Update(GameTime);
     }
 
     // Draw all the game objects
     public void Draw() {
-        test.Draw(spriteBatch);
+        animation.Draw(spriteBatch);
     }
 
 

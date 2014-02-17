@@ -3,7 +3,7 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
-public class Moveable extends IDrawable implements IUpdateAble {
+public class Moveable extends Drawable implements IUpdateAble {
     protected Vector2 speed;
 
     public Moveable(Sprite sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setSide, boolean setWidth, boolean flipH, boolean flipV) {
@@ -26,6 +26,6 @@ public class Moveable extends IDrawable implements IUpdateAble {
     }
 
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
-
+        sprite.setPosition(sprite.getX() + speed.x, sprite.getY() + speed.y);
     }
 }
