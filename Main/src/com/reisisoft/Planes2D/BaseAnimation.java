@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public abstract class BaseAnimation implements IDrawable, IUpdateAble {
+public class BaseAnimation implements IDrawable, IUpdateAble {
     private Coordinates direction;
     protected int changeAfter, iterator = 0, Nrows, NColumns, curRow = 0, curColumn = 0, runs = 0,sizeX, sizeY;
     protected Sprite sprite;

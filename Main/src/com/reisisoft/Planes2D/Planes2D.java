@@ -12,6 +12,11 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class Planes2D extends Game {
+    public Planes2D(INative iNative) {
+        getNative = iNative;
+    }
+
+    private INative getNative;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
     private float curH, curW;
@@ -83,10 +88,10 @@ public class Planes2D extends Game {
         spriteBatch = new SpriteBatch();
         updateCamera();
         // Load texture
-        txtHiRes = new Texture(Gdx.files.internal("spritesheets/x2.png"));
-        txtLowRes = new Texture(Gdx.files.internal("spritesheets/x1.png"));
-        explosions.put(Resolutions.LowRes, new Texture(Gdx.files.internal("spritesheets/explosion_x1.png")));
-        explosions.put(Resolutions.HiRes, new Texture(Gdx.files.internal("spritesheets/explosion_x2.png")));
+        txtHiRes = new Texture(Gdx.files.internal("x2.png"));
+        txtLowRes = new Texture(Gdx.files.internal("x1.png"));
+        explosions.put(Resolutions.LowRes, new Texture(Gdx.files.internal("explosion_x1.png")));
+        explosions.put(Resolutions.HiRes, new Texture(Gdx.files.internal("explosion_x2.png")));
         txtLowRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         txtHiRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         // Create Sprites for EVERY supported resolution
