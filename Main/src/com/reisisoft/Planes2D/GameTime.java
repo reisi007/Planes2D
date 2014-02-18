@@ -2,27 +2,30 @@ package com.reisisoft.Planes2D;
 
 
 public class GameTime {
-    private long startTime, pauseTime, startPause, elapsedMS;
+    public static final double FRAME = (1000 / 60d);
+    private long startTime, curTime, lastTime, pauseTime, startPause, elapsedMS;
     private int elapsedSec, elapsedFrames;
     public GameTimeArgs Time;
 
     public class GameTimeArgs {
-        public GameTimeArgs(long ms, int sec, int frames) {
+        public GameTimeArgs(long ms, int sec, int frames, long last) {
             ElapsedMilliSecond = ms;
             ElapsedSeconds = sec;
             ElapsedMinutes = sec / 60d;
             ElapsedHours = ElapsedMinutes / 60d;
             ElapsedDays = ElapsedHours / 24d;
             ElapsedFrames = frames;
+            ELapsedMSSinceLastFrame = last;
         }
 
-        public long ElapsedMilliSecond;
+        public long ElapsedMilliSecond, ELapsedMSSinceLastFrame;
         public int ElapsedSeconds, ElapsedFrames;
         public double ElapsedMinutes, ElapsedHours, ElapsedDays;
     }
 
     public void Start() {
         startTime = System.currentTimeMillis();
+        lastTime = startTime - (long) (FRAME + 0.5d);
     }
 
     public void Restart() {
@@ -39,10 +42,11 @@ public class GameTime {
     }
 
     public void Update() {
-        long endTime = System.currentTimeMillis();
-        elapsedMS = endTime - startTime - pauseTime;
+        curTime = System.currentTimeMillis();
+        elapsedMS = curTime - startTime - pauseTime;
         elapsedSec = (int) (elapsedMS / 1000);
         elapsedFrames++;
-        Time = new GameTimeArgs(elapsedMS, elapsedSec, elapsedFrames);
+        Time = new GameTimeArgs(elapsedMS, elapsedSec, elapsedFrames, (curTime - lastTime));
+        lastTime = curTime;
     }
 }
