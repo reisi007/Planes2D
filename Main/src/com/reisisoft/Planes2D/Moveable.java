@@ -5,11 +5,16 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Moveable extends Drawable implements IUpdateAble {
     protected Vector2 speed;
+    private float fspeed;
+
+    public Moveable(Moveable m) {
+        this(m.sprite, new Vector2(m.sprite.getX(), m.sprite.getY()), m.speed, m.fspeed, Anchor.LowLeft, m.sprite.getWidth(), true, false, false);
+    }
 
     public Moveable(Sprite sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setSide, boolean setWidth, boolean flipH, boolean flipV) {
         super(sprite, position, anchor, setSide, setWidth, flipH, flipV);
         direction.nor();
-        direction.scl(speed);
+        direction.scl(fspeed = speed);
         this.speed = direction;
     }
 

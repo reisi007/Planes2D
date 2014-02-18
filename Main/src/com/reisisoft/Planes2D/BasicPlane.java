@@ -4,9 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-/**
- * Created by Florian on 17.02.14.
- */
 public class BasicPlane implements IDrawable, IUpdateAble {
     protected Moveable plane;
 

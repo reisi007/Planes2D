@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.EnumMap;
 import java.util.Map;
 
 public class Planes2D extends Game {
     public Planes2D(INative iNative) {
+        super();
         getNative = iNative;
     }
 
@@ -27,6 +29,10 @@ public class Planes2D extends Game {
     private Resolutions currentResolution;
     private GameState GSlast, GScurrent = GameState.Start;
     private GameTime Time;
+    /*
+    Game objects
+     */
+    private Grass grass;
 
     public enum GameState {Start, Paused, Resume, InGame, GameOver}
 
@@ -101,12 +107,14 @@ public class Planes2D extends Game {
         setCurrentResolutions(Resolutions.HiRes);
         //Set up time
         Time = new GameTime();
-        animation = new SingleAnimation(explosions.get(Resolutions.HiRes), new Coordinates(), new Coordinates(1, 0), 222, new Coordinates(4, 6), 3);
         //Last thing to do!! Start the time
         Time.Start();
-    }
+        //Set Debug for Drawable
+        Drawable.blackDebug = new TextureRegion(new Texture(Gdx.files.internal("black.png")));
+        Drawable.DEBUG = true;
 
-    private SingleAnimation animation;
+        grass = new Grass(requestSprite(GObjects.Grass), 50, curW);
+    }
 
     // On pause
     public void pause() {
@@ -124,12 +132,12 @@ public class Planes2D extends Game {
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs GameTime) {
-        animation.Update(GameTime);
+        grass.Update(GameTime);
     }
 
     // Draw all the game objects
     public void Draw() {
-        animation.Draw(spriteBatch);
+        grass.Draw(spriteBatch);
     }
 
 
