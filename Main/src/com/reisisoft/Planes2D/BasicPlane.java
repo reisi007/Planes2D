@@ -2,9 +2,10 @@ package com.reisisoft.Planes2D;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class BasicPlane implements IGameObject {
+public class BasicPlane implements IGameObject, IIntersectable {
     protected Moveable plane;
     private SingleAnimation baseAnimation;
 
@@ -32,8 +33,17 @@ public class BasicPlane implements IGameObject {
     }
 
     public SingleAnimation getAnimation() {
-
+        baseAnimation.setPosition(Anchor.LowLeft,plane.getX(),plane.getY());
         return baseAnimation;
     }
 
+    @Override
+    public boolean Intersects(Rectangle[] o) {
+        return false;
+    }
+
+    @Override
+    public Rectangle[] getBounds() {
+        return new Rectangle[0];
+    }
 }

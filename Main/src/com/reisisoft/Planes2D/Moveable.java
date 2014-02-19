@@ -8,7 +8,7 @@ public class Moveable extends Drawable {
     private float fspeed;
 
     public Moveable(Moveable m) {
-        this(m.getTextureRegion(), new Vector2(m.x, m.y), m.speed, m.fspeed, Anchor.LowLeft, m.w, true, false, false);
+        this(m.getTextureRegion(), new Vector2(m.getX(), m.getY()), m.speed, m.fspeed, Anchor.LowLeft, m.getWidth(), true, false, false);
     }
 
     public Moveable(TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setSide, boolean setWidth, boolean flipH, boolean flipV) {
@@ -31,8 +31,8 @@ public class Moveable extends Drawable {
     }
 
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
-        x += speed.x;
-        y += speed.y;
+        updateX(speed.x);
+        updateY(speed.y);
         super.Update(gameTimeArgs);
     }
 
@@ -43,7 +43,7 @@ public class Moveable extends Drawable {
     }
 
     public void updatePosition(float x, float y) {
-        this.x += x;
-        this.y += y;
+        updateX(x);
+        updateY(y);
     }
 }

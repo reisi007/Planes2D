@@ -12,7 +12,7 @@ public class Drawable implements IIntersectable, IGameObject {
     public static TextureRegion blackDebug = null;
     public static boolean DEBUG = false;
     private TextureRegion textureRegion;
-    protected float x, y, w, h;
+    private float x, y, w, h;
     private Rectangle bounds;
 
     public Drawable(TextureRegion textureRegion, Vector2 position, Anchor anchor) {
@@ -142,5 +142,13 @@ public class Drawable implements IIntersectable, IGameObject {
 
     public float getHeight() {
         return h;
+    }
+
+    public void updateX(float f) {
+        x += f;
+    }
+
+    public void updateY(float f) {
+        y += f;
     }
 }
