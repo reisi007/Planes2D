@@ -35,4 +35,15 @@ public class Moveable extends Drawable {
         y += speed.y;
         super.Update(gameTimeArgs);
     }
+
+    public void setSpeed(Vector2 direction, float fspeed) {
+        direction.nor();
+        speed = direction;
+        speed.scl(this.fspeed = fspeed);
+    }
+
+    public void updatePosition(float x, float y) {
+        this.x += x;
+        this.y += y;
+    }
 }

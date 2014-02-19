@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.Color;
 public class Helper {
     public static Color CornFlowerBlue = new Color(100 / 255f, 149 / 255f, 237 / 255f, 1);
 
+    public static int getFPS() {
+        return Gdx.graphics.getFramesPerSecond();
+    }
+
     public static void ClearColor(Color color) {
         Gdx.gl.glClearColor(color.r, color.g, color.b, color.a);
     }

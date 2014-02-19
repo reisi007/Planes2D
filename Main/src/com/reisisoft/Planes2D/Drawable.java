@@ -125,4 +125,8 @@ public class Drawable implements IIntersectable, IGameObject {
         return new Rectangle[]{bounds};
     }
 
+    public String toString() {
+        return "X; " + x + " Y: " + y + " W: " + w + "H: " + h;
+    }
+
 }

@@ -109,8 +109,8 @@ public class Planes2D extends Game {
         Time = new GameTime();
         //Set Debug for Drawable
         Drawable.blackDebug = new TextureRegion(new Texture(Gdx.files.internal("black.png")));
-        Drawable.DEBUG = true;
-        clouds = new CloudManager(10, requestSprite(GObjects.Cloud), curW, 2 * curH / 3, curH, curH / 4);
+        Drawable.DEBUG = false;
+        clouds = new CloudManager((int) (curW / 128 + 0.5f), requestSprite(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
         grass = new GrassManager(requestSprite(GObjects.Grass), curH / 10f, curW);
         //Last thing to do!! Start the time
         Time.Start();
@@ -132,14 +132,14 @@ public class Planes2D extends Game {
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
-        // clouds.Update(gameTime);
+        clouds.Update(gameTime);
         grass.Update(gameTime);
     }
 
     // Draw all the game objects
     public void Draw() {
         grass.Draw(spriteBatch);
-        // clouds.Draw(spriteBatch);
+        clouds.Draw(spriteBatch);
     }
 
 

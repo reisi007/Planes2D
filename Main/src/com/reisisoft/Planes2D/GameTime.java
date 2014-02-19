@@ -19,7 +19,7 @@ public class GameTime {
         }
 
         public long ElapsedMilliSecond, ELapsedMSSinceLastFrame;
-        public int ElapsedSeconds, ElapsedFrames;
+        public int ElapsedSeconds, ElapsedFrames, FPS = Helper.getFPS();
         public double ElapsedMinutes, ElapsedHours, ElapsedDays;
     }
 

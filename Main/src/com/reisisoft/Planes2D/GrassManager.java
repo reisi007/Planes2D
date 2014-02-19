@@ -6,13 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class GrassManager implements IGameObject {
+public class GrassManager {
     private ArrayList<Moveable> grass = new ArrayList<>();
     private float totalWidth, rightMost = -10;
     private Moveable original;
 
     public GrassManager(TextureRegion sprite, float setHeight, float totalWidth) {
-        original = new Moveable(sprite, Vector2.Zero, new Vector2(-1, 0), 2, Anchor.LowLeft, setHeight, false, false, false);
+        original = new Moveable(sprite, Vector2.Zero, new Vector2(-1, 0), 2, IGameObject.Anchor.LowLeft, setHeight, false, false, false);
         this.totalWidth = totalWidth;
         fillGrass();
     }
@@ -40,21 +40,10 @@ public class GrassManager implements IGameObject {
             moveable.Draw(spriteBatch);
     }
 
-    @Override
-    public void setPosition(Anchor a, float x, float y) {
-        for (Moveable moveable : grass)
-            moveable.setPosition(a, x, y);
-    }
-
-    @Override
-    public void setScale(float newScale) {
-        for (Moveable moveable : grass)
-            moveable.setScale(newScale);
-    }
 
     private Moveable getGrass(float x) {
         Moveable tmp = new Moveable(original);
-        tmp.setPosition(Anchor.LowLeft, x, 0);
+        tmp.setPosition(IGameObject.Anchor.LowLeft, x, 0);
         return tmp;
     }
 }

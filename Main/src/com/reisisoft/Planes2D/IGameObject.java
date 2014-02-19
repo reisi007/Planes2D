@@ -13,4 +13,6 @@ public interface IGameObject {
     public void setPosition(Anchor a, float x, float y);
 
     public void setScale(float newScale);
+
+    public String toString();
 }
