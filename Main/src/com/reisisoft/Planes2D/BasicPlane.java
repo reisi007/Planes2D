@@ -1,14 +1,16 @@
 package com.reisisoft.Planes2D;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 public class BasicPlane implements IGameObject {
     protected Moveable plane;
+    private SingleAnimation baseAnimation;
 
-    public BasicPlane(Sprite sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight) {
+    public BasicPlane(SingleAnimation explosion, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight) {
         plane = new Moveable(sprite, position, direction, speed, anchor, setHeight, false);
+        baseAnimation = explosion;
     }
 
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
@@ -28,4 +30,10 @@ public class BasicPlane implements IGameObject {
     public void setScale(float newScale) {
         plane.setScale(newScale);
     }
+
+    public SingleAnimation getAnimation() {
+
+        return baseAnimation;
+    }
+
 }

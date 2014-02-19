@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class Planes2D extends Game {
     private Resolutions currentResolution;
     private GameState GSlast, GScurrent = GameState.Start;
     private GameTime Time;
+    private BaseAnimation explosion;
     /*
     Game objects
      */
@@ -112,6 +114,7 @@ public class Planes2D extends Game {
         Drawable.DEBUG = false;
         clouds = new CloudManager((int) (curW / 128 + 0.5f), requestSprite(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
         grass = new GrassManager(requestSprite(GObjects.Grass), curH / 10f, curW);
+        explosion = new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, 111, 3, 4, 5, 200);
         //Last thing to do!! Start the time
         Time.Start();
     }
@@ -134,12 +137,14 @@ public class Planes2D extends Game {
     public void Update(GameTime.GameTimeArgs gameTime) {
         clouds.Update(gameTime);
         grass.Update(gameTime);
+        explosion.Update(gameTime);
     }
 
     // Draw all the game objects
     public void Draw() {
         grass.Draw(spriteBatch);
         clouds.Draw(spriteBatch);
+        explosion.Draw(spriteBatch);
     }
 
 

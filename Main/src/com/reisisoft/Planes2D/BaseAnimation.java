@@ -1,35 +1,34 @@
 package com.reisisoft.Planes2D;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class BaseAnimation implements IGameObject {
-    private Coordinates direction;
     protected int Nrows, NColumns, curRow = 0, curColumn = 0, runs = 0, sizeX, sizeY;
     protected double iterator = 0, changeAfter;
-    protected Sprite sprite;
+    protected Moveable obj;
+    private TextureRegion textureRegion;
 
-    public BaseAnimation(Texture texture, Coordinates position, Coordinates direction, int size, Coordinates Npictures, int changeAfter) {
-        this(texture, position, direction, size, size, Npictures, changeAfter);
+    public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int size, int changeAfter, int NRows, int NColumns, float setHeight) {
+        this(texture, position, direction, speed, size, size, changeAfter, NRows, NColumns, setHeight, false);
     }
 
-    public BaseAnimation(Texture texture, Coordinates position, Coordinates direction, int sizeX, int sizeY, Coordinates Npictures, int changeAfter) {
-        sprite = new Sprite(texture, 0, 0, this.sizeX = sizeX, this.sizeY = sizeY);
-        sprite.setPosition(position.X(), position.Y());
-        this.direction = direction;
+    public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int sizeX, int sizeY, int changeAfter, int NRows, int NColumns, float setSide, boolean setWidth) {
+        obj = new Moveable((textureRegion = new TextureRegion(texture, 0, 0, this.sizeX = sizeX, this.sizeY = sizeY)), position, direction, speed, Anchor.LowLeft, setSide, setWidth, false, false);
         this.changeAfter = changeAfter * GameTime.FRAME;
-        Nrows = Npictures.X();
-        NColumns = Npictures.Y();
+        this.Nrows = NRows;
+        this.NColumns = NColumns;
     }
 
     public void Draw(SpriteBatch spriteBatch) {
-        sprite.draw(spriteBatch);
+        obj.Draw(spriteBatch);
     }
 
     @Override
     public void setPosition(Anchor a, float x, float y) {
-
+        obj.setPosition(a, x, y);
     }
 
     @Override
@@ -37,9 +36,16 @@ public class BaseAnimation implements IGameObject {
         Drawable.setSclae(newScale, this);
     }
 
+    protected void setRegion(int x, int y, int w, int h) {
+        // System.out.println("Set Region Args:\tX: " + x + "\tY: " + y + "\tW: " + w + "\tH:" + h);
+        textureRegion.setRegion(x, y, w, h);
+    }
+
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
-        sprite.setPosition(sprite.getX() + direction.X(), sprite.getY() + direction.Y());
+        // System.out.println("Base animation (" + toString() + ") updated");
+        obj.Update(gameTimeArgs);
         iterator += gameTimeArgs.ELapsedMSSinceLastFrame;
+        // System.out.println("MS since last frame:" + gameTimeArgs.ELapsedMSSinceLastFrame);
         if (iterator >= changeAfter) {
             iterator -= changeAfter;
             if (curRow < Nrows - 1) {
@@ -51,8 +57,10 @@ public class BaseAnimation implements IGameObject {
                 curColumn = curRow = 0;
                 runs++;
             }
-            // Adapt sprite
-            sprite.setRegion(sizeX * curColumn, sizeY * curColumn, sizeX, sizeY);
+            // Adapt Textureregion
+            setRegion(curRow * sizeX, curColumn * sizeY, sizeX, sizeY);
+            // System.out.println("TextureRegion:\tX: " + textureRegion.getRegionX() + "\tY: " + textureRegion.getRegionY() + "\tW: " + textureRegion.getRegionWidth() + "\tH:" + textureRegion.getRegionHeight());
+
         }
     }
 }
