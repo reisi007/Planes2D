@@ -18,6 +18,7 @@ public class DesktopStarter implements INative {
         cfg.height = 720;
         cfg.resizable = false;
         cfg.initialBackgroundColor = Helper.CornFlowerBlue;
+        cfg.foregroundFPS = 60;
         new LwjglApplication(new Planes2D(this), cfg);
     }
 

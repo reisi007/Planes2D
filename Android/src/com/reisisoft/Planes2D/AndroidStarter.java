@@ -12,9 +12,10 @@ public class AndroidStarter extends AndroidApplication implements INative {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useAccelerometer = false;
-        cfg.useCompass = false;
+        cfg.useCompass = true;
         cfg.useWakelock = true;
         cfg.useGL20 = true;
+        cfg.hideStatusBar = true;
         initialize(new Planes2D(this), cfg);
     }
 
