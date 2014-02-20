@@ -3,7 +3,7 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Moveable extends Drawable {
+public class Moveable extends Drawable implements IMoveableGameObject {
     protected Vector2 speed;
     private float fspeed;
 

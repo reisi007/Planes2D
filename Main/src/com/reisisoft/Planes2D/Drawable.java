@@ -31,8 +31,8 @@ public class Drawable implements IIntersectable, IGameObject {
         this.textureRegion = textureRegion;
         w = textureRegion.getRegionWidth();
         h = textureRegion.getRegionHeight();
-        setPosition(anchor, position.x, position.y);
         setScale(setSide / (setWidth ? w : h));
+        setPosition(anchor, position.x, position.y);
         this.textureRegion.flip(flipV, flipH);
         UpdateRectangle();
     }
@@ -48,9 +48,13 @@ public class Drawable implements IIntersectable, IGameObject {
 
     public void Draw(SpriteBatch spriteBatch) {
         if (DEBUG) {
-            spriteBatch.draw(blackDebug, bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
+            DrawDebug(spriteBatch, blackDebug, bounds);
         }
         spriteBatch.draw(textureRegion, x, y, w, h);
+    }
+
+    public static void DrawDebug(SpriteBatch spriteBatch, TextureRegion textureRegion, Rectangle rectangle) {
+        spriteBatch.draw(textureRegion, rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
     }
 
     public float rightMost() {

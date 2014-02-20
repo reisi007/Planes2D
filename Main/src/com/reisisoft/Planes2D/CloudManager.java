@@ -11,7 +11,7 @@ public class CloudManager {
 
     public CloudManager(int numberOfClouds, TextureRegion sprite, float totalWidth, float bottomRegion, float topRegion, float height100) {
         clouds = new Moveable[numberOfClouds];
-        original = new Moveable(sprite, Vector2.Zero, Vector2.Zero, 0, IGameObject.Anchor.LowLeft);
+        original = new Moveable(sprite, Vector2.Zero, Vector2.Zero, 0, IGameObject.Anchor.LowLeft, height100, false, false, false);
         this.height100 = height100;
         this.totalWidth = totalWidth;
         this.bottomRegion = bottomRegion;

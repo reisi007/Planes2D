@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class BaseAnimation implements IGameObject {
+public class BaseAnimation implements IMoveableGameObject {
     protected int Nrows, NColumns, curRow = 0, curColumn = 0, runs = 0, sizeX, sizeY;
     protected double iterator = 0, changeAfter;
     protected Moveable obj;
@@ -29,6 +29,11 @@ public class BaseAnimation implements IGameObject {
     @Override
     public void setPosition(Anchor a, float x, float y) {
         obj.setPosition(a, x, y);
+    }
+
+    @Override
+    public void updatePosition(float x, float y) {
+        obj.updatePosition(x, y);
     }
 
     @Override

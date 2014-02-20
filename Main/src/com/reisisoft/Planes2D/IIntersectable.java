@@ -7,4 +7,6 @@ public interface IIntersectable {
     public boolean Intersects(Rectangle[] o);
 
     public Rectangle[] getBounds();
+
+    public void UpdateRectangle();
 }

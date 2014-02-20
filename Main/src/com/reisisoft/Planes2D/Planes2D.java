@@ -15,10 +15,10 @@ import java.util.Map;
 public class Planes2D extends Game {
     public Planes2D(INative iNative) {
         super();
-        getNative = iNative;
+        this.iNative = iNative;
     }
 
-    private INative getNative;
+    private INative iNative;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
     private float curH, curW;
@@ -58,7 +58,7 @@ public class Planes2D extends Game {
         camera.update();
     }
 
-    private TextureRegion requestSprite(GObjects gObject) {
+    private TextureRegion requestTextureRegion(GObjects gObject) {
         return currentResolutionTextureRegion.get(gObject);
     }
 
@@ -107,15 +107,13 @@ public class Planes2D extends Game {
         putTextures(Resolutions.LowRes);
         putTextures(Resolutions.HiRes);
         // Set resolution according to H/W
-        setCurrentResolutions(Resolutions.LowRes);
+        setCurrentResolutions(Resolutions.HiRes);
         //Set up time
         Time = new GameTime();
-        //Set Debug for Drawable
-        Drawable.blackDebug = new TextureRegion(new Texture(Gdx.files.internal("black.png")));
-        Drawable.DEBUG = false;
-        clouds = new CloudManager((int) (curW / 128 + 0.5f), requestSprite(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
-        grass = new GrassManager(requestSprite(GObjects.Grass), curH / 10f, curW);
-        plane = new BasicPlane(new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, 111, 3, 4, 5, 200), requestSprite(GObjects.PlaneR), new Vector2(100, 100), Vector2.X, 2, IGameObject.Anchor.LowLeft, 100);
+        setDebug(false, false);
+        clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
+        grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 10f, curW);
+        plane = new UserPlane(getExplosionForPlanes(), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
         //explosion = new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, 111, 3, 4, 5, 200);
         //Last thing to do!! Start the time
         Time.Start();
@@ -151,6 +149,9 @@ public class Planes2D extends Game {
         plane.Draw(spriteBatch);
     }
 
+    private SingleAnimation getExplosionForPlanes() {
+        return new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, currentResolution == Resolutions.HiRes ? 222 : 111, 3, 4, 5, 200);
+    }
 
     public void render() {
         Time.Update();
@@ -168,5 +169,12 @@ public class Planes2D extends Game {
         txtLowRes.dispose();
         txtHiRes.dispose();
         super.dispose();
+    }
+
+    private void setDebug(boolean isDebugDRAWABLE, boolean isDebugPLANE) {
+        //Set Debug for Drawable
+        BasicPlane.blackDebug = Drawable.blackDebug = new TextureRegion(new Texture(Gdx.files.internal("black.png")));
+        BasicPlane.DEBUG = isDebugPLANE;
+        Drawable.DEBUG = isDebugDRAWABLE;
     }
 }
