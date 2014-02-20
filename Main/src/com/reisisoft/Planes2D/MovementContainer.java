@@ -2,13 +2,19 @@ package com.reisisoft.Planes2D;
 
 public class MovementContainer {
     public MovementContainer() {
-        this(true, 0);
+        this(0, false);
     }
 
-    public MovementContainer(boolean isRelative, double Movement) {
-        this.isRelative = isRelative;
+    public MovementContainer(float Movement, boolean shoot) {
         this.Movement = Movement;
+        doShoot = shoot;
     }
-    public boolean isRelative;
-    public double Movement;
+
+    public boolean doShoot;
+    public float Movement;
+
+    @Override
+    public String toString() {
+        return "Relative Movewwment:\t" + Movement + "\tShoot:\t" + (doShoot ? "YES" : "NO");
+    }
 }

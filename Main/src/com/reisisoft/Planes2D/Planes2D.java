@@ -108,6 +108,7 @@ public class Planes2D extends Game {
         putTextures(Resolutions.HiRes);
         // Set resolution according to H/W
         setCurrentResolutions(Resolutions.HiRes);
+        iNative.Setup();
         //Set up time
         Time = new GameTime();
         setDebug(false, false);

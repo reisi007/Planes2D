@@ -7,15 +7,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="683f5796-ad11-4ede-97b1-868815b7175b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BaseAnimation.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BaseAnimation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/CloudManager.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/CloudManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IIntersectable.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IIntersectable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Bomb.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Bomb.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" afterPath="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Planes2DLibGDX.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -79,37 +78,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Planes2D.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
+      <file leaf-file-name="BasicPlane.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="109" column="47" selection-start="4820" selection-end="4820" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1955">
-              <folding>
-                <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-                <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Drawable.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="52" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2567">
+            <state line="16" column="184" selection-start="619" selection-end="754" vertical-scroll-proportion="0.32838038" vertical-offset="0" max-vertical-offset="1717">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Bomb.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Bomb.java">
+      <file leaf-file-name="UserPlane.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="32" selection-end="32" vertical-scroll-proportion="0.024817519" vertical-offset="0" max-vertical-offset="685">
+            <state line="13" column="64" selection-start="571" selection-end="571" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
               <folding />
             </state>
           </provider>
@@ -134,13 +115,10 @@
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Animation.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BVector.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Coordinates.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Grass.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IUpdateAble.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IDrawable.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/GrassManager.java" />
-        <option value="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
         <option value="$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Helper.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/GameTime.java" />
@@ -150,18 +128,20 @@
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IMoveableGameObject.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BaseAnimation.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/CloudManager.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/CloudManager.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java" />
+        <option value="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Bomb.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="960" />
     <option name="width" value="960" />
     <option name="height" value="1040" />
   </component>
@@ -191,6 +171,16 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Planes2DLibGDX" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -269,58 +259,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Planes2DLibGDX" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Planes2DLibGDX" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Planes2D" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Planes2DLibGDX" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Planes2DLibGDX" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -369,8 +307,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Planes2DLibGDX\Main\src\com\reisisoft\Planes2D" />
       <recent name="D:\Planes2DLibGDX\Android\assets" />
+      <recent name="D:\Planes2DLibGDX\Main\src\com\reisisoft\Planes2D" />
       <recent name="D:\Planes2DLibGDX\Android\res" />
       <recent name="D:\Planes2DLibGDX\Android\res\spritesheets" />
       <recent name="D:\Planes2DLibGDX\Android" />
@@ -583,22 +521,21 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1040" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32842106" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3926316" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32947367" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32869378" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3231579" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -606,11 +543,12 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23728813" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23875803" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23768736" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1372" y="808" width="599" height="342" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32842106" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -669,16 +607,7 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="106" column="48" selection-start="4706" selection-end="4706" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2873">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -699,16 +628,7 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="107" column="48" selection-start="4586" selection-end="4586" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2890">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -736,48 +656,21 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="40" selection-start="660" selection-end="660" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2703">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="93" column="74" selection-start="3992" selection-end="3992" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2703">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="98" column="91" selection-start="4512" selection-end="4512" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="2618">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -791,48 +684,21 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="132" column="28" selection-start="5009" selection-end="5009" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="2431">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="93" column="49" selection-start="4082" selection-end="4082" vertical-scroll-proportion="0.0" vertical-offset="170" max-vertical-offset="2414">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="107" column="28" selection-start="3534" selection-end="3534" vertical-scroll-proportion="0.0" vertical-offset="1592" max-vertical-offset="2261">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -844,16 +710,7 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="52" column="4" selection-start="1938" selection-end="2860" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="2091">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -870,54 +727,22 @@
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="63" selection-start="1154" selection-end="1154" vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1938">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="0" selection-start="999" selection-end="999" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1088">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="0" selection-start="171" selection-end="171" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="323">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="26" selection-start="59" selection-end="59" vertical-scroll-proportion="0.045152724" vertical-offset="0" max-vertical-offset="753" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Desktop/Desktop.iml">
@@ -930,11 +755,6 @@
         <state line="20" column="14" selection-start="921" selection-end="921" vertical-scroll-proportion="0.5714286" vertical-offset="0" max-vertical-offset="595">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="5" selection-start="274" selection-end="274" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/GrassManager.java">
@@ -959,13 +779,6 @@
     <entry file="file://$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="33" selection-start="694" selection-end="694" vertical-scroll-proportion="0.280837" vertical-offset="0" max-vertical-offset="908" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="31" selection-start="701" selection-end="701" vertical-scroll-proportion="0.35572687" vertical-offset="0" max-vertical-offset="908">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Android/assets/explosion_x2.png">
@@ -1025,20 +838,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="15" selection-start="229" selection-end="229" vertical-scroll-proportion="0.018398268" vertical-offset="51" max-vertical-offset="1496">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="69" selection-start="193" selection-end="193" vertical-scroll-proportion="0.07002188" vertical-offset="4" max-vertical-offset="918">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/CloudManager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="129" selection-start="649" selection-end="649" vertical-scroll-proportion="0.27827382" vertical-offset="0" max-vertical-offset="1122">
@@ -1046,41 +845,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="109" column="47" selection-start="4820" selection-end="4820" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1955">
-          <folding>
-            <element signature="method#setCurrentResolutions#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#updateCamera#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#requestTextureRegion#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#putTextures#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#pause#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#resume#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#render#0;class#Planes2D#0" expanded="false" />
-            <element signature="method#dispose#0;class#Planes2D#0" expanded="false" />
-          </folding>
+        <state line="141" column="0" selection-start="4057" selection-end="4057" vertical-scroll-proportion="0.53988606" vertical-offset="1865" max-vertical-offset="2567">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="50" selection-start="1787" selection-end="1787" vertical-scroll-proportion="0.73361826" vertical-offset="216" max-vertical-offset="918">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="7" column="22" selection-start="163" selection-end="163" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="116" selection-start="535" selection-end="545" vertical-scroll-proportion="0.2045952" vertical-offset="0" max-vertical-offset="914">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="13" column="64" selection-start="571" selection-end="571" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="765">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java">
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/MovementContainer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="52" selection-start="1445" selection-end="1445" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2567">
+        <state line="17" column="69" selection-start="428" selection-end="428" vertical-scroll-proportion="0.4116809" vertical-offset="0" max-vertical-offset="702">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="148" selection-start="1206" selection-end="1206" vertical-scroll-proportion="0.7507123" vertical-offset="0" max-vertical-offset="1071">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="29" selection-start="4930" selection-end="4930" vertical-scroll-proportion="2.601783" vertical-offset="0" max-vertical-offset="3009">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Bomb.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="32" selection-end="32" vertical-scroll-proportion="0.024817519" vertical-offset="0" max-vertical-offset="685">
+        <state line="9" column="58" selection-start="366" selection-end="366" vertical-scroll-proportion="0.1487965" vertical-offset="17" max-vertical-offset="1037">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="184" selection-start="619" selection-end="754" vertical-scroll-proportion="0.32838038" vertical-offset="0" max-vertical-offset="1717">
           <folding />
         </state>
       </provider>

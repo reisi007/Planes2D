@@ -12,15 +12,21 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
     private SingleAnimation baseAnimation;
     private boolean isFlipped;
     private Rectangle[] bounds = new Rectangle[3];
+    protected float maxH;
 
-    public BasicPlane(SingleAnimation explosion, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV) {
+    public BasicPlane(SingleAnimation explosion, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
         plane = new Moveable(sprite, position, direction, speed, anchor, setHeight, isFlipped = flipV);
         baseAnimation = explosion;
         UpdateRectangle();
+        maxH = curHeight;
     }
 
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
         plane.Update(gameTimeArgs);
+        if (plane.getY() + plane.getHeight() > maxH)
+            setPosition(Anchor.TopLeft, maxH);
+        else if (plane.getY() < 0)
+            setPosition(Anchor.LowLeft, 0);
         UpdateRectangle();
     }
 
@@ -29,6 +35,10 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
             for (int i = 0; i < bounds.length; i++)
                 Drawable.DrawDebug(spriteBatch, blackDebug, bounds[i]);
         plane.Draw(spriteBatch);
+    }
+
+    public void setPosition(Anchor a, float y) {
+        setPosition(a, plane.getX(), y);
     }
 
     @Override
@@ -82,6 +92,9 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
             bounds[2] = new Rectangle(plane.getX() + 5f / 6 * plane.getWidth(), plane.getY() + 5f / 10 * plane.getHeight(), plane.getWidth() / 6f, 4f / 10 * plane.getHeight());
 
         }
+    }
+
+    public void Shoot() {
 
     }
 }
