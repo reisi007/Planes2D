@@ -23,4 +23,9 @@ public class AndroidStarter extends AndroidApplication implements INative {
     public MovementContainer Input() {
         return Input;
     }
+
+    @Override
+    public void Setup() {
+
+    }
 }

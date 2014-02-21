@@ -22,7 +22,7 @@ public class Planes2D extends Game {
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
     private float curH, curW;
-    private Texture txtHiRes, txtLowRes;
+    private Texture txtHiRes, txtLowRes, txtBomb;
     private Map<Resolutions, Map<GObjects, TextureRegion>> all = new EnumMap<Resolutions, Map<GObjects, TextureRegion>>(Resolutions.class);
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, TextureRegion> currentResolutionTextureRegion;
@@ -34,8 +34,7 @@ public class Planes2D extends Game {
      */
     private GrassManager grass;
     private CloudManager clouds;
-    //private BaseAnimation explosion;
-    private BasicPlane plane;
+    private UserPlane user;
 
     public enum GameState {Start, Paused, Resume, InGame, GameOver}
 
@@ -71,7 +70,7 @@ public class Planes2D extends Game {
                 map.put(GObjects.PlaneG, new TextureRegion(txtLowRes, 406, 2, 100, 46));
                 map.put(GObjects.PlaneR, new TextureRegion(txtLowRes, 304, 2, 100, 46));
                 map.put(GObjects.Grass, new TextureRegion(txtLowRes, 2, 188, 294, 52));
-                map.put(GObjects.Bullet, new TextureRegion(txtLowRes, 600, 834, 299, 138));
+                map.put(GObjects.Bullet, new TextureRegion(txtBomb, 0, 0, 256, 127));
                 map.put(GObjects.Cloud, new TextureRegion(txtLowRes, 2, 2, 300, 184));
                 map.put(GObjects.Star, new TextureRegion(txtLowRes, 406, 50, 26, 26));
                 all.put(Resolutions.LowRes, map);
@@ -82,7 +81,7 @@ public class Planes2D extends Game {
                 map.put(GObjects.PlaneG, new TextureRegion(txtHiRes, 2, 370, 600, 278));
                 map.put(GObjects.PlaneR, new TextureRegion(txtHiRes, 604, 370, 600, 278));
                 map.put(GObjects.Grass, new TextureRegion(txtHiRes, 1200, 2, 600, 104));
-                map.put(GObjects.Bullet, new TextureRegion(txtHiRes, 600, 834, 299, 138));
+                map.put(GObjects.Bullet, new TextureRegion(txtBomb, 0, 0, 256, 127));
                 map.put(GObjects.Cloud, new TextureRegion(txtHiRes, 598, 2, 600, 366));
                 map.put(GObjects.Star, new TextureRegion(txtHiRes, 1206, 370, 100, 100));
                 all.put(Resolutions.HiRes, map);
@@ -101,6 +100,7 @@ public class Planes2D extends Game {
         txtLowRes = new Texture(Gdx.files.internal("x1.png"));
         explosions.put(Resolutions.LowRes, new Texture(Gdx.files.internal("explosion_x1.png")));
         explosions.put(Resolutions.HiRes, new Texture(Gdx.files.internal("explosion_x2.png")));
+        txtBomb = new Texture(Gdx.files.internal("bomb.png"));
         txtLowRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         txtHiRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         // Create Sprites for EVERY supported resolution
@@ -113,9 +113,8 @@ public class Planes2D extends Game {
         Time = new GameTime();
         setDebug(false, false);
         clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
-        grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 10f, curW);
-        plane = new UserPlane(getExplosionForPlanes(), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
-        //explosion = new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, 111, 3, 4, 5, 200);
+        grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 15f, curW);
+        user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
         //Last thing to do!! Start the time
         Time.Start();
     }
@@ -138,20 +137,22 @@ public class Planes2D extends Game {
     public void Update(GameTime.GameTimeArgs gameTime) {
         clouds.Update(gameTime);
         grass.Update(gameTime);
-        //explosion.Update(gameTime);
-        plane.Update(gameTime);
+        user.Update(gameTime);
     }
 
     // Draw all the game objects
     public void Draw() {
         grass.Draw(spriteBatch);
         clouds.Draw(spriteBatch);
-        //explosion.Draw(spriteBatch);
-        plane.Draw(spriteBatch);
+        user.Draw(spriteBatch);
     }
 
     private SingleAnimation getExplosionForPlanes() {
-        return new SingleAnimation(explosions.get(currentResolution), new Vector2(100, 100), new Vector2(1, 1), 1, currentResolution == Resolutions.HiRes ? 222 : 111, 3, 4, 5, 200);
+        return new SingleAnimation(explosions.get(currentResolution), Vector2.Zero, Vector2.Zero, 0, currentResolution == Resolutions.HiRes ? 222 : 111, 3, 4, 5, 200);
+    }
+
+    private Bomb getBombForPlanes(boolean user) {
+        return new Bomb(requestTextureRegion(GObjects.Bullet), Vector2.Zero, Vector2.Zero, 0, IGameObject.Anchor.MiddleLeft, user, curH);
     }
 
     public void render() {

@@ -11,6 +11,10 @@ public class BaseAnimation implements IMoveableGameObject {
     protected Moveable obj;
     private TextureRegion textureRegion;
 
+    public BaseAnimation(BaseAnimation baseAnimation) {
+        this(baseAnimation.textureRegion.getTexture(), new Vector2(baseAnimation.obj.getX(), baseAnimation.obj.getY()), baseAnimation.obj.speed, baseAnimation.obj.getFspeed(), baseAnimation.sizeX, baseAnimation.sizeY, (int) (baseAnimation.changeAfter / GameTime.FRAME + 0.5d), baseAnimation.Nrows, baseAnimation.NColumns, baseAnimation.obj.getHeight(), false);
+    }
+
     public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int size, int changeAfter, int NRows, int NColumns, float setHeight) {
         this(texture, position, direction, speed, size, size, changeAfter, NRows, NColumns, setHeight, false);
     }
@@ -24,6 +28,10 @@ public class BaseAnimation implements IMoveableGameObject {
 
     public void Draw(SpriteBatch spriteBatch) {
         obj.Draw(spriteBatch);
+    }
+
+    public void setSpeed(Vector2 direction, float speed) {
+        obj.setSpeed(direction, speed);
     }
 
     @Override

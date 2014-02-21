@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public abstract class BasicPlane implements IMoveableGameObject, IIntersectable {
     public static TextureRegion blackDebug = null;
     public static boolean DEBUG = false;
@@ -13,12 +15,30 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
     private boolean isFlipped;
     private Rectangle[] bounds = new Rectangle[3];
     protected float maxH;
+    private Bomb baseBomb;
+    protected long MSbetweenShots = 800;
 
-    public BasicPlane(SingleAnimation explosion, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
+    public BasicPlane(SingleAnimation explosion, Bomb bomb, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
         plane = new Moveable(sprite, position, direction, speed, anchor, setHeight, isFlipped = flipV);
         baseAnimation = explosion;
+        baseBomb = bomb;
         UpdateRectangle();
         maxH = curHeight;
+    }
+
+    public Bomb getShot() {
+        Bomb b = new Bomb(baseBomb, baseBomb.getTextureRegion().isFlipY());
+        b.setPosition(Anchor.LowLeft, plane.getX(), plane.getY());
+        b.setSpeed(plane.speed, plane.getFspeed());
+        return b;
+    }
+
+
+    public SingleAnimation getExplosion() {
+        SingleAnimation tmp = new SingleAnimation(baseAnimation);
+        tmp.setPosition(Anchor.LowLeft, plane.getX(), plane.getY());
+        tmp.setSpeed(plane.speed, plane.getFspeed());
+        return tmp;
     }
 
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {

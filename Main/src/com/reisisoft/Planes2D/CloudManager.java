@@ -40,7 +40,7 @@ public class CloudManager {
     }
 
     private void getCloudPosition(Moveable tmp, float from, float to) {
-        tmp.setScale(getRandomInRange(0.45f, 1.1f));
+        tmp.setScale(getRandomInRange(0.25f, 1f));
         tmp.setSpeed(new Vector2(-1, 0), getRandomInRange(0.5f, 2.5f));
         tmp.setPosition(IGameObject.Anchor.TopLeft, getRandomInRange(from, to), getRandomInRange(bottomRegion, topRegion));
     }

@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class SingleAnimation extends BaseAnimation {
+    public SingleAnimation(SingleAnimation singleAnimation) {
+        this(singleAnimation.obj.getTextureRegion().getTexture(), new Vector2(singleAnimation.obj.getX(), singleAnimation.obj.getY()), singleAnimation.obj.speed, singleAnimation.obj.getFspeed(), singleAnimation.sizeX, singleAnimation.sizeY, (int) (singleAnimation.changeAfter / GameTime.FRAME + 0.5d), singleAnimation.Nrows, singleAnimation.NColumns, singleAnimation.obj.getHeight(), false);
+    }
 
     public SingleAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int size, int changeAfter, int NRows, int NColumns, float setHeight) {
         this(texture, position, direction, speed, size, size, changeAfter, NRows, NColumns, setHeight, false);

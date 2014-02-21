@@ -46,4 +46,13 @@ public class Moveable extends Drawable implements IMoveableGameObject {
         updateX(x);
         updateY(y);
     }
+
+    public float getFspeed() {
+        return fspeed;
+    }
+
+    @Override
+    public String toString() {
+        return "Moveable (" + super.toString() + ")\tSpeed:\t" + speed.x + " | " + speed.y;
+    }
 }
