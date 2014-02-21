@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class SingleAnimation extends BaseAnimation {
     public SingleAnimation(SingleAnimation singleAnimation) {
-        this(singleAnimation.obj.getTextureRegion().getTexture(), new Vector2(singleAnimation.obj.getX(), singleAnimation.obj.getY()), singleAnimation.obj.speed, singleAnimation.obj.getFspeed(), singleAnimation.sizeX, singleAnimation.sizeY, (int) (singleAnimation.changeAfter / GameTime.FRAME + 0.5d), singleAnimation.Nrows, singleAnimation.NColumns, singleAnimation.obj.getHeight(), false);
+        this(singleAnimation.animation.getTextureRegion().getTexture(), new Vector2(singleAnimation.animation.getX(), singleAnimation.animation.getY()), singleAnimation.animation.speed, singleAnimation.animation.getFspeed(), singleAnimation.sizeX, singleAnimation.sizeY, (int) (singleAnimation.changeAfter / GameTime.FRAME + 0.5d), singleAnimation.Nrows, singleAnimation.NColumns, singleAnimation.animation.getHeight(), false);
     }
 
     public SingleAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int size, int changeAfter, int NRows, int NColumns, float setHeight) {
@@ -18,12 +18,12 @@ public class SingleAnimation extends BaseAnimation {
     }
 
 
-    public void Update(GameTime.GameTimeArgs gameTimeArgs) {
+   /* public void Update(GameTime.GameTimeArgs gameTimeArgs) {
         if (runs < 1)
             super.Update(gameTimeArgs);
         else
             super.setRegion((Nrows - 1) * sizeX, (NColumns - 1) * sizeY, sizeX, sizeY);
-    }
+    }*/
 
     public void Draw(SpriteBatch spriteBatch) {
         if (!isFinished())

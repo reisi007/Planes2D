@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class Planes2D extends Game {
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, TextureRegion> currentResolutionTextureRegion;
     private Resolutions currentResolution;
-    private GameState GSlast, GScurrent = GameState.Start;
+    private GameState GSlast, GScurrent = GameState.PrepareGame;
     private GameTime Time;
     /*
     Game objects
@@ -35,8 +36,11 @@ public class Planes2D extends Game {
     private GrassManager grass;
     private CloudManager clouds;
     private UserPlane user;
+    private ArrayList<Bomb> userBombs, enemyBombs;
+    private ArrayList<EnemyPlane> enemyPlanes;
+    private ArrayList<SingleAnimation> ALexplosions;
 
-    public enum GameState {Start, Paused, Resume, InGame, GameOver}
+    public enum GameState {Start, Paused, Resume, PrepareGame, InGame, PrepearScore, GameOver}
 
     private enum GObjects {PlaneR, PlaneG, PlaneB, Grass, Bullet, Star, Cloud}
 
@@ -91,8 +95,9 @@ public class Planes2D extends Game {
 
     // On creation
     public void create() {
-        curH = Gdx.graphics.getHeight();
-        curW = Gdx.graphics.getWidth();
+        Moveable.totalHeight = curH = Gdx.graphics.getHeight();
+        Moveable.totalWidth = curW = Gdx.graphics.getWidth();
+        //System.out.println("X Modifier:\t" + Moveable.getSpeedXModifier() + "\tY Modifier:\t" + Moveable.getSpeedYModifier());
         spriteBatch = new SpriteBatch();
         updateCamera();
         // Load texture
@@ -114,9 +119,6 @@ public class Planes2D extends Game {
         setDebug(false, false);
         clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
         grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 15f, curW);
-        user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
-        //Last thing to do!! Start the time
-        Time.Start();
     }
 
     // On pause
@@ -133,18 +135,144 @@ public class Planes2D extends Game {
         Time.Resume();
     }
 
+    long nextEnemy = 0, MSbetweenEnemies = 5000;
+
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
-        clouds.Update(gameTime);
-        grass.Update(gameTime);
-        user.Update(gameTime);
+        iNative.letQuit();
+        switch (GScurrent) {
+            case PrepareGame:
+                user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
+                userBombs = new ArrayList<>();
+                enemyBombs = new ArrayList<>();
+                enemyPlanes = new ArrayList<>();
+                ALexplosions = new ArrayList<>();
+                Time.Restart();
+                GSlast = GScurrent;
+                GScurrent = GameState.InGame;
+                break;
+
+            case InGame:
+               /* if (gameTime.ElapsedFrames % 20 == 0)
+                    System.out.println("Number of enemies:\t" + enemyPlanes.size());*/
+                clouds.Update(gameTime);
+                grass.Update(gameTime);
+                //Update User
+                user.Update(gameTime);
+                if (user.wantShoot(gameTime))
+                    userBombs.add(user.getShot());
+                //Update UserBombs and delete them, when they are out of screen
+                for (int i = 0; i < userBombs.size(); i++) {
+                    Bomb b = userBombs.get(i);
+                    b.Update(gameTime);
+                    if (b.leftMost() > curW) {
+                        userBombs.remove(i);
+                        i--;
+                    }
+                }
+                // Update enemyPlanes
+                if (nextEnemy <= 0) {
+                    nextEnemy += (MSbetweenEnemies -= 10);
+                    enemyPlanes.add(getEnemyPlane());
+                    user.addFreeShot();
+                }
+                nextEnemy -= gameTime.ELapsedMSSinceLastFrame;
+                for (int i = 0; i < enemyPlanes.size(); i++) {
+                    EnemyPlane plane = enemyPlanes.get(i);
+                    plane.Update(gameTime);
+                    if (plane.rightMost() < 0) {
+                        enemyPlanes.remove(i);
+                        enemyPlanes.add(getEnemyPlane());
+                        i--;
+                    } else {
+                        if (plane.wantShoot(gameTime))
+                            enemyBombs.add(plane.getShot());
+                    }
+                }
+                //Update Enemybombs and delete them, when they are out of screen
+                for (int i = 0; i < enemyBombs.size(); i++) {
+                    Bomb b = enemyBombs.get(i);
+                    b.Update(gameTime);
+                    if (b.rightMost() < 0) {
+                        enemyBombs.remove(i);
+                        i--;
+                    }
+                }
+                // Update explosions
+                for (int i = 0; i < ALexplosions.size(); i++) {
+                    SingleAnimation s = ALexplosions.get(i);
+                    if (s.isFinished()) {
+                        ALexplosions.remove(i);
+                        i--;
+                    } else
+                        s.Update(gameTime);
+                }
+                /*
+                Intersection testing
+                 */
+                //User plane vs. enemy planes
+                for (int i = 0; i < enemyPlanes.size(); i++) {
+                    if (user.Intersects(enemyPlanes.get(i))) {
+                        GameOver();
+                    }
+                }
+                //User plane vs. enemy Bombs
+                for (int i = 0; i < enemyBombs.size(); i++) {
+                    if (user.Intersects(enemyBombs.get(i)))
+                        GameOver();
+                }
+                //User bombs vs. Enemy planes
+                for (int b = 0; b < userBombs.size(); b++) {
+                   // System.out.println("UserBombsSize" + userBombs.size());
+                    for (int p = 0; p < enemyPlanes.size() && b < userBombs.size(); p++) {
+                        //  System.out.println("b:\t" + b + "bSIZE:\t" + userBombs.size() + "p:\t" + p + "pSIZE:\t" + enemyPlanes.size());
+                        if (userBombs.get(b).Intersects(enemyPlanes.get(p))) {
+                            userBombs.remove(b);
+                            b--;
+                            if (b < 0)
+                                b = 0;
+                            ALexplosions.add(enemyPlanes.get(p).getExplosion());
+                            enemyPlanes.remove(p);
+                            p--;
+                            if (p < 0)
+                                p = 0;
+                            if (Math.round(Math.random()) == 1l)
+                                enemyPlanes.add(getEnemyPlane());
+                        }
+                    }
+                }
+                break;
+            case PrepearScore:
+                GSlast = GScurrent;
+                GScurrent = GameState.GameOver;
+                break;
+        }
+    }
+
+    private void GameOver() {
+        GSlast = GScurrent;
+        GScurrent = GameState.PrepearScore;
     }
 
     // Draw all the game objects
     public void Draw() {
-        grass.Draw(spriteBatch);
-        clouds.Draw(spriteBatch);
-        user.Draw(spriteBatch);
+        switch (GScurrent) {
+            case InGame:
+                //BG
+                grass.Draw(spriteBatch);
+                clouds.Draw(spriteBatch);
+                for (Bomb b : userBombs)
+                    b.Draw(spriteBatch);
+                for (Bomb b : enemyBombs)
+                    b.Draw(spriteBatch);
+                for (EnemyPlane e : enemyPlanes)
+                    e.Draw(spriteBatch);
+                user.Draw(spriteBatch);
+                for (SingleAnimation s : ALexplosions)
+                    s.Draw(spriteBatch);
+                //FG
+                break;
+        }
     }
 
     private SingleAnimation getExplosionForPlanes() {
@@ -153,6 +281,26 @@ public class Planes2D extends Game {
 
     private Bomb getBombForPlanes(boolean user) {
         return new Bomb(requestTextureRegion(GObjects.Bullet), Vector2.Zero, Vector2.Zero, 0, IGameObject.Anchor.MiddleLeft, user, curH);
+    }
+
+    private EnemyPlane getEnemyPlane() {
+        return new EnemyPlane(getExplosionForPlanes(), getBombForPlanes(false), getRandomPlaneTextureRegion(), curH, curW);
+    }
+
+    private TextureRegion getRandomPlaneTextureRegion() {
+        GObjects rand = null;
+        switch (Helper.getRandomInRange(0, 2)) {
+            case (0):
+                rand = GObjects.PlaneR;
+                break;
+            case (1):
+                rand = GObjects.PlaneG;
+                break;
+            default:
+                rand = GObjects.PlaneB;
+                break;
+        }
+        return requestTextureRegion(rand);
     }
 
     public void render() {

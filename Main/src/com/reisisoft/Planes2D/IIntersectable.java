@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public interface IIntersectable {
 
-    public boolean Intersects(Rectangle[] o);
+    public boolean Intersects(IIntersectable ii);
 
     public Rectangle[] getBounds();
 

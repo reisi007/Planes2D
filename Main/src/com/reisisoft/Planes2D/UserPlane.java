@@ -10,7 +10,8 @@ public class UserPlane extends BasicPlane {
     private static final float percentOfHeightOneFrame = 1 / 111f;
     private float minH = 0;
     private boolean wantShoot = false;
-    private long timeSincelastShot;
+    private long nextAllowed;
+
 
     public UserPlane(SingleAnimation explosion, Bomb bomb, TextureRegion textureRegion, float currentW, float currentH, INative iNative) {
         super(explosion, bomb, textureRegion, new Vector2(currentW / 50f, currentH / 2), Vector2.Zero, 0, Anchor.MiddleLeft, currentH / 5f, true, currentH);
@@ -20,20 +21,29 @@ public class UserPlane extends BasicPlane {
         maxH = currentH;
     }
 
-    public boolean wantShoot() {
+    public Bomb getShot() {
+        Bomb b = super.getShot(true);
+        b.setSpeed(Vector2.X, 2 * Moveable.getSpeedXModifier());
+        return b;
+    }
+
+    public boolean wantShoot(GameTime.GameTimeArgs gameTimeArgs) {
         if (wantShoot) {
             wantShoot = false;
+            nextAllowed = gameTimeArgs.ElapsedMilliSecond + 333;
             return true;
         }
         return false;
     }
 
+    public void addFreeShot() {
+        timeSincelastShot += MSbetweenShots;
+    }
+
     @Override
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
-        //Do update UserPlane
         movementContainer = iNative.Input();
-        timeSincelastShot += gameTimeArgs.ELapsedMSSinceLastFrame;
-        if (movementContainer.doShoot && (timeSincelastShot >= MSbetweenShots)) {
+        if (nextAllowed <= gameTimeArgs.ElapsedMilliSecond && movementContainer.doShoot && !wantShoot && (timeSincelastShot >= MSbetweenShots)) {
             timeSincelastShot -= MSbetweenShots;
             wantShoot = true;
         }

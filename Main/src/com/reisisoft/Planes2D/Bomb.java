@@ -9,12 +9,16 @@ public class Bomb implements IMoveableGameObject, IIntersectable {
     private Moveable bomb;
     private static final float relativeHeight = 1 / 75f;
 
+    public Bomb(Bomb b) {
+        this(b, b.getTextureRegion().isFlipY());
+    }
+
     public Bomb(Bomb bomb, boolean flipV) {
         this(bomb.bomb.getTextureRegion(), new Vector2(bomb.bomb.getX(), bomb.bomb.getY()), bomb.bomb.speed, bomb.bomb.getFspeed(), Anchor.LowLeft, flipV, bomb.bomb.getHeight() / relativeHeight);
     }
 
     public Bomb(TextureRegion region, Vector2 position, Vector2 direction, float speed, Anchor anchor, boolean flipV, float curHeight) {
-        bomb = new Moveable(region, position, direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
+        bomb = new Moveable(new TextureRegion(region), position, direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
         //System.out.println(bomb.toString());
     }
 
@@ -52,8 +56,8 @@ public class Bomb implements IMoveableGameObject, IIntersectable {
     }
 
     @Override
-    public boolean Intersects(Rectangle[] o) {
-        return bomb.Intersects(o);
+    public boolean Intersects(IIntersectable ii) {
+        return bomb.Intersects(ii);
     }
 
     @Override
@@ -64,5 +68,17 @@ public class Bomb implements IMoveableGameObject, IIntersectable {
     @Override
     public void UpdateRectangle() {
         bomb.UpdateRectangle();
+    }
+
+    public float rightMost() {
+        return bomb.rightMost();
+    }
+
+    public float leftMost() {
+        return bomb.getX();
+    }
+
+    public String toString() {
+        return bomb.toString() + " as Bomb";
     }
 }

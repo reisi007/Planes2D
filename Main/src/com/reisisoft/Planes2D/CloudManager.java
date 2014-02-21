@@ -40,23 +40,14 @@ public class CloudManager {
     }
 
     private void getCloudPosition(Moveable tmp, float from, float to) {
-        tmp.setScale(getRandomInRange(0.25f, 1f));
-        tmp.setSpeed(new Vector2(-1, 0), getRandomInRange(0.5f, 2.5f));
-        tmp.setPosition(IGameObject.Anchor.TopLeft, getRandomInRange(from, to), getRandomInRange(bottomRegion, topRegion));
+        tmp.setScale(Helper.getRandomInRange(0.25f, 1f));
+        tmp.setSpeed(new Vector2(-1, 0), Helper.getRandomInRange(0.5f, 2.5f));
+        tmp.setPosition(IGameObject.Anchor.TopLeft, Helper.getRandomInRange(from, to), Helper.getRandomInRange(bottomRegion, topRegion));
     }
 
     private Moveable getNewCloud() {
         Moveable tmp = new Moveable(original);
         getCloudPosition(tmp, 0, 4f / 3 * totalWidth);
         return tmp;
-    }
-
-    public static float getRandomInRange(float from, float to) {
-        if (from > to) {
-            float tmp = from;
-            from = to;
-            to = tmp;
-        }
-        return (float) ((Math.random() * (to - from)) + from);
     }
 }

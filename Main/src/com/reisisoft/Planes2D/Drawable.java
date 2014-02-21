@@ -114,8 +114,8 @@ public class Drawable implements IIntersectable, IGameObject {
         return textureRegion;
     }
 
-    public boolean Intersects(Rectangle[] o) {
-        Rectangle[] origin = getBounds();
+    public boolean Intersects(IIntersectable ii) {
+        Rectangle[] origin = getBounds(), o = ii.getBounds();
         for (int j = 0; j < origin.length; j++)
             for (int i = 0; i < o.length; i++)
                 if (origin[j].overlaps(o[i]))
@@ -129,7 +129,7 @@ public class Drawable implements IIntersectable, IGameObject {
     }
 
     public String toString() {
-        return "X; " + x + "\tY: " + y + "\tWidth: " + w + "\tHeight: " + h;
+        return "Drawable@\tX: " + x + "\tY: " + y + "\tWidth: " + w + "\tHeight: " + h;
     }
 
     public float getX() {

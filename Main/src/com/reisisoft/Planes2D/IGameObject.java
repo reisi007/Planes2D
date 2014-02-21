@@ -12,5 +12,7 @@ public interface IGameObject {
 
     public void setScale(float newScale);
 
+    public float rightMost();
+
     public String toString();
 }

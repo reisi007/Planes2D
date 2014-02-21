@@ -47,6 +47,14 @@ public class Moveable extends Drawable implements IMoveableGameObject {
         updateY(y);
     }
 
+    public void updateX(float x) {
+        super.updateX(x * getSpeedXModifier());
+    }
+
+    public void updateY(float y) {
+        super.updateY(y * getSpeedYModifier());
+    }
+
     public float getFspeed() {
         return fspeed;
     }
@@ -55,4 +63,17 @@ public class Moveable extends Drawable implements IMoveableGameObject {
     public String toString() {
         return "Moveable (" + super.toString() + ")\tSpeed:\t" + speed.x + " | " + speed.y;
     }
+
+    public static float totalWidth, totalHeight;
+
+    public static float getSpeedXModifier() {
+         return (totalWidth / 1280f) * (60f / Helper.getFPS());
+        //return 1;
+    }
+
+    public static float getSpeedYModifier() {
+        return (totalHeight / 720f) * (60f / Helper.getFPS());
+       // return 1;
+    }
+
 }

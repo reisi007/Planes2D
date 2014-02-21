@@ -27,10 +27,14 @@ public class DesktopStarter implements INative {
         Input = new MovementContainer(cfg.height / 2f, false);
     }
 
-    public MovementContainer Input() {
+    @Override
+    public void letQuit() {
         if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.ESCAPE)) {
             application.exit();
         }
+    }
+
+    public MovementContainer Input() {
         Input.doShoot = Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT) || Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
         if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.UP))
             Input.Movement = 1f;

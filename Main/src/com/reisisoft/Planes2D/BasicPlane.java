@@ -5,8 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
-
 public abstract class BasicPlane implements IMoveableGameObject, IIntersectable {
     public static TextureRegion blackDebug = null;
     public static boolean DEBUG = false;
@@ -16,28 +14,35 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
     private Rectangle[] bounds = new Rectangle[3];
     protected float maxH;
     private Bomb baseBomb;
-    protected long MSbetweenShots = 800;
+    protected long MSbetweenShots = 2000;
+    protected long timeSincelastShot;
 
     public BasicPlane(SingleAnimation explosion, Bomb bomb, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
-        plane = new Moveable(sprite, position, direction, speed, anchor, setHeight, isFlipped = flipV);
+        plane = new Moveable(new TextureRegion(sprite), position, direction, speed, anchor, setHeight, isFlipped = flipV);
         baseAnimation = explosion;
         baseBomb = bomb;
         UpdateRectangle();
         maxH = curHeight;
     }
 
-    public Bomb getShot() {
+    public abstract boolean wantShoot(GameTime.GameTimeArgs gameTimeArgs);
+
+    public abstract Bomb getShot();
+
+    protected Bomb getShot(boolean user) {
         Bomb b = new Bomb(baseBomb, baseBomb.getTextureRegion().isFlipY());
-        b.setPosition(Anchor.LowLeft, plane.getX(), plane.getY());
-        b.setSpeed(plane.speed, plane.getFspeed());
+        b.setPosition(Anchor.LowLeft, plane.getX() + (user ? 5 : 1) / 6f * plane.getWidth(), plane.getY() + plane.getHeight() / 2f);
+        b.setSpeed(new Vector2(plane.speed), 2 * plane.getFspeed());
+        //  System.out.println(b.toString());
         return b;
     }
 
 
     public SingleAnimation getExplosion() {
         SingleAnimation tmp = new SingleAnimation(baseAnimation);
-        tmp.setPosition(Anchor.LowLeft, plane.getX(), plane.getY());
         tmp.setSpeed(plane.speed, plane.getFspeed());
+        tmp.setScale(2 * plane.getWidth() / tmp.getWidth());
+        tmp.setPosition(Anchor.LowLeft, plane.getX() - plane.getWidth() / 2, plane.getY() - tmp.getHeight() / 2);
         return tmp;
     }
 
@@ -48,6 +53,7 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
         else if (plane.getY() < 0)
             setPosition(Anchor.LowLeft, 0);
         UpdateRectangle();
+        timeSincelastShot += gameTimeArgs.ELapsedMSSinceLastFrame;
     }
 
     public void Draw(SpriteBatch spriteBatch) {
@@ -80,14 +86,9 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
         plane.setScale(newScale);
     }
 
-    public SingleAnimation getAnimation() {
-        baseAnimation.setPosition(Anchor.LowLeft, plane.getX(), plane.getY());
-        return baseAnimation;
-    }
-
-
     @Override
-    public boolean Intersects(Rectangle[] o) {
+    public boolean Intersects(IIntersectable ii) {
+        Rectangle[] o = ii.getBounds();
         for (int i = 0; i < bounds.length; i++)
             for (int y = 0; y < o.length; y++)
                 if (o[y].overlaps(bounds[i]))
@@ -114,7 +115,8 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
         }
     }
 
-    public void Shoot() {
-
+    public float rightMost() {
+        return plane.rightMost();
     }
+
 }
