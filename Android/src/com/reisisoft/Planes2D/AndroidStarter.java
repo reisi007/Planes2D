@@ -19,9 +19,19 @@ public class AndroidStarter extends AndroidApplication implements INative {
         initialize(new Planes2D(this), cfg);
     }
 
+    int i = 0;
+
     @Override
     public MovementContainer Input() {
+        i++;
+        if (i % 20 == 0)
+            System.out.println("Movement:\t");
         return Input;
+    }
+
+    @Override
+    public void letQuit() {
+        //Not needed for Android
     }
 
     @Override

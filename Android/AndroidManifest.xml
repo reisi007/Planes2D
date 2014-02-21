@@ -12,7 +12,7 @@
         <activity
             android:name="com.reisisoft.Planes2D.AndroidStarter"
             android:label="Planes 2D"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="keyboard|keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
