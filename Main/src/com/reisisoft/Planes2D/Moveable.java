@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Moveable extends Drawable implements IMoveableGameObject {
     protected Vector2 speed;
     private float fspeed;
+    public static INative iNative;
 
     public Moveable(Moveable m) {
         this(m.getTextureRegion(), new Vector2(m.getX(), m.getY()), m.speed, m.fspeed, Anchor.LowLeft, m.getWidth(), true, false, false);
@@ -67,13 +68,11 @@ public class Moveable extends Drawable implements IMoveableGameObject {
     public static float totalWidth, totalHeight;
 
     public static float getSpeedXModifier() {
-         return (totalWidth / 1280f) * (60f / Helper.getFPS());
-        //return 1;
+        return iNative==null?1:iNative.speedX()*(totalWidth / 1280f) * (60f / Helper.getFPS());
     }
 
     public static float getSpeedYModifier() {
-        return (totalHeight / 720f) * (60f / Helper.getFPS());
-       // return 1;
+        return iNative==null?1:iNative.speedX()*(totalHeight / 720f) * (60f / Helper.getFPS());
     }
 
 }

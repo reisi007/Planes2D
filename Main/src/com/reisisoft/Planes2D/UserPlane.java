@@ -21,6 +21,10 @@ public class UserPlane extends BasicPlane {
         maxH = currentH;
     }
 
+    public int ShotsAvailable() {
+        return (int) (timeSincelastShot / MSbetweenShots);
+    }
+
     public Bomb getShot() {
         Bomb b = super.getShot(true);
         b.setSpeed(Vector2.X, 2 * Moveable.getSpeedXModifier());

@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="Planes2D" >
+        android:label="Planes 2D" >
         <activity
             android:name="com.reisisoft.Planes2D.AndroidStarter"
             android:label="Planes 2D"

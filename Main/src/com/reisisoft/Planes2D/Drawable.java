@@ -15,6 +15,10 @@ public class Drawable implements IIntersectable, IGameObject {
     private float x, y, w, h;
     private Rectangle bounds;
 
+    public Drawable(Drawable drawable) {
+        this(drawable.textureRegion, new Vector2(drawable.x, drawable.y), Anchor.LowLeft, drawable.w, true, drawable.textureRegion.isFlipX(), drawable.textureRegion.isFlipY());
+    }
+
     public Drawable(TextureRegion textureRegion, Vector2 position, Anchor anchor) {
         this(textureRegion, position, anchor, textureRegion.getRegionWidth());
     }
@@ -77,37 +81,9 @@ public class Drawable implements IIntersectable, IGameObject {
 
     public void setPosition(Anchor a, float x, float y) {
         // Adapt x coordinate
-        switch (a) {
-            case TopMiddle:
-            case MiddleMiddle:
-            case LowMiddle:
-                x -= w / 2;
-                break;
-            case TopRight:
-            case MiddleRight:
-            case LowRight:
-                x -= w;
-                break;
-            default: //*L
-                break;
-        }
+        this.x = Helper.relativeXposition(a, x, w);
         //Adpat y coordinate
-        switch (a) {
-            case TopLeft:
-            case TopMiddle:
-            case TopRight:
-                y -= h;
-                break;
-            case MiddleLeft:
-            case MiddleMiddle:
-            case MiddleRight:
-                y -= h / 2;
-                break;
-            default: //L*
-                break;
-        }
-        this.x = x;
-        this.y = y;
+        this.y = Helper.relativeYposition(a, y, h);
     }
 
     public TextureRegion getTextureRegion() {

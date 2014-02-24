@@ -60,4 +60,26 @@ public class DesktopStarter implements INative {
         Gdx.input.setCursorCatched(true);
         Gdx.input.setCursorPosition(50, maxH / 2);
     }
+
+    @Override
+    public boolean ContinueStagesWorkflow() {
+        return Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT) || Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
+    }
+
+    @Override
+    public float speedX() {
+        return 1;
+    }
+
+    @Override
+    public float speedY() {
+        return 1;
+    }
+
+    @Override
+    public Planes2D.Resolutions prefferredResolution(Planes2D game) {
+        if (game.getCurH() > 500f)
+            return Planes2D.Resolutions.HiRes;
+        return Planes2D.Resolutions.LowRes;
+    }
 }

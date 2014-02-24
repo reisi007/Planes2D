@@ -32,7 +32,7 @@ public abstract class BasicPlane implements IMoveableGameObject, IIntersectable 
     protected Bomb getShot(boolean user) {
         Bomb b = new Bomb(baseBomb, baseBomb.getTextureRegion().isFlipY());
         b.setPosition(Anchor.LowLeft, plane.getX() + (user ? 5 : 1) / 6f * plane.getWidth(), plane.getY() + plane.getHeight() / 2f);
-        b.setSpeed(new Vector2(plane.speed), 2 * plane.getFspeed());
+        b.setSpeed(new Vector2(plane.speed), 1.5f * plane.getFspeed());
         //  System.out.println(b.toString());
         return b;
     }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -19,10 +20,17 @@ public class Planes2D extends Game {
         this.iNative = iNative;
     }
 
+    private BitmapFont[] font;
     private INative iNative;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
     private float curH, curW;
+
+    public float getCurH() {
+        return curH;
+    }
+
+
     private Texture txtHiRes, txtLowRes, txtBomb;
     private Map<Resolutions, Map<GObjects, TextureRegion>> all = new EnumMap<Resolutions, Map<GObjects, TextureRegion>>(Resolutions.class);
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
@@ -30,6 +38,7 @@ public class Planes2D extends Game {
     private Resolutions currentResolution;
     private GameState GSlast, GScurrent = GameState.PrepareGame;
     private GameTime Time;
+    private BombDrawer availableBombs;
     /*
     Game objects
      */
@@ -44,7 +53,7 @@ public class Planes2D extends Game {
 
     private enum GObjects {PlaneR, PlaneG, PlaneB, Grass, Bullet, Star, Cloud}
 
-    private enum Resolutions {LowRes, HiRes}
+    public enum Resolutions {LowRes, HiRes}
 
     private boolean setCurrentResolutions(Resolutions resolution) {
         if (resolution == null)
@@ -52,6 +61,14 @@ public class Planes2D extends Game {
         currentResolution = resolution;
         currentResolutionTextureRegion = all.get(resolution);
         return true;
+    }
+
+    private void loadFonts() {
+        font = new BitmapFont[4];
+        font[0] = new BitmapFont(Gdx.files.internal("fonts/25.fnt"));
+        font[1] = new BitmapFont(Gdx.files.internal("fonts/30.fnt"));
+        font[2] = new BitmapFont(Gdx.files.internal("fonts/35.fnt"));
+        font[3] = new BitmapFont(Gdx.files.internal("fonts/40.fnt"));
     }
 
     private void updateCamera() {
@@ -95,10 +112,13 @@ public class Planes2D extends Game {
 
     // On creation
     public void create() {
-        Moveable.totalHeight = curH = Gdx.graphics.getHeight();
-        Moveable.totalWidth = curW = Gdx.graphics.getWidth();
+        curH = Gdx.graphics.getHeight();
+        curW = Gdx.graphics.getWidth();
+        Moveable.totalWidth = curW > curH ? curW : curH;
+        Moveable.totalHeight = curW > curH ? curH : curW;
         //System.out.println("X Modifier:\t" + Moveable.getSpeedXModifier() + "\tY Modifier:\t" + Moveable.getSpeedYModifier());
         spriteBatch = new SpriteBatch();
+        loadFonts();
         updateCamera();
         // Load texture
         txtHiRes = new Texture(Gdx.files.internal("x2.png"));
@@ -112,13 +132,14 @@ public class Planes2D extends Game {
         putTextures(Resolutions.LowRes);
         putTextures(Resolutions.HiRes);
         // Set resolution according to H/W
-        setCurrentResolutions(Resolutions.HiRes);
+        setCurrentResolutions(iNative.prefferredResolution(this));
         iNative.Setup();
         //Set up time
         Time = new GameTime();
         setDebug(false, false);
         clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
         grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 15f, curW);
+        availableBombs = new BombDrawer(user, new Drawable(requestTextureRegion(GObjects.Bullet), Vector2.Zero, IDrawable.Anchor.LowLeft), 4, 0.9f * curH, curW);
     }
 
     // On pause
@@ -135,21 +156,27 @@ public class Planes2D extends Game {
         Time.Resume();
     }
 
-    long nextEnemy = 0, MSbetweenEnemies = 5000;
+    long nextEnemy = 0, MSbetweenEnemies = 3000;
+    int SCORE;
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
         iNative.letQuit();
         switch (GScurrent) {
+            case Start:
+
+                break;
             case PrepareGame:
                 user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
+                availableBombs.setUserPlane(user);
                 userBombs = new ArrayList<>();
                 enemyBombs = new ArrayList<>();
                 enemyPlanes = new ArrayList<>();
                 ALexplosions = new ArrayList<>();
-                Time.Restart();
+                SCORE = 0;
                 GSlast = GScurrent;
                 GScurrent = GameState.InGame;
+                Time.Restart();
                 break;
 
             case InGame:
@@ -172,7 +199,7 @@ public class Planes2D extends Game {
                 }
                 // Update enemyPlanes
                 if (nextEnemy <= 0) {
-                    nextEnemy += (MSbetweenEnemies -= 10);
+                    nextEnemy += (MSbetweenEnemies -= 50);
                     enemyPlanes.add(getEnemyPlane());
                     user.addFreeShot();
                 }
@@ -181,6 +208,7 @@ public class Planes2D extends Game {
                     EnemyPlane plane = enemyPlanes.get(i);
                     plane.Update(gameTime);
                     if (plane.rightMost() < 0) {
+                        //EnemyPlane out of screen
                         enemyPlanes.remove(i);
                         enemyPlanes.add(getEnemyPlane());
                         i--;
@@ -207,9 +235,11 @@ public class Planes2D extends Game {
                     } else
                         s.Update(gameTime);
                 }
+                availableBombs.Update(gameTime);
                 /*
                 Intersection testing
                  */
+
                 //User plane vs. enemy planes
                 for (int i = 0; i < enemyPlanes.size(); i++) {
                     if (user.Intersects(enemyPlanes.get(i))) {
@@ -223,7 +253,7 @@ public class Planes2D extends Game {
                 }
                 //User bombs vs. Enemy planes
                 for (int b = 0; b < userBombs.size(); b++) {
-                   // System.out.println("UserBombsSize" + userBombs.size());
+                    // System.out.println("UserBombsSize" + userBombs.size());
                     for (int p = 0; p < enemyPlanes.size() && b < userBombs.size(); p++) {
                         //  System.out.println("b:\t" + b + "bSIZE:\t" + userBombs.size() + "p:\t" + p + "pSIZE:\t" + enemyPlanes.size());
                         if (userBombs.get(b).Intersects(enemyPlanes.get(p))) {
@@ -231,12 +261,14 @@ public class Planes2D extends Game {
                             b--;
                             if (b < 0)
                                 b = 0;
+                            SCORE++;
+                            System.out.println("Score: " + SCORE);
                             ALexplosions.add(enemyPlanes.get(p).getExplosion());
                             enemyPlanes.remove(p);
                             p--;
                             if (p < 0)
                                 p = 0;
-                            if (Math.round(Math.random()) == 1l)
+                            if (Helper.getRandomInRange(0, 5) <= 1)
                                 enemyPlanes.add(getEnemyPlane());
                         }
                     }
@@ -245,6 +277,9 @@ public class Planes2D extends Game {
             case PrepearScore:
                 GSlast = GScurrent;
                 GScurrent = GameState.GameOver;
+                break;
+            case GameOver:
+
                 break;
         }
     }
@@ -270,6 +305,7 @@ public class Planes2D extends Game {
                 user.Draw(spriteBatch);
                 for (SingleAnimation s : ALexplosions)
                     s.Draw(spriteBatch);
+                availableBombs.Draw(spriteBatch);
                 //FG
                 break;
         }

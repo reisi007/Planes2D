@@ -21,6 +21,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
     }
 
     int i = 0;
+    float max = 45;
 
     @Override
     public MovementContainer Input() {
@@ -37,10 +38,10 @@ public class AndroidStarter extends AndroidApplication implements INative {
                 m = Gdx.input.getPitch();
                 break;
         }
-        if (m > 90f)
-            m = 90f;
-        if (m < -9045f)
-            m = -90f;
+        if (m > max)
+            m = max;
+        if (m < -max)
+            m = -max;
         Input.Movement = m / 90f;
        /* if (i % 20 == 0) {
             System.out.println("Movement:(" + Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.Accelerometer) + ")" + "\tX:\t" + Gdx.input.getPitch() + "\tY:\t" + Gdx.input.getRoll() + "\tZ:\t" + Gdx.input.getAzimuth());
@@ -58,5 +59,25 @@ public class AndroidStarter extends AndroidApplication implements INative {
     @Override
     public void Setup() {
 
+    }
+
+    @Override
+    public boolean ContinueStagesWorkflow() {
+        return Gdx.input.isTouched();
+    }
+
+    @Override
+    public float speedX() {
+        return 0.8f;
+    }
+
+    @Override
+    public float speedY() {
+        return 1.3f;
+    }
+
+    @Override
+    public Planes2D.Resolutions prefferredResolution(Planes2D game) {
+        return Planes2D.Resolutions.LowRes; //Dummy implementation
     }
 }

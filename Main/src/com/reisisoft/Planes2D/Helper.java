@@ -39,4 +39,40 @@ public class Helper {
     public static int getRandomInRange(int from, int to) {
         return (int) (0.5f + getRandomInRange((float) from, to));
     }
+
+    public static float relativeXposition(IDrawable.Anchor a, float x, float w) {
+        switch (a) {
+            case TopMiddle:
+            case MiddleMiddle:
+            case LowMiddle:
+                x -= w / 2;
+                break;
+            case TopRight:
+            case MiddleRight:
+            case LowRight:
+                x -= w;
+                break;
+            default: //*L
+                break;
+        }
+        return x;
+    }
+
+    public static float relativeYposition(IDrawable.Anchor a, float y, float h) {
+        switch (a) {
+            case TopLeft:
+            case TopMiddle:
+            case TopRight:
+                y -= h;
+                break;
+            case MiddleLeft:
+            case MiddleMiddle:
+            case MiddleRight:
+                y -= h / 2;
+                break;
+            default: //L*
+                break;
+        }
+        return y;
+    }
 }
