@@ -14,4 +14,8 @@ public interface INative {
     public float speedY();
 
     public Planes2D.Resolutions prefferredResolution(Planes2D game);
+
+    public String WelcomeMessage();
+
+    public String GameOverMessage(int score);
 }

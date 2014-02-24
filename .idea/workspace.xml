@@ -2,24 +2,16 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="Android Debug" />
+      <artifact name="Desktop:jar" />
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="683f5796-ad11-4ede-97b1-868815b7175b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android/AndroidManifest.xml" afterPath="$PROJECT_DIR$/Android/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java" afterPath="$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" afterPath="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Helper.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Helper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IMoveableGameObject.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IMoveableGameObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Moveable.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\Planes2DLibGDX\Main\src\com\reisisoft\Planes2D\Font.java" afterPath="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/DrawableText.java" />
     </list>
     <ignored path="Planes2DLibGDX.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,39 +75,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Planes2D.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Planes2D.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="201" column="55" selection-start="8428" selection-end="8428" vertical-scroll-proportion="0.0" vertical-offset="3417" max-vertical-offset="6324">
+            <state line="296" column="60" selection-start="13015" selection-end="13015" vertical-scroll-proportion="0.7134588" vertical-offset="4284" max-vertical-offset="6545">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Font.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Font.java">
+      <file leaf-file-name="DesktopStarter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="51" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0" vertical-offset="112" max-vertical-offset="1020">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Android.iml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Android/Android.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="51" selection-start="785" selection-end="785" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
+            <state line="96" column="37" selection-start="3071" selection-end="3071" vertical-scroll-proportion="0.0" vertical-offset="1043" max-vertical-offset="1802">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidStarter.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java">
+      <file leaf-file-name="INative.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="66" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.8480447" vertical-offset="550" max-vertical-offset="1445">
+            <state line="19" column="45" selection-start="407" selection-end="407" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DrawableText.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/DrawableText.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="38" selection-start="1574" selection-end="1574" vertical-scroll-proportion="0.0" vertical-offset="346" max-vertical-offset="1496">
               <folding />
             </state>
           </provider>
@@ -157,22 +147,25 @@
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Helper.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IMoveableGameObject.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
-        <option value="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Drawable.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/UserPlane.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BasicPlane.java" />
         <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/BombDrawer.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Font.java" />
-        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
         <option value="$PROJECT_DIR$/Android/Android.iml" />
         <option value="$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Font.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/DrawableText.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java" />
+        <option value="$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
+        <option value="$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="width" value="960" />
-    <option name="height" value="1040" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -243,6 +236,42 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Planes2DLibGDX" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="META-INF" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Planes2DLibGDX" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Desktop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Planes2D" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -357,7 +386,7 @@
       <recent name="D:\Planes2DLibGDX\Android" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Application.Androidlauncher">
+  <component name="RunManager" selected="Application.DesktopStarter">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin" singleton="true">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -564,8 +593,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -578,15 +607,15 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.12" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3137045" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31368423" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32421052" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.43114406" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24631579" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21197917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24526316" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" x="1372" y="808" width="599" height="342" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -873,18 +902,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="68" selection-start="323" selection-end="323" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="43" selection-start="2623" selection-end="2623" vertical-scroll-proportion="0.0" vertical-offset="589" max-vertical-offset="1513" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/IGameObject.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="54" selection-start="119" selection-end="136" vertical-scroll-proportion="0.073913045" vertical-offset="0" max-vertical-offset="690">
@@ -927,32 +944,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="201" column="55" selection-start="8428" selection-end="8428" vertical-scroll-proportion="0.0" vertical-offset="2495" max-vertical-offset="6120">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Font.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="51" selection-start="530" selection-end="530" vertical-scroll-proportion="0.0" vertical-offset="112" max-vertical-offset="1020">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Android/Android.iml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="51" selection-start="785" selection-end="785" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="442">
-          <folding />
-        </state>
+        <state line="16" column="51" selection-start="785" selection-end="785" vertical-scroll-proportion="0.3936324" vertical-offset="0" max-vertical-offset="691" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Android/src/com/reisisoft/Planes2D/AndroidStarter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="66" selection-start="2283" selection-end="2283" vertical-scroll-proportion="0.8480447" vertical-offset="550" max-vertical-offset="1445">
+        <state line="80" column="66" selection-start="2283" selection-end="2283" vertical-scroll-proportion="1.1430678" vertical-offset="534" max-vertical-offset="1445">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/DrawableText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="38" selection-start="1574" selection-end="1574" vertical-scroll-proportion="0.0" vertical-offset="346" max-vertical-offset="1496">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="37" selection-start="3071" selection-end="3071" vertical-scroll-proportion="0.0" vertical-offset="1043" max-vertical-offset="1802">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/INative.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="45" selection-start="407" selection-end="407" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="459">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Main/src/com/reisisoft/Planes2D/Planes2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="296" column="60" selection-start="13015" selection-end="13015" vertical-scroll-proportion="0.7134588" vertical-offset="4284" max-vertical-offset="6545">
           <folding />
         </state>
       </provider>

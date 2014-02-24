@@ -57,8 +57,8 @@ public class DesktopStarter implements INative {
     }
 
     public void Setup() {
-        Gdx.input.setCursorCatched(true);
-        Gdx.input.setCursorPosition(50, maxH / 2);
+       /* Gdx.input.setCursorCatched(true);
+        Gdx.input.setCursorPosition(50, maxH / 2);*/
     }
 
     @Override
@@ -81,5 +81,22 @@ public class DesktopStarter implements INative {
         if (game.getCurH() > 500f)
             return Planes2D.Resolutions.HiRes;
         return Planes2D.Resolutions.LowRes;
+    }
+
+    @Override
+    public String WelcomeMessage() {
+        StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
+        sb.append("\nPress <SPACE> to start the game");
+        sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
+        return sb.toString();
+    }
+
+    @Override
+    public String GameOverMessage(int score) {
+        StringBuilder sb = new StringBuilder("Game Over!");
+        sb.append("\nYour score is:\n");
+        sb.append(score);
+        sb.append("\nPress <SPACE> to retry!");
+        return sb.toString();
     }
 }

@@ -2,6 +2,7 @@ package com.reisisoft.Planes2D;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,7 +21,7 @@ public class Planes2D extends Game {
         this.iNative = iNative;
     }
 
-    private BitmapFont[] font;
+    private BitmapFont[] bitmapFonts;
     private INative iNative;
     private OrthographicCamera camera;
     private SpriteBatch spriteBatch;
@@ -36,7 +37,7 @@ public class Planes2D extends Game {
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, TextureRegion> currentResolutionTextureRegion;
     private Resolutions currentResolution;
-    private GameState GSlast, GScurrent = GameState.PrepareGame;
+    private GameState GSlast, GScurrent = GameState.Start;
     private GameTime Time;
     private BombDrawer availableBombs;
     /*
@@ -48,6 +49,10 @@ public class Planes2D extends Game {
     private ArrayList<Bomb> userBombs, enemyBombs;
     private ArrayList<EnemyPlane> enemyPlanes;
     private ArrayList<SingleAnimation> ALexplosions;
+    /*
+    Drawable Text
+     */
+    private DrawableText dtScore, dtWelcome, dtGameover;
 
     public enum GameState {Start, Paused, Resume, PrepareGame, InGame, PrepearScore, GameOver}
 
@@ -64,11 +69,13 @@ public class Planes2D extends Game {
     }
 
     private void loadFonts() {
-        font = new BitmapFont[4];
-        font[0] = new BitmapFont(Gdx.files.internal("fonts/25.fnt"));
-        font[1] = new BitmapFont(Gdx.files.internal("fonts/30.fnt"));
-        font[2] = new BitmapFont(Gdx.files.internal("fonts/35.fnt"));
-        font[3] = new BitmapFont(Gdx.files.internal("fonts/40.fnt"));
+        bitmapFonts = new BitmapFont[4];
+        bitmapFonts[0] = new BitmapFont(Gdx.files.internal("fonts/25.fnt"));
+        bitmapFonts[1] = new BitmapFont(Gdx.files.internal("fonts/30.fnt"));
+        bitmapFonts[2] = new BitmapFont(Gdx.files.internal("fonts/35.fnt"));
+        bitmapFonts[3] = new BitmapFont(Gdx.files.internal("fonts/40.fnt"));
+        for (int f = 0; f < bitmapFonts.length; f++)
+            bitmapFonts[f].setColor(Color.BLACK);
     }
 
     private void updateCamera() {
@@ -116,6 +123,8 @@ public class Planes2D extends Game {
         curW = Gdx.graphics.getWidth();
         Moveable.totalWidth = curW > curH ? curW : curH;
         Moveable.totalHeight = curW > curH ? curH : curW;
+        DrawableText.currentH = Moveable.totalHeight;
+        DrawableText.currentW = Moveable.totalWidth;
         //System.out.println("X Modifier:\t" + Moveable.getSpeedXModifier() + "\tY Modifier:\t" + Moveable.getSpeedYModifier());
         spriteBatch = new SpriteBatch();
         loadFonts();
@@ -139,7 +148,8 @@ public class Planes2D extends Game {
         setDebug(false, false);
         clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
         grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 15f, curW);
-        availableBombs = new BombDrawer(user, new Drawable(requestTextureRegion(GObjects.Bullet), Vector2.Zero, IDrawable.Anchor.LowLeft), 4, 0.9f * curH, curW);
+        availableBombs = new BombDrawer(user, new Drawable(requestTextureRegion(GObjects.Bullet), Vector2.Zero, IDrawable.Anchor.LowLeft), 4, 0.9f * curH - 4, curW);
+        dtWelcome = new DrawableText(bitmapFonts, iNative.WelcomeMessage(), curW * 0.95f, true, curW / 2, 2 * curH / 3, IDrawable.Anchor.MiddleMiddle);
     }
 
     // On pause
@@ -158,13 +168,17 @@ public class Planes2D extends Game {
 
     long nextEnemy = 0, MSbetweenEnemies = 3000;
     int SCORE;
+    int SEC_AcceptNext = -1;
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
         iNative.letQuit();
         switch (GScurrent) {
             case Start:
-
+                if (iNative.ContinueStagesWorkflow()) {
+                    GSlast = GScurrent;
+                    GScurrent = GameState.PrepareGame;
+                }
                 break;
             case PrepareGame:
                 user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
@@ -176,6 +190,8 @@ public class Planes2D extends Game {
                 SCORE = 0;
                 GSlast = GScurrent;
                 GScurrent = GameState.InGame;
+                dtScore = new DrawableText(bitmapFonts, "Score: 0", curH / 10, false, 4, 1.015f * curH, IDrawable.Anchor.TopLeft);
+                //Last thing: Start time
                 Time.Restart();
                 break;
 
@@ -262,7 +278,7 @@ public class Planes2D extends Game {
                             if (b < 0)
                                 b = 0;
                             SCORE++;
-                            System.out.println("Score: " + SCORE);
+                            dtScore.setText("Score: " + SCORE);
                             ALexplosions.add(enemyPlanes.get(p).getExplosion());
                             enemyPlanes.remove(p);
                             p--;
@@ -277,9 +293,14 @@ public class Planes2D extends Game {
             case PrepearScore:
                 GSlast = GScurrent;
                 GScurrent = GameState.GameOver;
+                dtGameover = new DrawableText(bitmapFonts, iNative.GameOverMessage(SCORE), 0.95f * curW, true, curW / 2f, 2f / 3 * curH, IDrawable.Anchor.MiddleMiddle);
+                SEC_AcceptNext = gameTime.ElapsedSeconds + 1;
                 break;
             case GameOver:
-
+                if ((gameTime.ElapsedSeconds > SEC_AcceptNext) && iNative.ContinueStagesWorkflow()) {
+                    GSlast = GScurrent;
+                    GScurrent = GameState.PrepareGame;
+                }
                 break;
         }
     }
@@ -291,7 +312,10 @@ public class Planes2D extends Game {
 
     // Draw all the game objects
     public void Draw() {
-        switch (GScurrent) {
+        switch (GScurrent == GameState.Paused ? GSlast : GScurrent) {
+            case Start:
+                dtWelcome.Draw(spriteBatch);
+                break;
             case InGame:
                 //BG
                 grass.Draw(spriteBatch);
@@ -306,7 +330,11 @@ public class Planes2D extends Game {
                 for (SingleAnimation s : ALexplosions)
                     s.Draw(spriteBatch);
                 availableBombs.Draw(spriteBatch);
+                dtScore.Draw(spriteBatch);
                 //FG
+                break;
+            case GameOver:
+                dtGameover.Draw(spriteBatch);
                 break;
         }
     }
