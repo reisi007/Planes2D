@@ -4,7 +4,7 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Font implements IDrawable {
+public class DrawableText implements IDrawable {
     private BitmapFont font;
     private BitmapFont[] fonts;
     private String text;
@@ -21,7 +21,7 @@ public class Font implements IDrawable {
         this.y = Helper.relativeYposition(anchor, y, bounds.height);
     }
 
-    public Font(BitmapFont[] fonts, String text, float desiredSide, boolean isWidth, Anchor anchor, float x, float y) {
+    public DrawableText(BitmapFont[] fonts, String text, float desiredSide, boolean isWidth, Anchor anchor, float x, float y) {
         this.anchor = anchor;
         oX = x;
         oY = y;
