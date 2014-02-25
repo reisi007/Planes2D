@@ -19,6 +19,7 @@ public class UserPlane extends BasicPlane {
         this.iNative = iNative;
         movementContainer = iNative.Input();
         maxH = currentH;
+        nextAllowed = 300;
     }
 
     public int ShotsAvailable() {
