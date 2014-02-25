@@ -1,6 +1,7 @@
 package com.reisisoft.Planes2D;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -13,10 +14,12 @@ public class DrawableText implements IDrawable {
     private float oDesiredSide;
     private boolean oIsWidth;
     public static float currentH, currentW;
+    private Color color;
 
     public void setText(String s) {
         text = s;
         getDesiredFont(text, oDesiredSide, oIsWidth);
+        font.setColor(color);
     }
 
     public void setText(int s) {
@@ -24,6 +27,11 @@ public class DrawableText implements IDrawable {
     }
 
     public DrawableText(BitmapFont[] fonts, String text, float desiredSide, boolean isWidth, float x, float y, Anchor anchor) {
+        this(fonts, text, desiredSide, isWidth, x, y, anchor, Color.BLACK);
+    }
+
+    public DrawableText(BitmapFont[] fonts, String text, float desiredSide, boolean isWidth, float x, float y, Anchor anchor, Color color) {
+        this.color = color;
         oDesiredSide = desiredSide;
         oIsWidth = isWidth;
         this.fonts = fonts;
@@ -53,14 +61,14 @@ public class DrawableText implements IDrawable {
                 break;
         }
         this.x = x + bounds.width / 2f;
-        this.y = y;
+        this.y = y + bounds.height / 2f;
     }
 
     private void getDesiredFont(String text, float desiredSide, boolean isWidth) {
         for (int i = fonts.length - 1; i >= 0; i--) {
             BitmapFont.TextBounds bounds = fonts[i].getMultiLineBounds(text);
             if ((!isWidth && bounds.height < desiredSide && bounds.width <= currentW) || (isWidth && bounds.width < desiredSide && bounds.height < currentH)) {
-                font = fonts[i];
+                font = new BitmapFont(fonts[i].getData(), fonts[i].getRegions(), true);
                 this.bounds = bounds;
                 return;
             }
