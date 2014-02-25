@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 /*
 A class made for easyfied drawing
  */
-public class Drawable implements IIntersectable, IGameObject {
+public class Drawable implements IIntersectable, IFullGameObject {
     public static TextureRegion blackDebug = null;
     public static boolean DEBUG = false;
     private TextureRegion textureRegion;
@@ -75,7 +75,7 @@ public class Drawable implements IIntersectable, IGameObject {
         h *= sy;
     }
 
-    public static void setSclae(float newScale, IGameObject object) {
+    public static void setSclae(float newScale, IFullGameObject object) {
         object.setScale(newScale);
     }
 

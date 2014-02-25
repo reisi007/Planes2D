@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class BasicPlane implements IMoveableGameObject, IIntersectable {
+public abstract class BasicPlane implements IMoveableFullGameObject, IIntersectable {
     public static TextureRegion blackDebug = null;
     public static boolean DEBUG = false;
     protected Moveable plane;

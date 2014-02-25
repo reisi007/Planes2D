@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Bomb implements IMoveableGameObject, IIntersectable {
+public class Bomb implements IMoveableFullGameObject, IIntersectable {
     private Moveable bomb;
     private static final float relativeHeight = 1 / 75f;
 

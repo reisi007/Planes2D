@@ -3,7 +3,7 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class Moveable extends Drawable implements IMoveableGameObject {
+public class Moveable extends Drawable implements IMoveableFullGameObject {
     protected Vector2 speed;
     private float fspeed;
     public static INative iNative;
@@ -68,11 +68,11 @@ public class Moveable extends Drawable implements IMoveableGameObject {
     public static float totalWidth, totalHeight;
 
     public static float getSpeedXModifier() {
-        return iNative==null?1:iNative.speedX()*(totalWidth / 1280f) * (60f / Helper.getFPS());
+        return iNative == null ? 1 : iNative.speedX() * (totalWidth / 1280f) * (60f / Helper.getFPS());
     }
 
     public static float getSpeedYModifier() {
-        return iNative==null?1:iNative.speedX()*(totalHeight / 720f) * (60f / Helper.getFPS());
+        return iNative == null ? 1 : iNative.speedY() * (totalHeight / 720f) * (60f / Helper.getFPS());
     }
 
 }

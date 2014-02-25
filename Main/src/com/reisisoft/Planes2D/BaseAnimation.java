@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class BaseAnimation implements IMoveableGameObject {
+public class BaseAnimation implements IMoveableFullGameObject {
     protected int Nrows, NColumns, curRow = 0, curColumn = 0, runs = 0, sizeX, sizeY;
     protected double iterator = 0, changeAfter;
     protected Moveable animation;

@@ -4,11 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import java.awt.*;
+
 public class DesktopStarter implements INative {
     private MovementContainer Input;
     private LwjglApplication application;
     private LwjglApplicationConfiguration cfg;
     private int maxH;
+    private boolean goneFullscreen = false;
+    private static final boolean DEBUG = false;
 
     public static void main(String[] args) {
         DesktopStarter ds = new DesktopStarter();
@@ -19,8 +23,16 @@ public class DesktopStarter implements INative {
         cfg = new LwjglApplicationConfiguration();
         cfg.title = "Plane 2D";
         cfg.useGL20 = true;
-        cfg.width = 1280;
-        maxH = cfg.height = 720;
+        if (DEBUG) {
+            cfg.width = 1280;
+            cfg.height = 720;
+            cfg.fullscreen = false;
+        } else {
+            cfg.width = Toolkit.getDefaultToolkit().getScreenSize().width;
+            cfg.height = Toolkit.getDefaultToolkit().getScreenSize().height;
+            goneFullscreen = cfg.fullscreen = true;
+        }
+        maxH = cfg.height;
         cfg.resizable = false;
         cfg.initialBackgroundColor = Helper.CornFlowerBlue;
         cfg.foregroundFPS = 60;
@@ -42,13 +54,6 @@ public class DesktopStarter implements INative {
             Input.Movement = -1f;
         else
             Input.Movement = 0f;
-           /* if (Input.Movement > maxH - 20) {
-                Input.Movement = maxH - 20;
-                Gdx.input.setCursorPosition(50, maxH - 20);
-            } else if (Input.Movement < 20) {
-                Input.Movement = 20;
-                Gdx.input.setCursorPosition(50, 20);
-            }*/
         return Input;
     }
 
@@ -57,8 +62,8 @@ public class DesktopStarter implements INative {
     }
 
     public void Setup() {
-       /* Gdx.input.setCursorCatched(true);
-        Gdx.input.setCursorPosition(50, maxH / 2);*/
+        if (goneFullscreen)
+            Gdx.input.setCursorCatched(true);
     }
 
     @Override
@@ -88,6 +93,7 @@ public class DesktopStarter implements INative {
         StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
         sb.append("\nPress <SPACE> to start the game");
         sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
+        sb.append("\nUse <SPACE> to shoot");
         return sb.toString();
     }
 

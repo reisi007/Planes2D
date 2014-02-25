@@ -80,4 +80,22 @@ public class AndroidStarter extends AndroidApplication implements INative {
     public Planes2D.Resolutions prefferredResolution(Planes2D game) {
         return Planes2D.Resolutions.LowRes; //Dummy implementation
     }
+
+    @Override
+    public String WelcomeMessage() {
+        StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
+        sb.append("\nTouch the screen to start the game");
+        sb.append("\n`'Steer' left and right to move");
+        sb.append("\nTouch the screen to shoot");
+        return sb.toString();
+    }
+
+    @Override
+    public String GameOverMessage(int score) {
+        StringBuilder sb = new StringBuilder("Game Over!");
+        sb.append("\nYour score is:\n");
+        sb.append(score);
+        sb.append("\nPress <SPACE> to retry!");
+        return sb.toString();
+    }
 }

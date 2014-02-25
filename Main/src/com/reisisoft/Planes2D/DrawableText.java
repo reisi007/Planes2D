@@ -11,15 +11,17 @@ public class DrawableText implements IDrawable {
     private String text;
     private float x, y;
     private BitmapFont.TextBounds bounds;
-    private float oDesiredSide;
+    private float oDesiredSide, oX, oY;
     private boolean oIsWidth;
     public static float currentH, currentW;
     private Color color;
+    private Anchor oAnchor;
 
     public void setText(String s) {
         text = s;
         getDesiredFont(text, oDesiredSide, oIsWidth);
         font.setColor(color);
+        setTextPosition(oAnchor, oX, oY);
     }
 
     public void setText(int s) {
@@ -35,7 +37,14 @@ public class DrawableText implements IDrawable {
         oDesiredSide = desiredSide;
         oIsWidth = isWidth;
         this.fonts = fonts;
+        oAnchor = anchor;
+        oX = x;
+        oY = y;
         setText(text);
+
+    }
+
+    private void setTextPosition(Anchor anchor, float x, float y) {
         switch (anchor) {
             case TopLeft:
             case TopMiddle:
@@ -73,11 +82,6 @@ public class DrawableText implements IDrawable {
                 return;
             }
         }
-    }
-
-    @Override
-    public void Update(GameTime.GameTimeArgs gameTimeArgs) {
-// Nothing to Update
     }
 
     @Override
