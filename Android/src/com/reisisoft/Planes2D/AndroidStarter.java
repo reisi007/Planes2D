@@ -1,5 +1,7 @@
 package com.reisisoft.Planes2D;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -7,6 +9,7 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 public class AndroidStarter extends AndroidApplication implements INative {
     private MovementContainer Input = new MovementContainer();
+    private SharedPreferences preferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -17,6 +20,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
         cfg.useWakelock = true;
         cfg.useGL20 = true;
         cfg.hideStatusBar = true;
+        preferences = this.getSharedPreferences("SCORE", Context.MODE_PRIVATE);
         initialize(new Planes2D(this), cfg);
     }
 
@@ -43,11 +47,6 @@ public class AndroidStarter extends AndroidApplication implements INative {
         if (m < -max)
             m = -max;
         Input.Movement = m / 90f;
-       /* if (i % 20 == 0) {
-            System.out.println("Movement:(" + Gdx.input.isPeripheralAvailable(com.badlogic.gdx.Input.Peripheral.Accelerometer) + ")" + "\tX:\t" + Gdx.input.getPitch() + "\tY:\t" + Gdx.input.getRoll() + "\tZ:\t" + Gdx.input.getAzimuth());
-            System.out.println(Gdx.input.getRotation());
-            System.out.println(Input.toString());
-        }*/
         return Input;
     }
 
@@ -91,11 +90,29 @@ public class AndroidStarter extends AndroidApplication implements INative {
     }
 
     @Override
-    public String GameOverMessage(int score) {
+    public String GameOverMessage(int score, boolean newHighScore) {
         StringBuilder sb = new StringBuilder("Game Over!");
+        if (newHighScore)
+            sb.append("\nNEW HIGHSCORE!!!");
         sb.append("\nYour score is:\n");
         sb.append(score);
         sb.append("\nPress <SPACE> to retry!");
         return sb.toString();
+    }
+
+    private int HIGHSCORE = 0;
+
+    @Override
+    public void saveScore(int score) {
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("HIGHSCORE", HIGHSCORE);
+        editor.commit();
+    }
+
+    @Override
+    public int getHighScore() {
+        HIGHSCORE = preferences.getInt("HIGHSCORE", 0);
+        return HIGHSCORE;
     }
 }

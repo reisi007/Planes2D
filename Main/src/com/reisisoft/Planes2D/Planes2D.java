@@ -37,7 +37,7 @@ public class Planes2D extends Game {
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, TextureRegion> currentResolutionTextureRegion;
     private Resolutions currentResolution;
-    private GameState GSlast, GScurrent = GameState.Start;
+    private GameState GSlast, GScurrent = GameState.FirstFrame;
     private GameTime Time;
     private BombDrawer availableBombs;
     private LifeDrawer availableLives;
@@ -55,7 +55,7 @@ public class Planes2D extends Game {
      */
     private DrawableText dtScore, dtWelcome, dtGameover;
 
-    public enum GameState {Start, Paused, Resume, PrepareGame, InGame, PrepearScore, GameOver}
+    public enum GameState {FirstFrame, Start, Paused, Resume, PrepareGame, InGame, PrepearScore, GameOver}
 
     private enum GObjects {PlaneR, PlaneG, PlaneB, Grass, Bullet, Star, Cloud}
 
@@ -176,13 +176,18 @@ public class Planes2D extends Game {
     }
 
     long nextEnemy = 0, MSbetweenEnemies = 4000;
-    int SCORE, LIVES;
+    int SCORE, LIVES, HIGHSCORE;
     int SEC_AcceptNext = -1;
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
         iNative.letQuit();
         switch (GScurrent) {
+            case FirstFrame:
+                HIGHSCORE = iNative.getHighScore();
+                GSlast = GScurrent;
+                GScurrent = GameState.Start;
+                break;
             case Start:
                 if (iNative.ContinueStagesWorkflow()) {
                     GSlast = GScurrent;
@@ -199,7 +204,7 @@ public class Planes2D extends Game {
                 LIVES = 3;
                 GSlast = GScurrent;
                 GScurrent = GameState.InGame;
-                dtScore = new DrawableText(bitmapFonts, "Score: 0", curH / 10, false, 4, curH - 4, IDrawable.Anchor.TopLeft);
+                dtScore = new DrawableText(bitmapFonts, "Score: 0     Highscore: " + HIGHSCORE, curH / 10, false, 4, curH - 4, IDrawable.Anchor.TopLeft);
                 clouds = new CloudManager((int) (curW / 128 + 0.5f), requestTextureRegion(GObjects.Cloud), curW, 2f * curH / 3, curH, curH / 3);
                 grass = new GrassManager(requestTextureRegion(GObjects.Grass), curH / 15f, curW);
                 availableBombs = new BombDrawer(user, new Drawable(requestTextureRegion(GObjects.Bullet), Vector2.Zero, IDrawable.Anchor.LowLeft), 4, 0.9f * curH - 4, curW);
@@ -309,7 +314,9 @@ public class Planes2D extends Game {
                             if (b < 0)
                                 b = 0;
                             SCORE++;
-                            dtScore.setText("Score: " + SCORE);
+                            if (HIGHSCORE < SCORE)
+                                HIGHSCORE = SCORE;
+                            dtScore.setText("Score: " + SCORE + "     Highscore: " + HIGHSCORE);
                             ALexplosions.add(enemyPlanes.get(p).getExplosion());
                             enemyPlanes.remove(p);
                             p--;
@@ -324,8 +331,12 @@ public class Planes2D extends Game {
             case PrepearScore:
                 GSlast = GScurrent;
                 GScurrent = GameState.GameOver;
-                dtGameover = new DrawableText(bitmapFonts, iNative.GameOverMessage(SCORE), 0.95f * curW, true, curW / 2f, 2f / 3 * curH, IDrawable.Anchor.MiddleMiddle, Color.WHITE);
+                dtGameover = new DrawableText(bitmapFonts, iNative.GameOverMessage(SCORE, SCORE >= HIGHSCORE), 0.95f * curW, true, curW / 2f, 2f / 3 * curH, IDrawable.Anchor.MiddleMiddle, Color.WHITE);
                 SEC_AcceptNext = gameTime.ElapsedSeconds + 1;
+                if (SCORE >= HIGHSCORE) {
+                    iNative.saveScore(SCORE);
+                    HIGHSCORE = SCORE;
+                }
                 break;
             case GameOver:
                 if ((gameTime.ElapsedSeconds > SEC_AcceptNext) && iNative.ContinueStagesWorkflow()) {
@@ -343,13 +354,11 @@ public class Planes2D extends Game {
 
     // Draw all the game objects
     public void Draw() {
-        switch (GScurrent == GameState.Paused ? GSlast : GScurrent) {
+        switch ((GScurrent == GameState.Paused || GScurrent == GameState.PrepareGame || GScurrent == GameState.PrepearScore) ? GSlast : GScurrent) {
             case Start:
-            case PrepareGame:
                 dtWelcome.Draw(spriteBatch);
                 break;
             case InGame:
-            case PrepearScore:
                 //BG
                 grass.Draw(spriteBatch);
                 clouds.Draw(spriteBatch);

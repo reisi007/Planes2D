@@ -3,6 +3,8 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
+import java.security.MessageDigest;
+
 /**
  * Created by Florian on 14.02.14.
  */
@@ -74,5 +76,27 @@ public class Helper {
                 break;
         }
         return y;
+    }
+
+    public static String sha256(int base) {
+        return sha256(Integer.toString(base));
+    }
+
+    public static String sha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer stringBuffer = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String s = Integer.toHexString(0xff & hash[i]);
+                if (s.length() == 1) stringBuffer.append('0');
+                stringBuffer.append(s);
+            }
+
+            return stringBuffer.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
 }

@@ -5,6 +5,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
 
 public class DesktopStarter implements INative {
     private MovementContainer Input;
@@ -12,7 +14,7 @@ public class DesktopStarter implements INative {
     private LwjglApplicationConfiguration cfg;
     private int maxH;
     private boolean goneFullscreen = false;
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
 
     public static void main(String[] args) {
         DesktopStarter ds = new DesktopStarter();
@@ -98,11 +100,83 @@ public class DesktopStarter implements INative {
     }
 
     @Override
-    public String GameOverMessage(int score) {
+    public String GameOverMessage(int score, boolean newHighScore) {
         StringBuilder sb = new StringBuilder("Game Over!");
+        if (newHighScore)
+            sb.append("\nNEW HIGHSCORE!!!");
         sb.append("\nYour score is:\n");
         sb.append(score);
         sb.append("\nPress <SPACE> to retry!");
         return sb.toString();
+    }
+
+    // Loading and saving score
+    private int HIGHSCORE;
+    private String url = this.getClass().getProtectionDomain().getCodeSource().getLocation().toString().replace("file:/", "") + "/planes2d.score";
+
+    @Override
+    public void saveScore(int score) {
+        HIGHSCORE = score < 0 ? 0 : score;
+        PrintWriter file = null;
+        try {
+            file = new PrintWriter(url);
+            file.println(score);
+            file.println(Helper.sha256(score));
+        } catch (FileNotFoundException fnfE) {
+            tryCreateFile(fnfE);
+        } finally {
+            if (file != null)
+                file.close();
+        }
+    }
+
+    @Override
+    public int getHighScore() {
+        ArrayList<String> tmp = new ArrayList<>();
+        try {
+
+            FileInputStream fileInputStream = new FileInputStream(url);
+            BufferedReader in = new BufferedReader(new InputStreamReader(fileInputStream));
+            try {
+                String s;
+                while ((s = in.readLine()) != null) {
+                    tmp.add(s);
+                }
+            } catch (IOException ioE) {
+                System.out.println("Lines: " + tmp.size() + "\nIOException:" + ioE.getMessage());
+                if (tmp.size() != 2)
+                    tmp.clear();
+            }
+            // In the first line, there should be the score, in the second the SHA-256 hash
+            // If the Score is valid Hash(0) == 1
+            if (tmp.size() != 2)
+                HIGHSCORE = 0;
+            else {
+                if (Helper.sha256(tmp.get(0)).equals(tmp.get(1))) {
+                    try {
+                        HIGHSCORE = Integer.parseInt(tmp.get(0));
+                    } catch (NumberFormatException nfE) {
+                        HIGHSCORE = 0;
+                    }
+                } else
+                    HIGHSCORE = 0;
+            }
+
+        } catch (FileNotFoundException fnfE) {
+            tryCreateFile(fnfE);
+        }
+        if (tmp.isEmpty())
+            HIGHSCORE = 0;
+        return HIGHSCORE > 0 ? HIGHSCORE : 0;
+    }
+
+    private void tryCreateFile(FileNotFoundException fnfE) {
+        File file = new File(url);
+        try {
+            file.createNewFile();
+        } catch (IOException ioE) {
+            // Can't save score this time
+            System.out.println("Score can not be saved.\nFileNotFound:\t" + fnfE.getMessage() + "\nIO:\t" + ioE.getMessage());
+        }
     }
 }

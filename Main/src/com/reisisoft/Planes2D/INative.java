@@ -17,5 +17,9 @@ public interface INative {
 
     public String WelcomeMessage();
 
-    public String GameOverMessage(int score);
+    public String GameOverMessage(int score, boolean newHighScore);
+
+    public void saveScore(int score);
+
+    public int getHighScore();
 }
