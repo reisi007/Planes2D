@@ -41,6 +41,8 @@ public class Planes2D extends Game {
     private GameTime Time;
     private BombDrawer availableBombs;
     private LifeDrawer availableLives;
+    private Texture rotatingStar;
+    private BaseAnimation star;
     /*
     Game objects
      */
@@ -127,6 +129,7 @@ public class Planes2D extends Game {
                 all.put(Resolutions.HiRes, map);
                 break;
         }
+        rotatingStar = new Texture(Gdx.files.internal("rotstar.png"));
     }
 
     // On creation
@@ -159,6 +162,7 @@ public class Planes2D extends Game {
         Time = new GameTime();
         setDebug(false, false);
         dtWelcome = new DrawableText(bitmapFonts, iNative.WelcomeMessage(), curW * 0.95f, true, curW / 2, 2 * curH / 3, IDrawable.Anchor.MiddleMiddle, Color.WHITE);
+        star = getRotatingStar(new Vector2(100, 100), Vector2.X, 4, 50);
     }
 
     // On pause
@@ -193,6 +197,7 @@ public class Planes2D extends Game {
                     GSlast = GScurrent;
                     GScurrent = GameState.PrepareGame;
                 }
+                star.Update(gameTime);
                 break;
             case PrepareGame:
                 user = new UserPlane(getExplosionForPlanes(), getBombForPlanes(true), requestTextureRegion(GObjects.PlaneR), curW, curH, iNative);
@@ -357,6 +362,7 @@ public class Planes2D extends Game {
         switch ((GScurrent == GameState.Paused || GScurrent == GameState.PrepareGame || GScurrent == GameState.PrepearScore) ? GSlast : GScurrent) {
             case Start:
                 dtWelcome.Draw(spriteBatch);
+                star.Draw(spriteBatch);
                 break;
             case InGame:
                 //BG
@@ -383,7 +389,7 @@ public class Planes2D extends Game {
     }
 
     private SingleAnimation getExplosionForPlanes() {
-        return new SingleAnimation(explosions.get(currentResolution), Vector2.Zero, Vector2.Zero, 0, currentResolution == Resolutions.HiRes ? 222 : 111, 3, 4, 5, 200);
+        return new SingleAnimation(explosions.get(currentResolution), Vector2.Zero, Vector2.Zero, 0, currentResolution == Resolutions.HiRes ? 222 : 111, 3, 5,4, 200);
     }
 
     private Bomb getBombForPlanes(boolean user) {
@@ -392,6 +398,10 @@ public class Planes2D extends Game {
 
     private EnemyPlane getEnemyPlane() {
         return new EnemyPlane(getExplosionForPlanes(), getBombForPlanes(false), getRandomPlaneTextureRegion(), curH, curW);
+    }
+
+    private BaseAnimation getRotatingStar(Vector2 position, Vector2 direction, float speed, float setWidth) {
+        return new BaseAnimation(rotatingStar, position, direction, speed, 100, 100, 3, 2, 5, setWidth, true, 1);
     }
 
     private TextureRegion getRandomPlaneTextureRegion() {

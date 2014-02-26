@@ -10,9 +10,10 @@ public class BaseAnimation implements IMoveableFullGameObject {
     protected double iterator = 0, changeAfter;
     protected Moveable animation;
     private TextureRegion textureRegion;
+    private int missinglastRow;
 
     public BaseAnimation(BaseAnimation baseAnimation) {
-        this(baseAnimation.textureRegion.getTexture(), new Vector2(baseAnimation.animation.getX(), baseAnimation.animation.getY()), baseAnimation.animation.speed, baseAnimation.animation.getFspeed(), baseAnimation.sizeX, baseAnimation.sizeY, (int) (baseAnimation.changeAfter / GameTime.FRAME + 0.5d), baseAnimation.Nrows, baseAnimation.NColumns, baseAnimation.animation.getHeight(), false);
+        this(baseAnimation.textureRegion.getTexture(), new Vector2(baseAnimation.animation.getX(), baseAnimation.animation.getY()), baseAnimation.animation.speed, baseAnimation.animation.getFspeed(), baseAnimation.sizeX, baseAnimation.sizeY, (int) (baseAnimation.changeAfter / GameTime.FRAME + 0.5d), baseAnimation.Nrows, baseAnimation.NColumns, baseAnimation.animation.getHeight(), false, baseAnimation.missinglastRow);
     }
 
     public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int size, int changeAfter, int NRows, int NColumns, float setHeight) {
@@ -20,10 +21,15 @@ public class BaseAnimation implements IMoveableFullGameObject {
     }
 
     public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int sizeX, int sizeY, int changeAfter, int NRows, int NColumns, float setSide, boolean setWidth) {
+        this(texture, position, direction, speed, sizeX, sizeY, changeAfter, NRows, NColumns, setSide, setWidth, 0);
+    }
+
+    public BaseAnimation(Texture texture, Vector2 position, Vector2 direction, float speed, int sizeX, int sizeY, int changeAfter, int NRows, int NColumns, float setSide, boolean setWidth, int missingLastRow) {
         animation = new Moveable((textureRegion = new TextureRegion(texture, 0, 0, this.sizeX = sizeX, this.sizeY = sizeY)), position, direction, speed, Anchor.LowLeft, setSide, setWidth, false, false);
         this.changeAfter = changeAfter * GameTime.FRAME;
         this.Nrows = NRows;
         this.NColumns = NColumns;
+        this.missinglastRow = missingLastRow;
     }
 
     public void Draw(SpriteBatch spriteBatch) {
@@ -73,19 +79,30 @@ public class BaseAnimation implements IMoveableFullGameObject {
         iterator += gameTimeArgs.ELapsedMSSinceLastFrame;
         // System.out.println("MS since last frame:" + gameTimeArgs.ELapsedMSSinceLastFrame);
         if (iterator >= changeAfter) {
+            //System.out.println("CurrentSprite:\t" + currentSpriteNumber + "\tMaxSprite:\t" + totalNumberOfSprites);
             iterator -= changeAfter;
-            if (curRow < Nrows - 1) {
-                curRow++;
-            } else if (curColumn < NColumns - 1) {
-                curRow = 0;
+            if (curColumn < NColumns - 1) {
                 curColumn++;
+            } else if (curRow < (Nrows - 1)) {
+                curColumn = 0;
+                curRow++;
             } else {
                 curColumn = curRow = 0;
                 runs++;
             }
+            //System.out.println("CurRown:" + curRow + "\tIF??    " + ((curRow == Nrows - 1)));
+            if (curRow == Nrows - 1) {
+                //Last row
+                if (curColumn > NColumns - missinglastRow - 1) {
+                    curRow = curColumn = 0;
+                    runs++;
+                }
+            }
             // Adapt Textureregion
-            setRegion(curRow * sizeX, curColumn * sizeY, sizeX, sizeY);
-            // System.out.println("TextureRegion:\tX: " + textureRegion.getRegionX() + "\tY: " + textureRegion.getRegionY() + "\tW: " + textureRegion.getRegionWidth() + "\tH:" + textureRegion.getRegionHeight());
+            setRegion(curColumn * sizeX, curRow * sizeY, sizeX, sizeY);
+            //System.out.println(curRow + "/" + curColumn);
+            //System.out.println("CurRow:" + curRow + "\tCurColumn:" + curColumn);
+            //System.out.println("TextureRegion:\tX: " + textureRegion.getRegionX() + "\tY: " + textureRegion.getRegionY() + "\tW: " + textureRegion.getRegionWidth() + "\tH:" + textureRegion.getRegionHeight());
 
         }
     }

@@ -112,7 +112,7 @@ public class DesktopStarter implements INative {
 
     // Loading and saving score
     private int HIGHSCORE;
-    private String url = ClassLoader.getSystemClassLoader().getResource(".").getPath() /*this.getClass().getProtectionDomain().getCodeSource().getLocation().toString().replace("file:/", "")*/ + "/planes2d.score";
+    private String url = ClassLoader.getSystemClassLoader().getResource(".").getPath() + "/planes2d.score";
 
     @Override
     public void saveScore(int score) {

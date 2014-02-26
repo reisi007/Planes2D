@@ -25,7 +25,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
     }
 
     int i = 0;
-    float max = 45;
+    float max = 30f;
 
     @Override
     public MovementContainer Input() {
@@ -46,7 +46,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
             m = max;
         if (m < -max)
             m = -max;
-        Input.Movement = m / 90f;
+        Input.Movement = m / max;
         return Input;
     }
 
@@ -67,12 +67,12 @@ public class AndroidStarter extends AndroidApplication implements INative {
 
     @Override
     public float speedX() {
-        return 0.8f;
+        return 0.2f;
     }
 
     @Override
     public float speedY() {
-        return 1.3f;
+        return 2f;
     }
 
     @Override
@@ -104,15 +104,14 @@ public class AndroidStarter extends AndroidApplication implements INative {
 
     @Override
     public void saveScore(int score) {
-
+        HIGHSCORE = score;
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("HIGHSCORE", HIGHSCORE);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
     public int getHighScore() {
-        HIGHSCORE = preferences.getInt("HIGHSCORE", 0);
-        return HIGHSCORE;
+        return (HIGHSCORE = preferences.getInt("HIGHSCORE", 0));
     }
 }
