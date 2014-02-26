@@ -1,14 +1,16 @@
 package com.reisisoft.Planes2D.client;
 
 import com.reisisoft.Planes2D.INative;
-import com.reisisoft.Planes2D.MovementContainer;
 import com.reisisoft.Planes2D.Planes2D;
+import com.reisisoft.Planes2D.MovementContainer;
 import com.reisisoft.Planes2D.Planes2D.Resolutions;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 
 public class GwtLauncher extends GwtApplication implements INative {
+	MovementContainer Input = new MovementContainer();
 	@Override
 	public GwtApplicationConfiguration getConfig () {
 		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(1280,720);
@@ -19,38 +21,38 @@ public class GwtLauncher extends GwtApplication implements INative {
 	}
 
 	public MovementContainer Input() {
-		// TODO Auto-generated method stub
-		return null;
+		Input.doShoot = Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT) || Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
+        if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.UP))
+            Input.Movement = 1f;
+        else if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.DOWN))
+            Input.Movement = -1f;
+        else
+            Input.Movement = 0f;
+        return Input;
 	}
 
-	public void letQuit() {
-		// TODO Auto-generated method stub
-		
+	public void letQuit() {	
+		//Not needed
 	}
 
 	public void Setup() {
-		// TODO Auto-generated method stub
-		
+		// Not needed		
 	}
 
 	public boolean ContinueStagesWorkflow() {
-		// TODO Auto-generated method stub
-		return false;
+		return Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT) || Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
 	}
 
 	public float speedX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	public float speedY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	public Resolutions prefferredResolution(Planes2D game) {
-		// TODO Auto-generated method stub
-		return null;
+		return Resolutions.HiRes;
 	}
 
 	public String WelcomeMessage() {

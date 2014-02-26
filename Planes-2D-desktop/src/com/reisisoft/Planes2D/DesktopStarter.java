@@ -39,7 +39,6 @@ public class DesktopStarter implements INative {
         cfg.initialBackgroundColor = Helper.CornFlowerBlue;
         cfg.foregroundFPS = 60;
         Input = new MovementContainer(cfg.height / 2f, false);
-        System.out.print(url);
     }
 
     @Override
