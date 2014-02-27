@@ -14,7 +14,7 @@ public abstract class BasicPlane implements IMoveableFullGameObject, IIntersecta
     private Rectangle[] bounds = new Rectangle[3];
     protected float maxH;
     private Bomb baseBomb;
-    protected long MSbetweenShots = 2000;
+    protected long MSbetweenShots = 2500;
     protected long timeSincelastShot;
 
     public BasicPlane(SingleAnimation explosion, Bomb bomb, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
@@ -32,8 +32,6 @@ public abstract class BasicPlane implements IMoveableFullGameObject, IIntersecta
     protected Bomb getShot(boolean user) {
         Bomb b = new Bomb(baseBomb, baseBomb.getTextureRegion().isFlipY());
         b.setPosition(Anchor.LowLeft, plane.getX() + (user ? 5 : 1) / 6f * plane.getWidth(), plane.getY() + plane.getHeight() / 2f);
-        b.setSpeed(new Vector2(plane.speed), 1.5f * plane.getFspeed());
-        //  System.out.println(b.toString());
         return b;
     }
 

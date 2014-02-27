@@ -9,7 +9,9 @@ public class EnemyPlane extends BasicPlane {
     }
 
     public Bomb getShot() {
-        return getShot(false);
+        Bomb b = getShot(false);
+        b.setSpeed(new Vector2(-1,0), 1.5f * plane.getFspeed());
+        return b;
     }
 
     public boolean wantShoot(GameTime.GameTimeArgs gameTimeArgs) {

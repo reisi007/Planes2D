@@ -38,9 +38,10 @@ public class Moveable extends Drawable implements IMoveableFullGameObject {
     }
 
     public void setSpeed(Vector2 direction, float fspeed) {
-        direction.nor();
-        speed = direction;
-        speed.scl(this.fspeed = fspeed);
+        speed = new Vector2(direction);
+        speed.nor();
+        speed = speed.scl(this.fspeed = fspeed);
+        // System.out.println("Speedx:\t" + speed.x + "\tDirectiony:\t" + direction.x + "\tSpeed\t" + this.fspeed);
     }
 
     public void updatePosition(float x, float y) {
@@ -68,11 +69,11 @@ public class Moveable extends Drawable implements IMoveableFullGameObject {
     public static float totalWidth, totalHeight;
 
     public static float getSpeedXModifier() {
-        return iNative == null ? 1 : iNative.speedX() * (totalWidth / 1280f) * (60f / Helper.getFPS());
+        return (iNative == null ? 1 : iNative.speedX()) * (totalWidth / 1280f) * (60f / Helper.getFPS());
     }
 
     public static float getSpeedYModifier() {
-        return iNative == null ? 1 : iNative.speedY() * (totalHeight / 720f) * (60f / Helper.getFPS());
+        return (iNative == null ? 1 : iNative.speedY()) * (totalHeight / 720f) * (60f / Helper.getFPS());
     }
 
 }

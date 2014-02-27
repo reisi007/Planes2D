@@ -14,11 +14,11 @@ public class Bomb implements IMoveableFullGameObject, IIntersectable {
     }
 
     public Bomb(Bomb bomb, boolean flipV) {
-        this(bomb.bomb.getTextureRegion(), new Vector2(bomb.bomb.getX(), bomb.bomb.getY()), bomb.bomb.speed, bomb.bomb.getFspeed(), Anchor.LowLeft, flipV, bomb.bomb.getHeight() / relativeHeight);
+        this(bomb.bomb.getTextureRegion(), new Vector2(bomb.bomb.getX(), bomb.bomb.getY()), bomb.bomb.speed.nor(), bomb.bomb.getFspeed(), Anchor.LowLeft, flipV, bomb.bomb.getHeight() / relativeHeight);
     }
 
     public Bomb(TextureRegion region, Vector2 position, Vector2 direction, float speed, Anchor anchor, boolean flipV, float curHeight) {
-        bomb = new Moveable(new TextureRegion(region), position, direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
+        bomb = new Moveable(new TextureRegion(region),position,direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
         //System.out.println(bomb.toString());
     }
 

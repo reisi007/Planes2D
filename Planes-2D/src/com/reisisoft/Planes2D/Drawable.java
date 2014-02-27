@@ -90,11 +90,15 @@ public class Drawable implements IIntersectable, IFullGameObject {
         return textureRegion;
     }
 
-    public boolean Intersects(IIntersectable ii) {
-        Rectangle[] origin = getBounds(), o = ii.getBounds();
-        for (int j = 0; j < origin.length; j++)
-            for (int i = 0; i < o.length; i++)
-                if (origin[j].overlaps(o[i]))
+    public boolean Intersects(IIntersectable iIntersectable) {
+        return Intersects(this, iIntersectable);
+    }
+
+    public static boolean Intersects(IIntersectable a, IIntersectable b) {
+        Rectangle[] ra = a.getBounds(), rb = b.getBounds();
+        for (int j = 0; j < ra.length; j++)
+            for (int i = 0; i < rb.length; i++)
+                if (ra[j].overlaps(rb[i]))
                     return true;
         return false;
 

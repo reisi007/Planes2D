@@ -7,7 +7,7 @@ public interface INative {
 
     public void Setup();
 
-    public boolean ContinueStagesWorkflow();
+    public boolean continueStagesWorkflow();
 
     public float speedX();
 
@@ -22,4 +22,6 @@ public interface INative {
     public void saveScore(int score);
 
     public int getHighScore();
+
+    public boolean firstTouch();
 }

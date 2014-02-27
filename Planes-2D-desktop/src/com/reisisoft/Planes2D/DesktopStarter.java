@@ -69,7 +69,7 @@ public class DesktopStarter implements INative {
     }
 
     @Override
-    public boolean ContinueStagesWorkflow() {
+    public boolean continueStagesWorkflow() {
         return Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT) || Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
     }
 
@@ -168,6 +168,11 @@ public class DesktopStarter implements INative {
         if (tmp.isEmpty())
             HIGHSCORE = 0;
         return HIGHSCORE > 0 ? HIGHSCORE : 0;
+    }
+
+    @Override
+    public boolean firstTouch() {
+        return continueStagesWorkflow();
     }
 
     private void tryCreateFile(FileNotFoundException fnfE) {

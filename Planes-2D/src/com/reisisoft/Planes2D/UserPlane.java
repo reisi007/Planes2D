@@ -8,7 +8,6 @@ public class UserPlane extends BasicPlane {
     private INative iNative;
     private MovementContainer movementContainer;
     private static final float percentOfHeightOneFrame = 1 / 111f;
-    private float minH = 0;
     private boolean wantShoot = false;
     private long nextAllowed;
 
@@ -20,6 +19,7 @@ public class UserPlane extends BasicPlane {
         movementContainer = iNative.Input();
         maxH = currentH;
         nextAllowed = 300;
+        MSbetweenShots = 3000;
     }
 
     public int ShotsAvailable() {
@@ -28,7 +28,7 @@ public class UserPlane extends BasicPlane {
 
     public Bomb getShot() {
         Bomb b = super.getShot(true);
-        b.setSpeed(Vector2.X, 2 * Moveable.getSpeedXModifier());
+        b.setSpeed(new Vector2(1, 0), 2 * Moveable.getSpeedXModifier());
         return b;
     }
 
