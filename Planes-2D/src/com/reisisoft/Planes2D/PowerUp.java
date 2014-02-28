@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class PowerUp extends BaseAnimation implements IPowerUp, IIntersectable {
+public abstract class PowerUp extends BaseAnimation implements IIntersectable {
     private Rectangle[] rectangles;
 
     public PowerUp(Texture texture, Vector2 position, Vector2 direction, float speed, int sizeX, int sizeY, int changeAfter, int NRows, int NColumns, float setSide, boolean setWidth, int missingLastRow) {

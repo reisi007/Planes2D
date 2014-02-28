@@ -1,0 +1,581 @@
+<,reisi007@gmail.com> <http://www.architexa.com/rdf/core#creator> "true" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#Class.atxa> a atxa-core:reloFile .
+
+atxa:DetailNode atxa-core:detailLevel "2" .
+
+atxa-core:docRoot atxa-core:browseModel "com.architexa.diagrams.relo.jdt/com.architexa.diagrams.relo.jdt.browse.ClassStrucBrowseModel" ;
+	atxa-core:contains _:node18hrpjk2ax1 .
+
+_:node18hrpjk2ax1 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D> ;
+	atxa-core:posX "-11" ;
+	atxa-core:posY "54" .
+
+<http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D> atxa-core:contains <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$DesktopStarter> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$AndroidStarter> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$UserPlane> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$EnemyPlane> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BasicPlane> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IGameObject> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IFullGameObject> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Bomb> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$INative> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$GrassManager> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IIntersectable> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$DrawableText> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BaseAnimation> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$SingleAnimation> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpBomb> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpExtraLife> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpStar> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IMoveableFullGameObject> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Drawable> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Moveable> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$CloudManager> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$LifeDrawer> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BombDrawer> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IDrawable> , <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUp> .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax7 .
+
+_:node18hrpjk2ax7 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$DesktopStarter> ;
+	atxa-core:posX "1184" ;
+	atxa-core:posY "95" .
+
+_:node18hrpjk2ax8 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax7 ;
+	rdf:object _:node18hrpjk2ax9 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53027 .
+
+_:node18hrp9e1ax53027 atxa-core:bpLocation "1246,235" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax8 atxa-core:bendpoint _:node18hrp9e1ax53028 .
+
+_:node18hrp9e1ax53028 atxa-core:bpLocation "1143,235" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax12 .
+
+_:node18hrpjk2ax12 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$AndroidStarter> ;
+	atxa-core:posX "965" ;
+	atxa-core:posY "96" .
+
+_:node18hrpjk2ax13 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax12 ;
+	rdf:object _:node18hrpjk2ax9 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53029 .
+
+_:node18hrp9e1ax53029 atxa-core:bpLocation "1026,235" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax13 atxa-core:bendpoint _:node18hrp9e1ax53030 .
+
+_:node18hrp9e1ax53030 atxa-core:bpLocation "1143,235" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax21 .
+
+_:node18hrpjk2ax21 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$UserPlane> ;
+	atxa-core:posX "1213" ;
+	atxa-core:posY "365" .
+
+_:node18hrpjk2ax22 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax21 ;
+	rdf:object _:node18hrpjk2ax23 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53031 .
+
+_:node18hrp9e1ax53031 atxa-core:bpLocation "1260,502" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax22 atxa-core:bendpoint _:node18hrp9e1ax53032 .
+
+_:node18hrp9e1ax53032 atxa-core:bpLocation "1205,502" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax26 .
+
+_:node18hrpjk2ax26 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$EnemyPlane> ;
+	atxa-core:posX "1039" ;
+	atxa-core:posY "332" .
+
+_:node18hrpjk2ax27 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax26 ;
+	rdf:object _:node18hrpjk2ax23 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53033 .
+
+_:node18hrp9e1ax53033 atxa-core:bpLocation "1091,502" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax27 atxa-core:bendpoint _:node18hrp9e1ax53034 .
+
+_:node18hrp9e1ax53034 atxa-core:bpLocation "1205,502" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax23 .
+
+_:node18hrpjk2ax23 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BasicPlane> ;
+	atxa-core:posX "1157" ;
+	atxa-core:posY "448" .
+
+_:node18hrpjk2ax30 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax23 ;
+	rdf:object _:node18hrpjk2ax31 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53035 .
+
+_:node18hrp9e1ax53035 atxa-core:bpLocation "1205,547" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax30 atxa-core:bendpoint _:node18hrp9e1ax53036 .
+
+_:node18hrp9e1ax53036 atxa-core:bpLocation "784,547" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax34 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax23 ;
+	rdf:object _:node18hrpjk2ax4 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53037 .
+
+_:node18hrp9e1ax53037 atxa-core:bpLocation "1205,613" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax34 atxa-core:bendpoint _:node18hrp9e1ax53038 .
+
+_:node18hrp9e1ax53038 atxa-core:bpLocation "266,613" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax63 .
+
+_:node18hrpjk2ax63 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IGameObject> ;
+	atxa-core:posX "153" ;
+	atxa-core:posY "693" .
+
+_:node18hrpjk2ax78 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax63 ;
+	rdf:object _:node18hrpjk2ax44 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53039 .
+
+_:node18hrp9e1ax53039 atxa-core:bpLocation "209,766" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax78 atxa-core:bendpoint _:node18hrp9e1ax53040 .
+
+_:node18hrp9e1ax53040 atxa-core:bpLocation "582,766" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax55 .
+
+_:node18hrpjk2ax55 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IFullGameObject> ;
+	atxa-core:posX "144" ;
+	atxa-core:posY "619" .
+
+_:node18hrpjk2ax81 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax55 ;
+	rdf:object _:node18hrpjk2ax63 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53041 .
+
+_:node18hrp9e1ax53041 atxa-core:bpLocation "209,747" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax85 .
+
+_:node18hrpjk2ax85 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Bomb> ;
+	atxa-core:posX "976" ;
+	atxa-core:posY "494" .
+
+_:node18hrpjk2ax86 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax85 ;
+	rdf:object _:node18hrpjk2ax31 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53042 .
+
+_:node18hrp9e1ax53042 atxa-core:bpLocation "1011,547" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax86 atxa-core:bendpoint _:node18hrp9e1ax53043 .
+
+_:node18hrp9e1ax53043 atxa-core:bpLocation "784,547" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax89 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax85 ;
+	rdf:object _:node18hrpjk2ax4 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53044 .
+
+_:node18hrp9e1ax53044 atxa-core:bpLocation "1011,613" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax89 atxa-core:bendpoint _:node18hrp9e1ax53045 .
+
+_:node18hrp9e1ax53045 atxa-core:bpLocation "266,613" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax9 .
+
+_:node18hrpjk2ax9 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$INative> ;
+	atxa-core:posX "1104" ;
+	atxa-core:posY "181" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax74 .
+
+_:node18hrpjk2ax74 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$GrassManager> ;
+	atxa-core:posX "471" ;
+	atxa-core:posY "289" .
+
+_:node18hrpjk2ax75 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax74 ;
+	rdf:object _:node18hrpjk2ax63 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53046 .
+
+_:node18hrp9e1ax53046 atxa-core:bpLocation "529,747" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax75 atxa-core:bendpoint _:node18hrp9e1ax53047 .
+
+_:node18hrp9e1ax53047 atxa-core:bpLocation "209,747" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax31 .
+
+_:node18hrpjk2ax31 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IIntersectable> ;
+	atxa-core:posX "726" ;
+	atxa-core:posY "493" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax42 .
+
+_:node18hrpjk2ax42 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$DrawableText> ;
+	atxa-core:posX "573" ;
+	atxa-core:posY "385" .
+
+_:node18hrpjk2ax43 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax42 ;
+	rdf:object _:node18hrpjk2ax44 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53048 .
+
+_:node18hrp9e1ax53048 atxa-core:bpLocation "631,766" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax43 atxa-core:bendpoint _:node18hrp9e1ax53049 .
+
+_:node18hrp9e1ax53049 atxa-core:bpLocation "582,766" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax2 .
+
+_:node18hrpjk2ax2 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BaseAnimation> ;
+	atxa-core:posX "100" ;
+	atxa-core:posY "206" .
+
+_:node18hrpjk2ax3 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax2 ;
+	rdf:object _:node18hrpjk2ax4 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53050 .
+
+_:node18hrp9e1ax53050 atxa-core:bpLocation "160,613" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax3 atxa-core:bendpoint _:node18hrp9e1ax53051 .
+
+_:node18hrp9e1ax53051 atxa-core:bpLocation "266,613" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax37 .
+
+_:node18hrpjk2ax37 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$SingleAnimation> ;
+	atxa-core:posX "-5" ;
+	atxa-core:posY "79" .
+
+_:node18hrpjk2ax38 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax37 ;
+	rdf:object _:node18hrpjk2ax2 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53052 .
+
+_:node18hrp9e1ax53052 atxa-core:bpLocation "59,260" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax38 atxa-core:bendpoint _:node18hrp9e1ax53053 .
+
+_:node18hrp9e1ax53053 atxa-core:bpLocation "160,260" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrp9e1ax38787 .
+
+_:node18hrp9e1ax38787 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpBomb> ;
+	atxa-core:posX "247" ;
+	atxa-core:posY "93" .
+
+_:node18hrp9e1ax26499 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrp9e1ax38787 ;
+	rdf:object _:node18hrpjk2ax94 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53054 .
+
+_:node18hrp9e1ax53054 atxa-core:bpLocation "308,208" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrp9e1ax26499 atxa-core:bendpoint _:node18hrp9e1ax53055 .
+
+_:node18hrp9e1ax53055 atxa-core:bpLocation "248,208" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax92 .
+
+_:node18hrpjk2ax92 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpExtraLife> ;
+	atxa-core:posX "380" ;
+	atxa-core:posY "90" .
+
+_:node18hrpjk2ax93 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax92 ;
+	rdf:object _:node18hrpjk2ax94 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53056 .
+
+_:node18hrp9e1ax53056 atxa-core:bpLocation "450,208" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax93 atxa-core:bendpoint _:node18hrp9e1ax53057 .
+
+_:node18hrp9e1ax53057 atxa-core:bpLocation "248,208" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrp9e1ax38792 .
+
+_:node18hrp9e1ax38792 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUpStar> ;
+	atxa-core:posX "549" ;
+	atxa-core:posY "90" .
+
+_:node18hrp9e1ax26327 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrp9e1ax38792 ;
+	rdf:object _:node18hrpjk2ax94 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53058 .
+
+_:node18hrp9e1ax53058 atxa-core:bpLocation "605,208" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrp9e1ax26327 atxa-core:bendpoint _:node18hrp9e1ax53059 .
+
+_:node18hrp9e1ax53059 atxa-core:bpLocation "248,208" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax4 .
+
+_:node18hrpjk2ax4 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IMoveableFullGameObject> ;
+	atxa-core:posX "173" ;
+	atxa-core:posY "559" .
+
+_:node18hrpjk2ax83 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax4 ;
+	rdf:object _:node18hrpjk2ax55 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53060 .
+
+_:node18hrp9e1ax53060 atxa-core:bpLocation "266,673" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax83 atxa-core:bendpoint _:node18hrp9e1ax53061 .
+
+_:node18hrp9e1ax53061 atxa-core:bpLocation "209,673" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax49 .
+
+_:node18hrpjk2ax49 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Drawable> ;
+	atxa-core:posX "338" ;
+	atxa-core:posY "476" .
+
+_:node18hrpjk2ax54 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax49 ;
+	rdf:object _:node18hrpjk2ax55 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53062 .
+
+_:node18hrp9e1ax53062 atxa-core:bpLocation "383,673" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax54 atxa-core:bendpoint _:node18hrp9e1ax53063 .
+
+_:node18hrp9e1ax53063 atxa-core:bpLocation "209,673" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax58 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax49 ;
+	rdf:object _:node18hrpjk2ax31 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53064 .
+
+_:node18hrp9e1ax53064 atxa-core:bpLocation "383,547" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax58 atxa-core:bendpoint _:node18hrp9e1ax53065 .
+
+_:node18hrp9e1ax53065 atxa-core:bpLocation "784,547" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax47 .
+
+_:node18hrpjk2ax47 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$Moveable> ;
+	atxa-core:posX "12" ;
+	atxa-core:posY "407" .
+
+_:node18hrpjk2ax48 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax47 ;
+	rdf:object _:node18hrpjk2ax49 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53066 .
+
+_:node18hrp9e1ax53066 atxa-core:bpLocation "58,530" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax48 atxa-core:bendpoint _:node18hrp9e1ax53067 .
+
+_:node18hrp9e1ax53067 atxa-core:bpLocation "383,530" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax51 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax47 ;
+	rdf:object _:node18hrpjk2ax4 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53068 .
+
+_:node18hrp9e1ax53068 atxa-core:bpLocation "58,613" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax51 atxa-core:bendpoint _:node18hrp9e1ax53069 .
+
+_:node18hrp9e1ax53069 atxa-core:bpLocation "266,613" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax61 .
+
+_:node18hrpjk2ax61 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$CloudManager> ;
+	atxa-core:posX "401" ;
+	atxa-core:posY "391" .
+
+_:node18hrpjk2ax62 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax61 ;
+	rdf:object _:node18hrpjk2ax63 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53070 .
+
+_:node18hrp9e1ax53070 atxa-core:bpLocation "460,747" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax62 atxa-core:bendpoint _:node18hrp9e1ax53071 .
+
+_:node18hrp9e1ax53071 atxa-core:bpLocation "209,747" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax66 .
+
+_:node18hrpjk2ax66 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$LifeDrawer> ;
+	atxa-core:posX "709" ;
+	atxa-core:posY "694" .
+
+_:node18hrpjk2ax67 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax66 ;
+	rdf:object _:node18hrpjk2ax44 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53072 .
+
+_:node18hrp9e1ax53072 atxa-core:bpLocation "759,766" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax67 atxa-core:bendpoint _:node18hrp9e1ax53073 .
+
+_:node18hrp9e1ax53073 atxa-core:bpLocation "582,766" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax70 .
+
+_:node18hrpjk2ax70 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$BombDrawer> ;
+	atxa-core:posX "835" ;
+	atxa-core:posY "677" .
+
+_:node18hrpjk2ax71 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax70 ;
+	rdf:object _:node18hrpjk2ax44 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53074 .
+
+_:node18hrp9e1ax53074 atxa-core:bpLocation "891,766" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax71 atxa-core:bendpoint _:node18hrp9e1ax53075 .
+
+_:node18hrp9e1ax53075 atxa-core:bpLocation "582,766" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax44 .
+
+_:node18hrpjk2ax44 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$IDrawable> ;
+	atxa-core:posX "535" ;
+	atxa-core:posY "712" .
+
+_:node18hrpjk2ax1 atxa-core:contains _:node18hrpjk2ax94 .
+
+_:node18hrpjk2ax94 a atxa-core:node ;
+	atxa-core:model <http://www.architexa.com/rdf/jdt-wkspc#com.reisisoft.Planes2D$PowerUp> ;
+	atxa-core:posX "203" ;
+	atxa-core:posY "154" .
+
+_:node18hrpjk2ax101 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax94 ;
+	rdf:object _:node18hrpjk2ax2 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53076 .
+
+_:node18hrp9e1ax53076 atxa-core:bpLocation "248,260" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax101 atxa-core:bendpoint _:node18hrp9e1ax53077 .
+
+_:node18hrp9e1ax53077 atxa-core:bpLocation "160,260" ;
+	atxa-core:bpIndex "1" .
+
+_:node18hrpjk2ax104 a atxa-core:link ;
+	atxa-core:model atxa-jdt:inherits ;
+	rdf:subject _:node18hrpjk2ax94 ;
+	rdf:object _:node18hrpjk2ax31 ;
+	atxa-core:bendpoint _:node18hrp9e1ax53078 .
+
+_:node18hrp9e1ax53078 atxa-core:bpLocation "248,547" ;
+	atxa-core:bpIndex "0" .
+
+_:node18hrpjk2ax104 atxa-core:bendpoint _:node18hrp9e1ax53079 .
+
+_:node18hrp9e1ax53079 atxa-core:bpLocation "784,547" ;
+	atxa-core:bpIndex "1" .
+
+@prefix atxa-rse-eclipse: <http://www.architexa.com/rdf/rse-eclipse#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix atxa-jdt-wkspc: <http://www.architexa.com/rdf/jdt-wkspc#> .
+@prefix atxa-core: <http://www.architexa.com/rdf/core#> .
+@prefix atxa: <http://www.architexa.com/rdf/> .
+@prefix atxa-jdt: <http://www.architexa.com/rdf/jdt#> .
+
+<http://www.architexa.com/rdf/rse-eclipse#Class.atxa> a atxa-core:reloFile ;
+	atxa-core:contains _:node18hrpjk2ax7 , _:node18hrpjk2ax12 , _:node18hrpjk2ax21 , _:node18hrpjk2ax26 , _:node18hrpjk2ax23 , _:node18hrpjk2ax63 , _:node18hrpjk2ax55 , _:node18hrpjk2ax85 , _:node18hrpjk2ax9 , _:node18hrpjk2ax74 , _:node18hrpjk2ax31 , _:node18hrpjk2ax42 , _:node18hrpjk2ax2 , _:node18hrpjk2ax37 , _:node18hrp9e1ax38787 , _:node18hrpjk2ax92 , _:node18hrp9e1ax38792 , _:node18hrpjk2ax4 , _:node18hrpjk2ax49 , _:node18hrpjk2ax47 , _:node18hrpjk2ax61 , _:node18hrpjk2ax66 , _:node18hrpjk2ax70 , _:node18hrpjk2ax44 , _:node18hrpjk2ax94 , _:node18hrpjk2ax1 , atxa-core:docRoot , _:node18hrpjk2ax7 , _:node18hrpjk2ax12 , _:node18hrpjk2ax21 , _:node18hrpjk2ax26 , _:node18hrpjk2ax23 , _:node18hrpjk2ax63 , _:node18hrpjk2ax55 , _:node18hrpjk2ax85 , _:node18hrpjk2ax9 , _:node18hrpjk2ax74 , _:node18hrpjk2ax31 , _:node18hrpjk2ax42 , _:node18hrpjk2ax2 , _:node18hrpjk2ax37 , _:node18hrp9e1ax38787 , _:node18hrpjk2ax92 , _:node18hrp9e1ax38792 , _:node18hrpjk2ax4 , _:node18hrpjk2ax49 , _:node18hrpjk2ax47 , _:node18hrpjk2ax61 , _:node18hrpjk2ax66 , _:node18hrpjk2ax70 , _:node18hrpjk2ax44 , _:node18hrpjk2ax94 , _:node18hrpjk2ax1 , atxa-core:docRoot , _:node18hrpjk2ax8 , _:node18hrpjk2ax13 , _:node18hrpjk2ax22 , _:node18hrpjk2ax27 , _:node18hrpjk2ax30 , _:node18hrpjk2ax34 , _:node18hrpjk2ax78 , _:node18hrpjk2ax81 , _:node18hrpjk2ax86 , _:node18hrpjk2ax89 , _:node18hrpjk2ax75 , _:node18hrpjk2ax43 , _:node18hrpjk2ax3 , _:node18hrpjk2ax38 , _:node18hrp9e1ax26499 , _:node18hrpjk2ax93 , _:node18hrp9e1ax26327 , _:node18hrpjk2ax83 , _:node18hrpjk2ax54 , _:node18hrpjk2ax58 , _:node18hrpjk2ax48 , _:node18hrpjk2ax51 , _:node18hrpjk2ax62 , _:node18hrpjk2ax67 , _:node18hrpjk2ax71 , _:node18hrpjk2ax101 , _:node18hrpjk2ax104 , _:node18hrpjk2ax8 , _:node18hrpjk2ax13 , _:node18hrpjk2ax22 , _:node18hrpjk2ax27 , _:node18hrpjk2ax30 , _:node18hrpjk2ax34 , _:node18hrpjk2ax78 , _:node18hrpjk2ax81 , _:node18hrpjk2ax86 , _:node18hrpjk2ax89 , _:node18hrpjk2ax75 , _:node18hrpjk2ax43 , _:node18hrpjk2ax3 , _:node18hrpjk2ax38 , _:node18hrp9e1ax26499 , _:node18hrpjk2ax93 , _:node18hrp9e1ax26327 , _:node18hrpjk2ax83 , _:node18hrpjk2ax54 , _:node18hrpjk2ax58 , _:node18hrpjk2ax48 , _:node18hrpjk2ax51 , _:node18hrpjk2ax62 , _:node18hrpjk2ax67 , _:node18hrpjk2ax71 , _:node18hrpjk2ax101 , _:node18hrpjk2ax104 .
+

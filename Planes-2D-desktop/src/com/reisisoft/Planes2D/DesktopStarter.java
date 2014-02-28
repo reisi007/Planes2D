@@ -38,6 +38,7 @@ public class DesktopStarter implements INative {
         cfg.resizable = false;
         cfg.initialBackgroundColor = Helper.CornFlowerBlue;
         cfg.foregroundFPS = 60;
+        System.out.println("Highscore saved @" + url + "\nWidth: " + cfg.width + "\tHeight: " + cfg.height + "\n");
         Input = new MovementContainer(cfg.height / 2f, false);
     }
 

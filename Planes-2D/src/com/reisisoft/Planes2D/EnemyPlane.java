@@ -10,7 +10,7 @@ public class EnemyPlane extends BasicPlane {
 
     public Bomb getShot() {
         Bomb b = getShot(false);
-        b.setSpeed(new Vector2(-1,0), 1.5f * plane.getFspeed());
+        b.setSpeed(new Vector2(-1, 0), 1.5f * plane.getFspeed());
         return b;
     }
 

@@ -32,7 +32,7 @@ public class Planes2D extends Game {
     }
 
 
-    private Texture txtHiRes, txtLowRes, txtBomb;
+    private Texture txtHiRes, txtLowRes, txtShot, txtBombHi, txtBombLow;
     private Map<Resolutions, Map<GObjects, TextureRegion>> all = new EnumMap<Resolutions, Map<GObjects, TextureRegion>>(Resolutions.class);
     private Map<Resolutions, Texture> explosions = new EnumMap<Resolutions, Texture>(Resolutions.class);
     private Map<GObjects, TextureRegion> currentResolutionTextureRegion;
@@ -41,7 +41,7 @@ public class Planes2D extends Game {
     private GameTime Time;
     private BombDrawer availableBombs;
     private LifeDrawer availableLives;
-    private Texture rotatingStar, rotatingHeart;
+    private Texture txtRotatingStar, txtRotatingHeartHi, txtrotatingHeartLow;
     private BaseAnimation[] powerUpStart;
     /*
     Game objects
@@ -106,7 +106,7 @@ public class Planes2D extends Game {
 
     private void putTextures(Resolutions resolutions) {
         Map<GObjects, TextureRegion> map;
-        rotatingStar = new Texture(Gdx.files.internal("rotstar.png"));
+        txtRotatingStar = new Texture(Gdx.files.internal("rotstar.png"));
 
         switch (resolutions) {
             case LowRes:
@@ -115,11 +115,10 @@ public class Planes2D extends Game {
                 map.put(GObjects.PlaneG, new TextureRegion(txtLowRes, 406, 2, 100, 46));
                 map.put(GObjects.PlaneR, new TextureRegion(txtLowRes, 304, 2, 100, 46));
                 map.put(GObjects.Grass, new TextureRegion(txtLowRes, 2, 188, 294, 52));
-                map.put(GObjects.Bullet, new TextureRegion(txtBomb, 0, 0, 256, 127));
+                map.put(GObjects.Bullet, new TextureRegion(txtShot, 0, 0, 256, 127));
                 map.put(GObjects.Cloud, new TextureRegion(txtLowRes, 2, 2, 300, 184));
                 map.put(GObjects.Star, new TextureRegion(txtLowRes, 406, 50, 26, 26));
-                rotatingHeart = new Texture(Gdx.files.internal("heart_x1.png"));
-                map.put(GObjects.Heart, new TextureRegion(rotatingHeart, 0, 0, 50, 50));
+                map.put(GObjects.Heart, new TextureRegion(txtRotatingHeartHi, 0, 0, 50, 50));
                 all.put(Resolutions.LowRes, map);
                 break;
             case HiRes:
@@ -128,11 +127,10 @@ public class Planes2D extends Game {
                 map.put(GObjects.PlaneG, new TextureRegion(txtHiRes, 2, 370, 600, 278));
                 map.put(GObjects.PlaneR, new TextureRegion(txtHiRes, 604, 370, 600, 278));
                 map.put(GObjects.Grass, new TextureRegion(txtHiRes, 1200, 2, 600, 104));
-                map.put(GObjects.Bullet, new TextureRegion(txtBomb, 0, 0, 256, 127));
+                map.put(GObjects.Bullet, new TextureRegion(txtShot, 0, 0, 256, 127));
                 map.put(GObjects.Cloud, new TextureRegion(txtHiRes, 598, 2, 600, 366));
                 map.put(GObjects.Star, new TextureRegion(txtHiRes, 1206, 370, 100, 100));
-                rotatingHeart = new Texture(Gdx.files.internal("heart_x2.png"));
-                map.put(GObjects.Heart, new TextureRegion(rotatingHeart, 0, 0, 100, 100));
+                map.put(GObjects.Heart, new TextureRegion(txtRotatingHeartHi, 0, 0, 100, 100));
                 all.put(Resolutions.HiRes, map);
                 break;
         }
@@ -156,9 +154,11 @@ public class Planes2D extends Game {
         txtLowRes = new Texture(Gdx.files.internal("x1.png"));
         explosions.put(Resolutions.LowRes, new Texture(Gdx.files.internal("explosion_x1.png")));
         explosions.put(Resolutions.HiRes, new Texture(Gdx.files.internal("explosion_x2.png")));
-        txtBomb = new Texture(Gdx.files.internal("bomb.png"));
-        txtLowRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        txtHiRes.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        txtShot = new Texture(Gdx.files.internal("shot.png"));
+        txtBombHi = new Texture(Gdx.files.internal("bombs_x2.png"));
+        txtBombLow = new Texture(Gdx.files.internal("bombs_x1.png"));
+        txtrotatingHeartLow = new Texture(Gdx.files.internal("heart_x1.png"));
+        txtRotatingHeartHi = new Texture(Gdx.files.internal("heart_x2.png"));
         // Create Sprites for EVERY supported resolution
         putTextures(Resolutions.LowRes);
         putTextures(Resolutions.HiRes);
@@ -169,9 +169,10 @@ public class Planes2D extends Game {
         Time = new GameTime();
         setDebug(false, false);
         dtWelcome = new DrawableText(bitmapFonts, iNative.WelcomeMessage(), curW * 0.95f, true, curW / 2, 2 * curH / 3, IDrawable.Anchor.MiddleMiddle, Color.WHITE);
-        powerUpStart = new BaseAnimation[2];
+        powerUpStart = new BaseAnimation[3];
         powerUpStart[0] = getRotatingHeart(new Vector2(curW, 100), new Vector2(1, 0), -4, 100);
         powerUpStart[1] = getRotatingStar(new Vector2(curW + 2 * powerUpStart[0].getWidth(), 100), new Vector2(1, 0), -4, 100);
+        powerUpStart[2] = getRotatingBomb(new Vector2(curW + 4 * powerUpStart[0].getWidth(), 100), new Vector2(1, 0), -4, 100);
     }
 
     // On pause
@@ -188,10 +189,11 @@ public class Planes2D extends Game {
         Time.Resume();
     }
 
-    long nextEnemy = 0, MSbetweenEnemies = 4000;
+    long nextEnemy = 0, MSbetweenEnemies;
     int SCORE, LIVES, HIGHSCORE;
     int SEC_AcceptNext = -1;
     int nextPowerUp;
+    int LastElapsedSecondForPowerUpStar;
 
     // Update all the game objects
     public void Update(GameTime.GameTimeArgs gameTime) {
@@ -220,9 +222,11 @@ public class Planes2D extends Game {
                 enemyPlanes = new ArrayList<>();
                 ALexplosions = new ArrayList<>();
                 powerUps = new ArrayList<>();
+                MSbetweenEnemies = 4000;
                 SCORE = 0;
                 LIVES = 3;
                 nextPowerUp = 10;
+                LastElapsedSecondForPowerUpStar = 0;
                 GSlast = GScurrent;
                 GScurrent = GameState.InGame;
                 dtScore = new DrawableText(bitmapFonts, "Score: 0     Highscore: " + HIGHSCORE, curH / 10, false, 4, curH - 4, IDrawable.Anchor.TopLeft);
@@ -236,10 +240,19 @@ public class Planes2D extends Game {
                 break;
 
             case InGame:
+                //Update PowerUps
                 //Add PowerUps
                 if (gameTime.ElapsedSeconds > nextPowerUp) {
-                    nextPowerUp += 10;
-                    powerUps.add(new PowerUpExtraLife(rotatingHeart, new Vector2(curW, curH * (float) Math.random()), Vector2.X, -8, (currentResolution == Resolutions.HiRes ? 100 : 50), (currentResolution == Resolutions.HiRes ? 100 : 50), 3, 5, 10, curH / 10f, true, 1));
+                    nextPowerUp += 20;
+                    int rand = Helper.getRandomInRange(0, 9);
+                    if (rand <= 3)
+                        powerUps.add(new PowerUpBomb(currentResolution == Resolutions.HiRes ? txtBombHi : txtBombLow, new Vector2(curW, 9 * curH / 10 * (float) Math.random()), new Vector2(1, 0), -8, (currentResolution == Resolutions.HiRes ? 100 : 50), (currentResolution == Resolutions.HiRes ? 100 : 50), 3, 5, 10, curH / 10f, true, 1));
+                    else
+                        powerUps.add(new PowerUpExtraLife(currentResolution == Resolutions.HiRes ? txtRotatingHeartHi : txtrotatingHeartLow, new Vector2(curW, 9 * curH / 10 * (float) Math.random()), new Vector2(1, 0), -8, (currentResolution == Resolutions.HiRes ? 100 : 50), (currentResolution == Resolutions.HiRes ? 100 : 50), 3, 5, 10, curH / 10f, true, 0));
+                }
+                if (gameTime.ElapsedSeconds % 60 == 0 && gameTime.ElapsedSeconds != LastElapsedSecondForPowerUpStar) {
+                    powerUps.add(new PowerUpStar(txtRotatingStar, new Vector2(curW, 9 * curH / 10 * (float) Math.random()), new Vector2(1, 0), -8, 100, 100, 3, 2, 5, curH / 10f, true, 1));
+                    LastElapsedSecondForPowerUpStar = gameTime.ElapsedSeconds;
                 }
                 for (int i = 0; i < powerUps.size(); i++) {
                     PowerUp p = powerUps.get(i);
@@ -255,7 +268,6 @@ public class Planes2D extends Game {
                 grass.Update(gameTime);
                 //Update User
                 user.Update(gameTime);
-                //Update PowerUps
                 if (user.wantShoot(gameTime))
                     userBombs.add(user.getShot());
                 //Update UserBombs and delete them, when they are out of screen
@@ -269,7 +281,7 @@ public class Planes2D extends Game {
                 }
                 // Update enemyPlanes
                 if (nextEnemy <= 0) {
-                    nextEnemy += (MSbetweenEnemies -= (MSbetweenEnemies > 200 ? 50 : 0));
+                    nextEnemy += (MSbetweenEnemies -= (MSbetweenEnemies > 3000 ? 50 : 0));
                     enemyPlanes.add(getEnemyPlane());
                     user.addFreeShot();
                 }
@@ -312,32 +324,24 @@ public class Planes2D extends Game {
                 //User plane vs. enemy planes
                 for (int i = 0; i < enemyPlanes.size(); i++) {
                     if (user.Intersects(enemyPlanes.get(i))) {
-                        LIVES--;
-                        availableLives.setLives(LIVES);
-                        if (LIVES <= 0)
-                            GameOver();
-                        else {
-                            ALexplosions.add(enemyPlanes.get(i).getExplosion());
-                            enemyPlanes.remove(i);
-                            i--;
-                            if (i < 0)
-                                i = 0;
-                        }
+                        updateLives(1);
+                        ALexplosions.add(enemyPlanes.get(i).getExplosion());
+                        enemyPlanes.remove(i);
+                        i--;
+                        if (i < 0)
+                            i = 0;
+
                     }
                 }
                 //User plane vs. enemy Bombs
                 for (int i = 0; i < enemyBombs.size(); i++) {
                     if (user.Intersects(enemyBombs.get(i))) {
-                        LIVES--;
-                        availableLives.setLives(LIVES);
-                        if (LIVES <= 0)
-                            GameOver();
-                        else {
-                            enemyBombs.remove(i);
-                            i--;
-                            if (i < 0)
-                                i = 0;
-                        }
+                        updateLives(1);
+                        enemyBombs.remove(i);
+                        i--;
+                        if (i < 0)
+                            i = 0;
+
                     }
                 }
                 //User bombs vs. Enemy planes
@@ -348,10 +352,7 @@ public class Planes2D extends Game {
                             b--;
                             if (b < 0)
                                 b = 0;
-                            SCORE++;
-                            if (HIGHSCORE < SCORE)
-                                HIGHSCORE = SCORE;
-                            dtScore.setText("Score: " + SCORE + "     Highscore: " + HIGHSCORE);
+                            updateScore(1);
                             ALexplosions.add(enemyPlanes.get(p).getExplosion());
                             enemyPlanes.remove(p);
                             p--;
@@ -362,13 +363,20 @@ public class Planes2D extends Game {
                         }
                     }
                 }
-                //User plane vs. PowerUp
+                //User plane vs. PowerUps
                 for (int i = 0; i < powerUps.size(); i++) {
                     PowerUp p = powerUps.get(i);
                     if (p.Intersects(user)) {
                         if (p instanceof PowerUpExtraLife) {
-                            availableLives.setLives(++LIVES);
-                        }
+                            updateLives(-1); // Remove one life
+                        } else if (p instanceof PowerUpBomb) {
+                            updateScore(enemyPlanes.size());
+                            for (EnemyPlane e : enemyPlanes)
+                                ALexplosions.add(e.getExplosion());
+                            enemyPlanes.clear();
+                            enemyBombs.clear();
+                        } else if (p instanceof PowerUpStar)
+                            updateScore(SCORE);
                         powerUps.remove(i);
                         i--;
                         if (i < 0)
@@ -394,6 +402,20 @@ public class Planes2D extends Game {
                 }
                 break;
         }
+    }
+
+    private void updateScore(int add) {
+        SCORE += add;
+        if (HIGHSCORE < SCORE)
+            HIGHSCORE = SCORE;
+        dtScore.setText("Score: " + SCORE + "     Highscore: " + HIGHSCORE);
+    }
+
+    private void updateLives(int remove) {
+        LIVES -= remove;
+        availableLives.setLives(LIVES);
+        if (LIVES <= 0)
+            GameOver();
     }
 
     private void GameOver() {
@@ -448,12 +470,15 @@ public class Planes2D extends Game {
     }
 
     private BaseAnimation getRotatingStar(Vector2 position, Vector2 direction, float speed, float setWidth) {
-        return new BaseAnimation(rotatingStar, new Vector2(position), new Vector2(direction), speed, 100, 100, 3, 2, 5, setWidth, true, 1);
+        return new BaseAnimation(txtRotatingStar, new Vector2(position), new Vector2(direction), speed, 100, 100, 3, 2, 5, setWidth, true, 1);
     }
 
-    private BaseAnimation getRotatingHeart(Vector2 position, Vector2 direction, float speed, float setWidth) {
-        // Make the Position y between 0 and curH-Height
-        return new BaseAnimation(rotatingHeart, new Vector2(position), new Vector2(direction), speed, (currentResolution == Resolutions.HiRes ? 100 : 50), (currentResolution == Resolutions.HiRes ? 100 : 50), 3, 5, 10, setWidth, true, 1);
+    private BaseAnimation getRotatingHeart(Vector2 position, Vector2 direction, float speed, float setWidthHight) {
+        return new BaseAnimation(currentResolution == Resolutions.HiRes ? txtRotatingHeartHi : txtrotatingHeartLow, new Vector2(position), new Vector2(direction), speed, (currentResolution == Resolutions.HiRes ? 100 : 50), (currentResolution == Resolutions.HiRes ? 100 : 50), 3, 5, 10, setWidthHight, true, 1);
+    }
+
+    private BaseAnimation getRotatingBomb(Vector2 position, Vector2 direction, float speed, float setWidthHight) {
+        return new BaseAnimation(currentResolution == Resolutions.HiRes ? txtBombHi : txtBombLow, new Vector2(position), new Vector2(direction), speed, currentResolution == Resolutions.HiRes ? 100 : 50, currentResolution == Resolutions.HiRes ? 100 : 50, 3, 5, 10, setWidthHight, true, 0);
     }
 
     private TextureRegion getRandomPlaneTextureRegion() {

@@ -18,7 +18,7 @@ public class Bomb implements IMoveableFullGameObject, IIntersectable {
     }
 
     public Bomb(TextureRegion region, Vector2 position, Vector2 direction, float speed, Anchor anchor, boolean flipV, float curHeight) {
-        bomb = new Moveable(new TextureRegion(region),position,direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
+        bomb = new Moveable(new TextureRegion(region), position, direction, speed, anchor, curHeight * relativeHeight, false, false, flipV);
         //System.out.println(bomb.toString());
     }
 
