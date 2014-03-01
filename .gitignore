@@ -8,7 +8,7 @@ out/
 ## GWT
 #################
 
-*/gwt-unitCache/
+*/gwt-unitCache/*
 */war/*
 
 #################

@@ -281,7 +281,7 @@ public class Planes2D extends Game {
                 }
                 // Update enemyPlanes
                 if (nextEnemy <= 0) {
-                    nextEnemy += (MSbetweenEnemies -= (MSbetweenEnemies > 3000 ? 50 : 0));
+                    nextEnemy += (MSbetweenEnemies -= (MSbetweenEnemies > 2000 ? 70 : 0));
                     enemyPlanes.add(getEnemyPlane());
                     user.addFreeShot();
                 }
@@ -376,7 +376,7 @@ public class Planes2D extends Game {
                             enemyPlanes.clear();
                             enemyBombs.clear();
                         } else if (p instanceof PowerUpStar)
-                            updateScore(SCORE);
+                            updateScore(5);
                         powerUps.remove(i);
                         i--;
                         if (i < 0)

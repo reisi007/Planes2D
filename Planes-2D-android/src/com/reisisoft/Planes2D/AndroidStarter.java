@@ -17,7 +17,6 @@ public class AndroidStarter extends AndroidApplication implements INative {
 
     private enum InputMethod {Default, Desktop}
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
