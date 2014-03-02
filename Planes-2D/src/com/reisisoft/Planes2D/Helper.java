@@ -3,8 +3,6 @@ package com.reisisoft.Planes2D;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 
-import java.security.MessageDigest;
-
 /**
  * Created by Florian on 14.02.14.
  */
@@ -78,25 +76,20 @@ public class Helper {
         return y;
     }
 
-    public static String sha256(int base) {
-        return sha256(Integer.toString(base));
+    public static String hash(int base) {
+        StringBuilder sb = new StringBuilder();
+        String oct = Integer.toOctalString(base), hex = Integer.toHexString(base), bin = Integer.toBinaryString(base);
+        for (int i = 0; i < oct.length() && i < hex.length() && i < bin.length(); i++) {
+            sb.append((char) ('0' + (oct.charAt(i) + hex.charAt(i) + bin.charAt(i) - 3 * '0') % 74));
+        }
+        return sb.reverse().toString();
     }
 
-    public static String sha256(String base) {
+    public static String hash(String base) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            StringBuffer stringBuffer = new StringBuffer();
-
-            for (int i = 0; i < hash.length; i++) {
-                String s = Integer.toHexString(0xff & hash[i]);
-                if (s.length() == 1) stringBuffer.append('0');
-                stringBuffer.append(s);
-            }
-
-            return stringBuffer.toString();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            return hash(Integer.parseInt(base));
+        } catch (NumberFormatException nfE) {
+            return hash(0);
         }
     }
 }

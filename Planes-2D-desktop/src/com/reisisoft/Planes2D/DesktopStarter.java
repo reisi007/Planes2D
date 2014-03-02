@@ -122,7 +122,7 @@ public class DesktopStarter implements INative {
         try {
             file = new PrintWriter(url);
             file.println(score);
-            file.println(Helper.sha256(score));
+            file.println(Helper.hash(score));
         } catch (FileNotFoundException fnfE) {
             tryCreateFile(fnfE);
         } finally {
@@ -153,7 +153,7 @@ public class DesktopStarter implements INative {
             if (tmp.size() != 2)
                 HIGHSCORE = 0;
             else {
-                if (Helper.sha256(tmp.get(0)).equals(tmp.get(1))) {
+                if (Helper.hash(tmp.get(0)).equals(tmp.get(1))) {
                     try {
                         HIGHSCORE = Integer.parseInt(tmp.get(0));
                     } catch (NumberFormatException nfE) {

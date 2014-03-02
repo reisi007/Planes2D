@@ -94,7 +94,7 @@ public class GwtLauncher extends GwtApplication implements INative {
 		else if (score > HIGHSCORE) {
 			HIGHSCORE = score;
 			preferences.setItem(SCORE, Integer.toString(HIGHSCORE)); // Score
-			preferences.setItem(HASH, Helper.sha256(HIGHSCORE));
+			preferences.setItem(HASH, Helper.hash(HIGHSCORE));
 		}
 
 	}
@@ -110,7 +110,7 @@ public class GwtLauncher extends GwtApplication implements INative {
 		} catch (NumberFormatException nfE) {
 			score = 0;
 		}
-		if (!Helper.sha256(score).equals(preferences.getItem(HASH))) {
+		if (!Helper.hash(score).equals(preferences.getItem(HASH))) {
 			score = 0;
 		}
 		return HIGHSCORE = score;

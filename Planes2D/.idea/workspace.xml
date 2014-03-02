@@ -73,35 +73,7 @@
     <favorites_list name="Planes 2D" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="Planes2D.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="283" column="83" selection-start="13960" selection-end="13960" vertical-scroll-proportion="0.5894621" vertical-offset="4019" max-vertical-offset="8755">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PowerUpStar.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/PowerUpStar.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="40" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DesktopStarter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../Planes-2D-desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="112" selection-start="1419" selection-end="1419" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="3196">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -128,15 +100,14 @@
         <option value="$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/PowerUpBomb.java" />
         <option value="$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/PowerUpStar.java" />
         <option value="$PROJECT_DIR$/../Planes-2D-desktop/src/com/reisisoft/Planes2D/DesktopStarter.java" />
+        <option value="$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Helper.java" />
         <option value="$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="width" value="960" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -164,8 +135,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -535,7 +506,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -556,8 +527,8 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13489583" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24089935" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2743644" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24411134" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -586,17 +557,16 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../Planes-2D-desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="112" selection-start="1419" selection-end="1419" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="3298">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="267" column="39" selection-start="13245" selection-end="13245" vertical-scroll-proportion="0.0" vertical-offset="4539" max-vertical-offset="8755">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -617,7 +587,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="454" column="56" selection-start="20560" selection-end="20560" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8330">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -638,7 +614,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="454" column="93" selection-start="20597" selection-end="20597" vertical-scroll-proportion="0.0" vertical-offset="7718" max-vertical-offset="8568">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -659,7 +641,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="173" column="91" selection-start="8302" selection-end="8302" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="8568">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -673,21 +661,39 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="173" column="91" selection-start="8302" selection-end="8302" vertical-scroll-proportion="0.0" vertical-offset="2941" max-vertical-offset="8313">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="173" column="91" selection-start="8302" selection-end="8302" vertical-scroll-proportion="0.0" vertical-offset="2941" max-vertical-offset="8313">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="412" column="183" selection-start="18605" selection-end="18605" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7854">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -701,7 +707,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="391" column="159" selection-start="17326" selection-end="17326" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7701">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -720,7 +732,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="391" column="159" selection-start="17326" selection-end="17326" vertical-scroll-proportion="0.0" vertical-offset="6647" max-vertical-offset="7701">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -739,7 +757,13 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="391" column="159" selection-start="17326" selection-end="17326" vertical-scroll-proportion="0.0" vertical-offset="6647" max-vertical-offset="7446">
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -870,9 +894,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/../Planes-2D/libs/gdx-sources.jar!/com/badlogic/gdx/math/Vector2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="32" selection-start="1152" selection-end="1152" vertical-scroll-proportion="0.20238096" vertical-offset="0" max-vertical-offset="6171">
-          <folding />
-        </state>
+        <state line="27" column="32" selection-start="1152" selection-end="1152" vertical-scroll-proportion="0.20238096" vertical-offset="0" max-vertical-offset="6171" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/BaseAnimation.java">
@@ -904,9 +926,29 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="408" column="37" selection-start="17895" selection-end="17895" vertical-scroll-proportion="0.58882684" vertical-offset="6409" max-vertical-offset="10557">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#866#867#0" expanded="true" />
+            <element signature="e#893#894#0" expanded="true" />
+            <element signature="e#1045#1088#0" expanded="true" />
+            <element signature="e#1184#1206#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="16" selection-start="1560" selection-end="1560" vertical-scroll-proportion="0.06480447" vertical-offset="792" max-vertical-offset="1700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/PowerUpStar.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="40" selection-start="155" selection-end="155" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
+        <state line="6" column="40" selection-start="155" selection-end="155" vertical-scroll-proportion="0.09497207" vertical-offset="0" max-vertical-offset="895">
           <folding />
         </state>
       </provider>
@@ -914,13 +956,6 @@
     <entry file="file://$PROJECT_DIR$/../Planes-2D-desktop/src/com/reisisoft/Planes2D/DesktopStarter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="112" selection-start="1419" selection-end="1419" vertical-scroll-proportion="0.0" vertical-offset="680" max-vertical-offset="3196">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Planes2D.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="283" column="83" selection-start="13960" selection-end="13960" vertical-scroll-proportion="0.5894621" vertical-offset="4019" max-vertical-offset="8755">
           <folding />
         </state>
       </provider>
