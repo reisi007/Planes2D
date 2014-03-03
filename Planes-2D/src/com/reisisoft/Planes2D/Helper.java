@@ -78,11 +78,13 @@ public class Helper {
 
     public static String hash(int base) {
         StringBuilder sb = new StringBuilder();
-        String oct = Integer.toOctalString(base), hex = Integer.toHexString(base), bin = Integer.toBinaryString(base);
-        for (int i = 0; i < oct.length() && i < hex.length() && i < bin.length(); i++) {
-            sb.append((char) ('0' + (oct.charAt(i) + hex.charAt(i) + bin.charAt(i) - 3 * '0') % 74));
+        String oct = Integer.toOctalString(base), hex = Integer.toHexString(base+7), bin = Integer.toBinaryString(base+11), sbase = Integer.toString(base+5);
+        int i;
+        sb.append((char) (sbase.charAt(0) + base % 72));
+        for (i = 1; i < oct.length() && i < hex.length() && i < bin.length() && i < sbase.length(); i++) {
+            sb.append((char) (sbase.charAt(i) +( (2 * oct.charAt(i) - 2 * hex.charAt(i) + bin.charAt(i)) % 20)));
         }
-        return sb.reverse().toString();
+        return sb.toString();
     }
 
     public static String hash(String base) {
