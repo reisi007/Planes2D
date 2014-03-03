@@ -77,7 +77,7 @@
       <file leaf-file-name="Helper.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Helper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="5" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.75150603" vertical-offset="963" max-vertical-offset="1734">
+            <state line="80" column="5" selection-start="2266" selection-end="2266" vertical-scroll-proportion="0.6960894" vertical-offset="720" max-vertical-offset="1615">
               <folding />
             </state>
           </provider>
@@ -146,7 +146,6 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -269,6 +268,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -516,7 +516,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="960" height="1040" extended-state="1" />
+    <frame x="0" y="0" width="960" height="1040" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -821,7 +821,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/../Planes-2D/src/com/reisisoft/Planes2D/Helper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="5" selection-start="2744" selection-end="2744" vertical-scroll-proportion="0.75150603" vertical-offset="963" max-vertical-offset="1734">
+        <state line="80" column="5" selection-start="2266" selection-end="2266" vertical-scroll-proportion="0.6960894" vertical-offset="720" max-vertical-offset="1615">
           <folding />
         </state>
       </provider>
