@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <module>
-    <entry-point class="com.reisisoft.planes2d.client.GwtLauncher"/>
+    <entry-point class="com.reisisoft.planes2D.client.GwtLauncher"/>
     <set-configuration-property name="gdx.assetpath" value="../Planes-2D-Android/assets"/>
-    <inherits name="Planes2D"/>
     <inherits name="com.badlogic.gdx.backends.gdx_backends_gwt"/>
 </module>

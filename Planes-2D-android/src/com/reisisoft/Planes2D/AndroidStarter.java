@@ -136,7 +136,10 @@ public class AndroidStarter extends AndroidApplication implements INative {
             sb.append("\nNEW HIGHSCORE!!!");
         sb.append("\nYour score is:\n");
         sb.append(score);
+        if (hasHardwareKeyboard())
         sb.append("\nPress <SPACE> to retry!");
+        else
+            sb.append("\nTouch the screen to retry!");
         return sb.toString();
     }
 

@@ -13,21 +13,73 @@ import com.reisisoft.planes2D.Planes2D;
 import com.reisisoft.planes2D.Planes2D.Resolutions;
 
 public class GwtLauncher extends GwtApplication implements INative {
+	private int HIGHSCORE;
 	private MovementContainer Input = new MovementContainer();
+
 	private Storage preferences = Storage.getLocalStorageIfSupported();
 
+	private final String SCORE = "Score", HASH = "Hash";
+
 	@Override
-	public GwtApplicationConfiguration getConfig() {
-		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(
-				(int) (0.95d * Window.getClientWidth()),
-				(int) (0.95d * Window.getClientHeight()));
-		return cfg;
+	public boolean continueStagesWorkflow() {
+		return Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
 	}
 
+	public boolean ContinueStagesWorkflow() {
+		return Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT)
+				|| Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
+	}
+
+	@Override
+	public boolean firstTouch() {
+		return continueStagesWorkflow();
+	}
+
+	@Override
+	public String GameOverMessage(int score, boolean newHighScore) {
+		StringBuilder sb = new StringBuilder("Game Over!");
+		if (newHighScore)
+			sb.append("\nNEW HIGHSCORE!!!");
+		sb.append("\nYour score is:\n");
+		sb.append(score);
+		sb.append("\nPress <SPACE> to retry!");
+		return sb.toString();
+	}
+
+	@Override
 	public ApplicationListener getApplicationListener() {
 		return new Planes2D(this);
 	}
 
+	@Override
+	public GwtApplicationConfiguration getConfig() {
+		int width=(int) (0.95d * Window.getClientWidth()),height=(int) (0.95d * Window.getClientHeight());
+		/*if (width/16f*9f <= height)
+			height = Math.round(width/16f*9);
+		else
+			width = Math.round(height/9f*16f);*/
+		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(width,height);
+		return cfg;
+	}
+
+	@Override
+	public int getHighScore() {
+		if (preferences == null) {
+			System.out.println("Highscore could not be loaded!");
+			return 0;
+		}// Load score and hash
+		int score;
+		try {
+			score = Integer.parseInt(preferences.getItem(SCORE));
+		} catch (NumberFormatException nfE) {
+			score = 0;
+		}
+		if (!Helper.hash(score).equals(preferences.getItem(HASH)))
+			score = 0;
+		return HIGHSCORE = score;
+	}
+
+	@Override
 	public MovementContainer Input() {
 		Input.doShoot = Gdx.input
 				.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT)
@@ -41,56 +93,19 @@ public class GwtLauncher extends GwtApplication implements INative {
 		return Input;
 	}
 
+	@Override
 	public void letQuit() {
 		// Not needed
 	}
 
-	public void Setup() {
-		// Not needed
-	}
-
-	public boolean ContinueStagesWorkflow() {
-		return Gdx.input.isButtonPressed(com.badlogic.gdx.Input.Buttons.LEFT)
-				|| Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
-	}
-
-	public float speedX() {
-		return 1;
-	}
-
-	public float speedY() {
-		return 1;
-	}
-
+	@Override
 	public Resolutions prefferredResolution(Planes2D game) {
 		return Resolutions.HiRes;
 	}
-
-	public String WelcomeMessage() {
-		StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
-		sb.append("\nPress <SPACE> to start the game");
-		sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
-		sb.append("\nUse <SPACE> to shoot");
-		return sb.toString();
-	}
-
-	public String GameOverMessage(int score, boolean newHighScore) {
-		StringBuilder sb = new StringBuilder("Game Over!");
-		if (newHighScore)
-			sb.append("\nNEW HIGHSCORE!!!");
-		sb.append("\nYour score is:\n");
-		sb.append(score);
-		sb.append("\nPress <SPACE> to retry!");
-		return sb.toString();
-	}
-
-	private int HIGHSCORE;
-	private final String SCORE = "Score", HASH = "Hash";
-
+	@Override
 	public void saveScore(int score) {
-		if (preferences == null) {
+		if (preferences == null)
 			System.out.println("Highscore could not be saved!");
-		}// Save highscore
 		else if (score > HIGHSCORE) {
 			HIGHSCORE = score;
 			preferences.setItem(SCORE, Integer.toString(HIGHSCORE)); // Score
@@ -99,28 +114,27 @@ public class GwtLauncher extends GwtApplication implements INative {
 
 	}
 
-	public int getHighScore() {
-		if (preferences == null) {
-			System.out.println("Highscore could not be loaded!");
-			return 0;
-		}// Load score and hash
-		int score;
-		try {
-			score = Integer.parseInt(preferences.getItem(SCORE));
-		} catch (NumberFormatException nfE) {
-			score = 0;
-		}
-		if (!Helper.hash(score).equals(preferences.getItem(HASH))) {
-			score = 0;
-		}
-		return HIGHSCORE = score;
+	@Override
+	public void Setup() {
+		// Not needed
 	}
 
-	public boolean continueStagesWorkflow() {
-		return Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.SPACE);
+	@Override
+	public float speedX() {
+		return 1;
 	}
 
-	public boolean firstTouch() {
-		return continueStagesWorkflow();
+	@Override
+	public float speedY() {
+		return 1;
+	}
+
+	@Override
+	public String WelcomeMessage() {
+		StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
+		sb.append("\nPress <SPACE> to start the game");
+		sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
+		sb.append("\nUse <SPACE> to shoot");
+		return sb.toString();
 	}
 }
