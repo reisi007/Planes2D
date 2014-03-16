@@ -1,10 +1,12 @@
-package com.reisisoft.Planes2D;
+package com.reisisoft.planes2D;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
@@ -27,14 +29,16 @@ public class AndroidStarter extends AndroidApplication implements INative {
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useAccelerometer = true;
         cfg.useCompass = true;
-        cfg.useWakelock = true;
-        cfg.useGL20 = true;
+        cfg.useWakelock = false;
         cfg.hideStatusBar = true;
         preferences = this.getSharedPreferences("SCORE", Context.MODE_PRIVATE);
         initialize(new Planes2D(this), cfg);
     }
 
     float max = 30f;
+    private boolean hasHardwareKeyboard() {
+		return Gdx.input.isPeripheralAvailable(Peripheral.HardwareKeyboard);
+	}
 
     @Override
     public MovementContainer Input() {
@@ -113,10 +117,15 @@ public class AndroidStarter extends AndroidApplication implements INative {
     @Override
     public String WelcomeMessage() {
         StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
-        sb.append("\nTouch the screen to start the game");
-        sb.append("\n`'Steer' left and right to move");
-        sb.append("\nTouch the screen to shoot");
-        sb.append("\nIf you hit <SPACE> you can use <UP> and <DOWN>");
+        if (hasHardwareKeyboard()) {
+        	sb.append("\nPress <SPACE> to start the game");
+            sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
+            sb.append("\nUse <SPACE> to shoot");
+		}else {
+			sb.append("\nTouch the screen to start the game");
+	        sb.append("\n`'Steer' left and right to move");
+	        sb.append("\nTouch the screen to shoot");
+		}
         return sb.toString();
     }
 

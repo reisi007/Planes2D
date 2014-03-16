@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.reisisoft.Planes2D;
+package com.reisisoft.planes2D;
 
 public final class R {
     public static final class attr {

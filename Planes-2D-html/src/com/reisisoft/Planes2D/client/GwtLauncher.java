@@ -1,4 +1,4 @@
-package com.reisisoft.Planes2D.client;
+package com.reisisoft.planes2D.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -6,11 +6,11 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
-import com.reisisoft.Planes2D.Helper;
-import com.reisisoft.Planes2D.INative;
-import com.reisisoft.Planes2D.MovementContainer;
-import com.reisisoft.Planes2D.Planes2D;
-import com.reisisoft.Planes2D.Planes2D.Resolutions;
+import com.reisisoft.planes2D.Helper;
+import com.reisisoft.planes2D.INative;
+import com.reisisoft.planes2D.MovementContainer;
+import com.reisisoft.planes2D.Planes2D;
+import com.reisisoft.planes2D.Planes2D.Resolutions;
 
 public class GwtLauncher extends GwtApplication implements INative {
 	private MovementContainer Input = new MovementContainer();

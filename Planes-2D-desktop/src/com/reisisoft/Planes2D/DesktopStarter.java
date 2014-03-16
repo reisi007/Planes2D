@@ -1,4 +1,4 @@
-package com.reisisoft.Planes2D;
+package com.reisisoft.planes2D;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -24,7 +24,6 @@ public class DesktopStarter implements INative {
     public DesktopStarter() {
         cfg = new LwjglApplicationConfiguration();
         cfg.title = "Plane 2D";
-        cfg.useGL20 = true;
         if (DEBUG) {
             cfg.width = 1280;
             cfg.height = 720;
@@ -93,10 +92,11 @@ public class DesktopStarter implements INative {
 
     @Override
     public String WelcomeMessage() {
-        StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
-        sb.append("\nPress <SPACE> to start the game");
-        sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
-        sb.append("\nUse <SPACE> to shoot");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Welcome to Planes 2D\n");
+        sb.append("Press <SPACE> to start the game\n");
+        sb.append("Use <ARROW_UP> and <ARROW_DOWN> to move\n");
+        sb.append("Use <SPACE> to shoot");
         return sb.toString();
     }
 
@@ -135,7 +135,6 @@ public class DesktopStarter implements INative {
     public int getHighScore() {
         ArrayList<String> tmp = new ArrayList<>();
         try {
-
             FileInputStream fileInputStream = new FileInputStream(url);
             BufferedReader in = new BufferedReader(new InputStreamReader(fileInputStream));
             try {

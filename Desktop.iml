@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/Planes-2D-Desktop/libs/gdx-backend-lwjgl-natives.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/Planes-2D-Desktop/libs/gdx-backend-lwjgl.jar!/" />
+    <libelement value="jar://$MODULE_DIR$/Planes-2D-Desktop/libs/gdx-natives.jar!/" />
+    <varelement var="file://$PARENT-1-PROJECT_LOC$/Planes-2D-Android/assets" value="linksrc:assets" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/Planes-2D-Desktop/src" expected_position="0" />
+      <src_folder value="file://$PARENT-1-PROJECT_LOC$/Planes-2D-Android/assets" expected_position="1" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/Planes-2D-Desktop/bin" />
+    <exclude-output />
+    <content url="file://$PARENT-1-PROJECT_LOC$/Planes-2D-Android/assets">
+      <sourceFolder url="file://$PARENT-1-PROJECT_LOC$/Planes-2D-Android/assets" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$/Planes-2D-Desktop">
+      <sourceFolder url="file://$MODULE_DIR$/Planes-2D-Desktop/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Main" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="library" name="DesktopLibs" level="project" />
+  </component>
+</module>
+

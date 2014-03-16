@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="DesktopLibs">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../Planes-2D-Desktop/libs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../Planes-2D-Desktop/libs" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../Planes-2D-Desktop/libs" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../Planes-2D-Desktop/libs" recursive="false" type="SOURCES" />
+  </library>
+</component>
