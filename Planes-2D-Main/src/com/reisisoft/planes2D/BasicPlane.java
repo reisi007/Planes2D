@@ -14,7 +14,7 @@ public abstract class BasicPlane implements IMoveableFullGameObject, IIntersecta
     private Rectangle[] bounds = new Rectangle[3];
     protected float maxH;
     private Bomb baseBomb;
-    protected long timeSincelastShot;
+    protected long timeIndicatingShots;
     protected abstract long MSbetweenShots(); 	
 
     public BasicPlane(SingleAnimation explosion, Bomb bomb, TextureRegion sprite, Vector2 position, Vector2 direction, float speed, Anchor anchor, float setHeight, boolean flipV, float curHeight) {
@@ -51,7 +51,7 @@ public abstract class BasicPlane implements IMoveableFullGameObject, IIntersecta
         else if (plane.getY() < 0)
             setPosition(Anchor.LowLeft, 0);
         UpdateRectangle();
-        timeSincelastShot += gameTimeArgs.ELapsedMSSinceLastFrame;
+        timeIndicatingShots += gameTimeArgs.ELapsedMSSinceLastFrame;
     }
 
     public void Draw(SpriteBatch spriteBatch) {

@@ -15,8 +15,8 @@ public class EnemyPlane extends BasicPlane {
     }
 
     public boolean wantShoot(GameTime.GameTimeArgs gameTimeArgs) {
-        if (timeSincelastShot >= MSbetweenShots()) {
-            timeSincelastShot -= MSbetweenShots();
+        if (timeIndicatingShots >= MSbetweenShots()) {
+            timeIndicatingShots -= MSbetweenShots();
             return true;
         }
         return false;
@@ -24,6 +24,6 @@ public class EnemyPlane extends BasicPlane {
 
 	@Override
 	protected long MSbetweenShots() {
-		return 2000L;
+		return 2500L;
 	}
 }

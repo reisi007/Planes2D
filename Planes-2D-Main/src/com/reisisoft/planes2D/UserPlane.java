@@ -22,7 +22,7 @@ public class UserPlane extends BasicPlane {
     }
 
     public int ShotsAvailable() {
-        return (int) (timeSincelastShot / MSbetweenShots());
+        return (int) (timeIndicatingShots / MSbetweenShots());
     }
 
     public Bomb getShot() {
@@ -41,14 +41,14 @@ public class UserPlane extends BasicPlane {
     }
 
     public void addFreeShot() {
-        timeSincelastShot += MSbetweenShots();
+        timeIndicatingShots += MSbetweenShots();
     }
 
     @Override
     public void Update(GameTime.GameTimeArgs gameTimeArgs) {
         movementContainer = iNative.Input();
-        if (nextAllowed <= gameTimeArgs.ElapsedMilliSecond && movementContainer.doShoot && !wantShoot && (timeSincelastShot >= MSbetweenShots())) {
-            timeSincelastShot -= MSbetweenShots();
+        if (nextAllowed <= gameTimeArgs.ElapsedMilliSecond && movementContainer.doShoot && !wantShoot && (timeIndicatingShots >= MSbetweenShots())) {
+            timeIndicatingShots -= MSbetweenShots();
             wantShoot = true;
         }
         updatePosition(movementContainer.Movement);
