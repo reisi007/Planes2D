@@ -1,2 +1,0 @@
-# Module com.reisisoft.planes2D.GwtDefinition
-# RPC service class, partial path of RPC policy file
