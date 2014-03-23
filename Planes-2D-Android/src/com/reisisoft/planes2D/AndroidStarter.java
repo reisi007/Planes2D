@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -19,6 +23,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
 
     private enum InputMethod {Default, Desktop}
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,19 +31,29 @@ public class AndroidStarter extends AndroidApplication implements INative {
         cWidth = dm.widthPixels > dm.heightPixels ? dm.widthPixels : dm.heightPixels;
         cDPI = cWidth == dm.widthPixels ? dm.xdpi : dm.ydpi;
         cScreenSize = cWidth / cDPI;
+        // Tesing
+        RelativeLayout layout = new RelativeLayout(this);
         AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
         cfg.useAccelerometer = true;
         cfg.useCompass = true;
         cfg.useWakelock = false;
         cfg.hideStatusBar = true;
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        View gameView = initializeForView(new Planes2D(this), cfg);
+        layout.addView(gameView);
+        setContentView(layout);
+
         preferences = this.getSharedPreferences("SCORE", Context.MODE_PRIVATE);
-        initialize(new Planes2D(this), cfg);
+        // initialize(new Planes2D(this), cfg);*/
     }
 
     float max = 30f;
+
     private boolean hasHardwareKeyboard() {
-		return Gdx.input.isPeripheralAvailable(Peripheral.HardwareKeyboard);
-	}
+        return Gdx.input.isPeripheralAvailable(Peripheral.HardwareKeyboard);
+    }
 
     @Override
     public MovementContainer Input() {
@@ -118,14 +133,14 @@ public class AndroidStarter extends AndroidApplication implements INative {
     public String WelcomeMessage() {
         StringBuilder sb = new StringBuilder("Welcome to Planes 2D");
         if (hasHardwareKeyboard()) {
-        	sb.append("\nPress <SPACE> to start the game");
+            sb.append("\nPress <SPACE> to start the game");
             sb.append("\nUse <ARROW_UP> and <ARROW_DOWN> to move");
             sb.append("\nUse <SPACE> to shoot");
-		}else {
-			sb.append("\nTouch the screen to start the game");
-	        sb.append("\n`'Steer' left and right to move");
-	        sb.append("\nTouch the screen to shoot");
-		}
+        } else {
+            sb.append("\nTouch the screen to start the game");
+            sb.append("\n`'Steer' left and right to move");
+            sb.append("\nTouch the screen to shoot");
+        }
         return sb.toString();
     }
 
@@ -137,7 +152,7 @@ public class AndroidStarter extends AndroidApplication implements INative {
         sb.append("\nYour score is:\n");
         sb.append(score);
         if (hasHardwareKeyboard())
-        sb.append("\nPress <SPACE> to retry!");
+            sb.append("\nPress <SPACE> to retry!");
         else
             sb.append("\nTouch the screen to retry!");
         return sb.toString();
