@@ -16,7 +16,7 @@ public class GwtLauncher extends GwtApplication implements INative {
 	private int HIGHSCORE;
 	private MovementContainer Input = new MovementContainer();
 
-	private Storage preferences = Storage.getLocalStorageIfSupported();
+	private Storage preferences;
 
 	private final String SCORE = "Score", HASH = "Hash";
 
@@ -53,11 +53,14 @@ public class GwtLauncher extends GwtApplication implements INative {
 
 	@Override
 	public GwtApplicationConfiguration getConfig() {
+		preferences =	Storage.getLocalStorageIfSupported();
+		if (preferences == null)
+			preferences = Storage.getSessionStorageIfSupported();
 		int width=(int) (0.95d * Window.getClientWidth()),height=(int) (0.95d * Window.getClientHeight());
-		/*if (width/16f*9f <= height)
+		if (width/16f*9f <= height)
 			height = Math.round(width/16f*9);
 		else
-			width = Math.round(height/9f*16f);*/
+			width = Math.round(height/9f*16f);
 		GwtApplicationConfiguration cfg = new GwtApplicationConfiguration(width,height);
 		return cfg;
 	}
